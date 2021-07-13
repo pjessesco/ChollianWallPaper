@@ -17,16 +17,11 @@ enum class Color{
     Natural = 2
 };
 
-
 inline std::string add_zero_padding(int num){
     return num<10?"0"+std::to_string(num):std::to_string(num);
 }
 
-
 inline auto extract_component(const boost::posix_time::ptime &time){
-
-    int month = time.date().month().as_number();
-
     return std::make_tuple(std::to_string(time.date().year()),
                            add_zero_padding(time.date().month()),
                            add_zero_padding(time.date().day()),
@@ -34,71 +29,50 @@ inline auto extract_component(const boost::posix_time::ptime &time){
                            add_zero_padding(time.time_of_day().minutes()));
 }
 
-
-static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp){
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
-    return size * nmemb;
-}
-
-
-std::string url_generator(const ImageType &imageType,
-                          const Color &color,
-                          const boost::posix_time::ptime &date){
+std::string url_generator_chollian(const ImageType &imageType,
+                                   const Color &color,
+                                   const boost::posix_time::ptime &date){
     std::string base_url = "https://nmsc.kma.go.kr/IMG/GK2A/AMI/PRIMARY/L1B/COMPLETE/";
 
     auto [year, month, day, hours, minutes] = extract_component(date);
 
-    switch (imageType) {
-        case ImageType::FullDome:
-            base_url += "FD/";
-            break;
-        case ImageType::EastAsia:
-            base_url += "EA/";
-            break;
-    }
-    base_url += (year + month) + "/";
-    base_url += day + "/" + hours + "/";
-    base_url += "gk2a_ami_le1b_";
-
-    switch(color){
-        case Color::True:
-            base_url += "rgb-true_";
-            break;
-        case Color::Natural:
-            base_url += "rgb-natural_";
-            break;
-    }
+    std::string sub1, sub2, sub3, sub4, sub5, sub6, sub7;
 
     switch (imageType) {
         case ImageType::FullDome:
-            base_url += "fd";
+            sub1 = "FD/";
+            sub4 = "fd";
+            sub6 = "ge_";
             break;
         case ImageType::EastAsia:
-            base_url += "ea";
+            sub1 = "EA/";
+            sub4 = "ea";
+            sub6 = "lc_";
             break;
     }
 
     switch(color){
         case Color::True:
-            base_url += "010";
+            sub3 = "rgb-true_";
+            sub5 = "010";
             break;
         case Color::Natural:
-            base_url += "020";
+            sub3 = "rgb-natural_";
+            sub5 = "020";
             break;
     }
 
-    switch (imageType) {
-        case ImageType::FullDome:
-            base_url += "ge_";
-            break;
-        case ImageType::EastAsia:
-            base_url += "lc_";
-            break;
-    }
+    sub2 = year + month + "/" + day + "/" + hours + "/gk2a_ami_le1b_";
+    sub7 = year + month + day + hours + minutes + ".png";
 
-    base_url += year + month + day + hours + minutes + ".png";
+    std::string url = base_url + sub1 + sub2 + sub3 + sub4 + sub5 + sub6 + sub7;
 
-    return base_url;
+    return url;
+}
+
+static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp){
+    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    return size * nmemb;
 }
 
 void image_downloader(const std::string &url){
@@ -117,7 +91,6 @@ void image_downloader(const std::string &url){
         std::ofstream img("img.png");
         img<<readBuffer;
         img.close();
-
     }
 }
 
@@ -133,7 +106,6 @@ auto adjust_target_time(const boost::posix_time::ptime &time){
         new_time -=  boost::posix_time::minutes(10 + remainder);
     }
     return new_time;
-
 }
 
 int main() {
@@ -151,7 +123,7 @@ int main() {
     std::cout<<"1 : True, 2 : Natural : ";
     std::cin>>col;
 
-    std::string url = url_generator(ImageType(area), Color(col), adjusted_time);
+    std::string url = url_generator_chollian(ImageType(area), Color(col), adjusted_time);
 
     std::cout<<url<<std::endl;
     image_downloader(url);
