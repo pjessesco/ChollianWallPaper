@@ -3,19 +3,22 @@
 
 #include <boost/date_time.hpp>
 
-#include "chollian.h"
+#include <QApplication>
 
 
-int main() {
-    std::cout << "Get recent chollian 2a satelite image" << std::endl;
+#include "gui.h"
+
+int main(int argc, char *argv[]) {
 
     boost::posix_time::ptime utcTime = boost::posix_time::second_clock::universal_time();
     auto adjusted_time = adjust_target_time(utcTime);
 
     std::string url = url_generator_chollian(ImageType::FullDome, Color::True, adjusted_time);
 
-    std::cout<<url<<std::endl;
     image_downloader(url);
 
-    return 0;
+    QApplication app(argc, argv);
+    GUI gui;
+
+    return app.exec();
 }

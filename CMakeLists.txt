@@ -13,7 +13,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-add_executable(ChollianWallpaper main.cpp gui.cpp chollian.cpp chollian.h)
+add_executable(ChollianWallpaper main.cpp gui.cpp chollian.cpp chollian.h gui.h)
 
 target_link_libraries(ChollianWallpaper ${Boost_DATE_TIME_LIBRARY} ${Boost_LOCALE_LIBRARY})
 target_link_libraries(ChollianWallpaper CURL::libcurl)
