@@ -19,11 +19,14 @@ int main(int argc, char *argv[]) {
 
     Image img = Image(img_binary);
 
-    img.write_png("from_Image.png");
     img.resize(500,500);
-    img.write_png("from_Image_resized.png");
-    img.remove_alpha();
-    img.write_png("from_Image_resized_rgb.png");
+    img.remove_watermark();
+    img.remove_description();
+
+    img.add_left_right_border(10);
+
+
+    img.write_png("from_Image_resized1.png");
 
     return 0;
 
