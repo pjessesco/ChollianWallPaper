@@ -7,6 +7,7 @@
 #include <string>
 #include <tuple>
 #include <cstdlib> // for calloc
+#include <filesystem>
 
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include <stb_image_resize.h>
@@ -21,19 +22,37 @@ Image::Image(const std::string &binary) {
     m_data = stbi_load_from_memory((unsigned char*)(binary.c_str()), binary.length(), &m_w, &m_h, &m_channel, 4);
 }
 
-void Image::write_png(const std::string &filename) const {
-    stbi_write_png(filename.c_str(), m_w, m_h, m_channel, m_data, m_w * m_channel);
+void Image::set_as_wallpaper() {
+    std::string filename = "wallpaper.png";
+    write_png(filename);
+#ifdef __APPLE__
+    std::stringstream ss;
+
+    ss <<"'tell application \"System Events\"\n"
+       <<"set theDesktops to a reference to every desktop\n"
+       <<"repeat with aDesktop in theDesktops\n"
+       <<"set the picture of aDesktop to \"" + std::filesystem::current_path().string() + "/"+ filename + "\"\n"
+       <<"end repeat\n"
+       <<"end tell'\n";
+
+    std::string command = "osascript -e "+ ss.str();
+    std::system(command.c_str());
+#endif
 }
 
-void Image::to_1080p(int top_bot_border) {
+void Image::to_any_resolution(int width, int height, int top_bot_border) {
     remove_alpha();
     remove_description();
     remove_watermark();
 
-    resize_preserve_ratio(1080 - 2 * top_bot_border);
+    resize_preserve_ratio(height - 2 * top_bot_border);
     add_top_bot_border(top_bot_border);
 
-    add_left_right_border((1920 - m_w)/2);
+    add_left_right_border((width - m_w) / 2);
+}
+
+void Image::write_png(const std::string &filename) const {
+    stbi_write_png(filename.c_str(), m_w, m_h, m_channel, m_data, m_w * m_channel);
 }
 
 void Image::resize_preserve_ratio(int height) {
@@ -125,8 +144,3 @@ void Image::add_left_right_border(int size) {
     m_data = new_img;
     m_w = new_width;
 }
-
-
-
-
-
