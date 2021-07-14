@@ -8,6 +8,7 @@ find_package(CURL REQUIRED)
 find_package(Boost COMPONENTS date_time locale REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS})
+include_directories(ext)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
