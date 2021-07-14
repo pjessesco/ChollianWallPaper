@@ -18,21 +18,16 @@ int main(int argc, char *argv[]) {
     std::string img_binary = image_downloader(url);
 
     Image img = Image(img_binary);
+    img.to_1080p(100);
 
-    img.resize(500,500);
-    img.remove_watermark();
-    img.remove_description();
+    img.write_png("1080p.png");
 
-    img.add_left_right_border(10);
-
-
-    img.write_png("from_Image_resized1.png");
 
     return 0;
 
-//    QApplication app(argc, argv);
-//    GUI gui;
+    QApplication app(argc, argv);
+    GUI gui;
 
-//    return app.exec();
+    return app.exec();
 }
 
