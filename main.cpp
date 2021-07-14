@@ -20,14 +20,13 @@ int main(int argc, char *argv[]) {
     Image img = Image(img_binary);
     img.to_1080p(100);
 
-    img.write_png("1080p.png");
-
+    img.set_as_wallpaper();
 
     return 0;
 
-    QApplication app(argc, argv);
-    GUI gui;
-
-    return app.exec();
+//    QApplication app(argc, argv);
+//    GUI gui;
+//
+//    return app.exec();
 }
 
