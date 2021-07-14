@@ -51,7 +51,7 @@ size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp){
     return size * nmemb;
 }
 
-void image_downloader(const std::string &url) {
+std::string image_downloader(const std::string &url) {
 
     CURL *curl = curl_easy_init();
     CURLcode res;
@@ -63,11 +63,8 @@ void image_downloader(const std::string &url) {
 
         res = curl_easy_perform(curl);
         curl_easy_cleanup(curl);
-
-        std::ofstream img("img.png");
-        img<<readBuffer;
-        img.close();
     }
+    return readBuffer;
 }
 
 // New URL is generated per 10 min
