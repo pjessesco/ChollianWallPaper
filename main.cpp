@@ -5,8 +5,8 @@
 
 #include <QApplication>
 
-
 #include "gui.h"
+#include "image.h"
 
 int main(int argc, char *argv[]) {
 
@@ -15,10 +15,21 @@ int main(int argc, char *argv[]) {
 
     std::string url = url_generator_chollian(ImageType::FullDome, Color::True, adjusted_time);
 
-    image_downloader(url);
+    std::string img_binary = image_downloader(url);
 
-    QApplication app(argc, argv);
-    GUI gui;
+    Image img = Image(img_binary);
 
-    return app.exec();
+    img.write_png("from_Image.png");
+    img.resize(500,500);
+    img.write_png("from_Image_resized.png");
+    img.remove_alpha();
+    img.write_png("from_Image_resized_rgb.png");
+
+    return 0;
+
+//    QApplication app(argc, argv);
+//    GUI gui;
+
+//    return app.exec();
 }
+
