@@ -1,4 +1,4 @@
-# ChollianWallPaper
+# ChollianWallPaper (WIP)
 
 Tested in macOS
 
