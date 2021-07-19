@@ -2,10 +2,8 @@
 // Created by Jino on 2021/07/14.
 //
 
-#include "chollian.h"
-
 #include <curl/curl.h>
-
+#include "chollian.h"
 
 std::string url_generator_chollian(const ImageType &imageType, const Color &color, const boost::posix_time::ptime &date) {
     std::string base_url = "https://nmsc.kma.go.kr/IMG/GK2A/AMI/PRIMARY/L1B/COMPLETE/";
@@ -41,7 +39,7 @@ std::string url_generator_chollian(const ImageType &imageType, const Color &colo
     sub2 = year + month + "/" + day + "/" + hours + "/gk2a_ami_le1b_";
     sub7 = year + month + day + hours + minutes + ".png";
 
-    std::string url = base_url + sub1 + sub2 + sub3 + sub4 + sub5 + sub6 + sub7;
+    const std::string url = base_url + sub1 + sub2 + sub3 + sub4 + sub5 + sub6 + sub7;
 
     return url;
 }
@@ -70,7 +68,7 @@ std::string image_downloader(const std::string &url) {
 // New URL is generated per 10 min
 boost::posix_time::ptime adjust_target_time(const boost::posix_time::ptime &time) {
 
-    int remainder = time.time_of_day().minutes() % 10;
+    const int remainder = time.time_of_day().minutes() % 10;
     auto new_time = time;
     if(remainder<5){
         new_time -= boost::posix_time::minutes(20 + remainder);
