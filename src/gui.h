@@ -9,6 +9,7 @@
 #include <QSystemTrayIcon>
 #include <QCloseEvent>
 #include <QActionGroup>
+#include <QTimer>
 
 #include "chollian.h"
 #include "image.h"
@@ -35,6 +36,9 @@ public slots:
         m_resolution = resolution;
     }
 
+    void switch_automatically_update_slot();
+
+
 private:
 
     void generate_resolution_menus(QMenu *res_menu, QActionGroup *res_action_group, const std::vector<Resolution> &res_list);
@@ -42,4 +46,6 @@ private:
     ImageType m_imgType;
     Color m_color;
     Resolution m_resolution;
+    bool m_is_automatically_update;
+    QTimer *m_timer;
 };
