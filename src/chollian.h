@@ -40,3 +40,5 @@ std::string url_generator_chollian(const ImageType &imageType,
 std::string image_downloader(const std::string &url);
 
 boost::posix_time::ptime adjust_target_time(const boost::posix_time::ptime &time);
+
+std::string generate_filename(const boost::posix_time::ptime &time, Color color, ImageType img_type);

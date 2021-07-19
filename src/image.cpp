@@ -22,8 +22,7 @@ Image::Image(const std::string &binary) {
     m_data = stbi_load_from_memory((unsigned char*)(binary.c_str()), binary.length(), &m_w, &m_h, &m_channel, 4);
 }
 
-void Image::set_as_wallpaper() {
-    std::string filename = "wallpaper.png";
+void Image::set_as_wallpaper(const std::string &filename) {
     write_png(filename);
 #ifdef __APPLE__
     std::stringstream ss;

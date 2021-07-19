@@ -80,3 +80,29 @@ boost::posix_time::ptime adjust_target_time(const boost::posix_time::ptime &time
     }
     return new_time;
 }
+
+std::string generate_filename(const boost::posix_time::ptime &time, Color color, ImageType img_type){
+
+    auto [year, month, day, hours, minutes] = extract_component(time);
+    std::string color_str;
+    switch(color){
+        case Color::True:
+            color_str = "true";
+            break;
+        case Color::Natural:
+            color_str = "natural";
+            break;
+    }
+
+    std::string img_type_str;
+    switch(img_type){
+        case ImageType::FullDome:
+            img_type_str = "fd";
+            break;
+        case ImageType::EastAsia:
+            img_type_str = "ea";
+            break;
+    }
+
+    return year + month + day + hours + minutes + "_" + color_str + "_" + img_type_str + ".png";
+}

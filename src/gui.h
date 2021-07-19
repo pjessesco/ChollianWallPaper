@@ -67,9 +67,10 @@ public slots:
         auto adjusted_time = adjust_target_time(utcTime);
         std::string url = url_generator_chollian(m_imgType, m_color, adjusted_time);
         std::string img_binary = image_downloader(url);
+        std::string filename = generate_filename(adjusted_time, m_color, m_imgType);
         Image img = Image(img_binary);
         img.to_any_resolution(2880, 1800, 100);
-        img.set_as_wallpaper();
+        img.set_as_wallpaper(filename);
         std::cout<<"done!\n";
     };
 
