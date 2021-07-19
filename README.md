@@ -29,7 +29,7 @@ In macOS, you can install them using homebrew :
 
 - [x] Download and edit image
 - [x] Set image as background first time
-- [ ] Update background image
+- [x] Update background image
 - [ ] Automatically update image in near-realtime
 - [ ] Test in Windows
 - [ ] Test in Linux
