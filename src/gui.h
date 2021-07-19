@@ -8,9 +8,11 @@
 #include <QLabel>
 #include <QSystemTrayIcon>
 #include <QCloseEvent>
+#include <QActionGroup>
 
 #include "chollian.h"
 #include "image.h"
+
 
 class GUI : public QLabel{
     Q_OBJECT
@@ -29,7 +31,15 @@ public slots:
         QCoreApplication::quit();
     }
 
+    void set_resolution_slot(const Resolution &resolution){
+        m_resolution = resolution;
+    }
+
 private:
+
+    void generate_resolution_menus(QMenu *res_menu, QActionGroup *res_action_group, const std::vector<Resolution> &res_list);
+
     ImageType m_imgType;
     Color m_color;
+    Resolution m_resolution;
 };
