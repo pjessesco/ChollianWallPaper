@@ -15,10 +15,13 @@ GUI::GUI() : m_color(Color::True), m_imgType(ImageType::FullDome){
 
     // Create menu items
     QMenu *menu = new QMenu(this);
-    QAction *update_wallpaper_action = new QAction("Update background", this);
-    QAction *color_rgb_true_action = new QAction("RGB True");
-    QAction *color_natural_action = new QAction("Natural");
-    QAction *quit_action = new QAction("Quit");
+    QAction *update_wallpaper_action = menu->addAction("Update background");
+    menu->addSection("Colors");
+    QAction *color_rgb_true_action = menu->addAction("RGB True");
+    QAction *color_natural_action = menu->addAction("Natural");
+    menu->addSeparator();
+    QAction *quit_action = menu->addAction("Quit");
+
 
     // Set menu items (exclusive, range, etc)
     QActionGroup *set_color_group = new QActionGroup(this);
@@ -29,20 +32,11 @@ GUI::GUI() : m_color(Color::True), m_imgType(ImageType::FullDome){
     color_rgb_true_action->setChecked(true);
     color_natural_action->setCheckable(true);
 
-
     // Connect menu items with slot
     connect(update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot();});
     connect(color_rgb_true_action, &QAction::triggered, this, [this](){set_color_slot(Color::True);});
     connect(color_natural_action, &QAction::triggered, this, [this](){set_color_slot(Color::Natural);});
     connect(quit_action, &QAction::triggered, this, [this](){quit_slot();});
-
-    // Add menu items into the menu
-    menu->addAction(update_wallpaper_action);
-    menu->addSection("Colors");
-    menu->addAction(color_rgb_true_action);
-    menu->addAction(color_natural_action);
-    menu->addSeparator();
-    menu->addAction(quit_action);
 
     trayIcon->setContextMenu(menu);
     trayIcon->show();
