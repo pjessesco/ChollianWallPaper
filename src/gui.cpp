@@ -10,23 +10,17 @@
 #include "gui.h"
 
 GUI::GUI() : m_color(Color::True), m_imgType(ImageType::FullDome){
-    trayIcon = new QSystemTrayIcon(this);
+    QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
     trayIcon->setToolTip("Tray!");
 
-    /* After that create a context menu of two items */
+    // Create menu items
     QMenu *menu = new QMenu(this);
     QAction *update_wallpaper_action = new QAction("Update background", this);
     QAction *color_rgb_true_action = new QAction("RGB True");
     QAction *color_natural_action = new QAction("Natural");
     QAction *quit_action = new QAction("Quit");
 
-    menu->addAction(update_wallpaper_action);
-    menu->addSection("Colors");
-    menu->addAction(color_rgb_true_action);
-    menu->addAction(color_natural_action);
-    menu->addSeparator();
-    menu->addAction(quit_action);
-
+    // Set menu items (exclusive, range, etc)
     QActionGroup *set_color_group = new QActionGroup(this);
     set_color_group->setExclusive(true);
     set_color_group->addAction(color_rgb_true_action);
@@ -35,10 +29,20 @@ GUI::GUI() : m_color(Color::True), m_imgType(ImageType::FullDome){
     color_rgb_true_action->setChecked(true);
     color_natural_action->setCheckable(true);
 
-    connect(update_wallpaper_action, SIGNAL(triggered()), this, SLOT(change_wallpaper_slot()));
-    connect(color_rgb_true_action, SIGNAL(triggered()), this, SLOT(set_color_rgb_true_slot()));
-    connect(color_natural_action, SIGNAL(triggered()), this, SLOT(set_color_natural_slot()));
-    connect(quit_action, SIGNAL(triggered()), this, SLOT(quit_slot()));
+
+    // Connect menu items with slot
+    connect(update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot();});
+    connect(color_rgb_true_action, &QAction::triggered, this, [this](){set_color_slot(Color::True);});
+    connect(color_natural_action, &QAction::triggered, this, [this](){set_color_slot(Color::Natural);});
+    connect(quit_action, &QAction::triggered, this, [this](){quit_slot();});
+
+    // Add menu items into the menu
+    menu->addAction(update_wallpaper_action);
+    menu->addSection("Colors");
+    menu->addAction(color_rgb_true_action);
+    menu->addAction(color_natural_action);
+    menu->addSeparator();
+    menu->addAction(quit_action);
 
     trayIcon->setContextMenu(menu);
     trayIcon->show();

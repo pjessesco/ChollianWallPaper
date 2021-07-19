@@ -21,12 +21,8 @@ public slots:
     // Change wallpaper considering m_imgType and m_color;
     void change_wallpaper_slot() const;
 
-    void set_color_rgb_true_slot(){
-        m_color = Color::True;
-    }
-
-    void set_color_natural_slot(){
-        m_color = Color::Natural;
+    void set_color_slot(Color color){
+        m_color = color;
     }
 
     void quit_slot() const{
@@ -34,7 +30,6 @@ public slots:
     }
 
 private:
-    QSystemTrayIcon *trayIcon;
     ImageType m_imgType;
     Color m_color;
 };
