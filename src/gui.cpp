@@ -18,8 +18,8 @@ GUI::GUI() : m_color(Color::True), m_imgType(ImageType::FullDome), m_resolution(
     QMenu *menu = new QMenu(this);
     QAction *about_action = menu->addAction("About(TBD)");
     menu->addSection("");
-    QAction *update_wallpaper_action = menu->addAction("Update background now");
-    QAction *auto_update_action = menu->addAction("Update automatically");
+    QAction *update_wallpaper_action = menu->addAction("Update wallpaper now");
+    QAction *auto_update_action = menu->addAction("Update wallpaper per 10 minutes");
 
     menu->addSection("Colors");
     QAction *color_rgb_true_action = menu->addAction("RGB True");
