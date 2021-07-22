@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include <boost/locale.hpp>
-#include <boost/date_time.hpp>
+// TODO : <ctime> should be replaced by <chrono> after C++20 is fully implemented (std::chrono::utc_clock)
+#include <ctime>
 
-// Wrapper class of boost time-related libraries
+// Wrapper class of time-related libraries
 class UTCTime {
 public:
     UTCTime();
@@ -16,11 +16,11 @@ public:
     void adjust_target_time();
 
     inline auto extract_component() const {
-        return std::make_tuple(std::to_string(m_utc_time.date().year()),
-                               add_zero_padding(m_utc_time.date().month()),
-                               add_zero_padding(m_utc_time.date().day()),
-                               add_zero_padding(m_utc_time.time_of_day().hours()),
-                               add_zero_padding(m_utc_time.time_of_day().minutes()));
+        return std::make_tuple(std::to_string(m_utc_time->tm_year + 1900),
+                               add_zero_padding(m_utc_time->tm_mon + 1),
+                               add_zero_padding(m_utc_time->tm_mday),
+                               add_zero_padding(m_utc_time->tm_hour),
+                               add_zero_padding(m_utc_time->tm_min));
     }
 
 private:
@@ -28,5 +28,5 @@ private:
         return num<10?"0"+std::to_string(num):std::to_string(num);
     }
 
-    boost::posix_time::ptime m_utc_time;
+    tm *m_utc_time;
 };

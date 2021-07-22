@@ -8,13 +8,11 @@ Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWall
 - CMake
 - curl
 - Qt6
-- Boost (date_time, locale)
 
 In macOS, you can install them using homebrew :
 
     brew install cmake
     brew install qt6    
-    brew install boost
 
 
 ### Build
