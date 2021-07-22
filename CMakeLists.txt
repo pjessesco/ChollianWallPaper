@@ -21,7 +21,9 @@ add_executable(ChollianWallpaper
         src/chollian.cpp
         src/chollian.h
         src/image.cpp
-        src/image.h )
+        src/image.h
+        src/utctime.cpp
+        src/utctime.h)
 
 target_link_libraries(ChollianWallpaper ${Boost_DATE_TIME_LIBRARY} ${Boost_LOCALE_LIBRARY})
 target_link_libraries(ChollianWallpaper CURL::libcurl)

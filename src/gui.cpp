@@ -67,11 +67,11 @@ GUI::GUI() : m_color(Color::True), m_imgType(ImageType::FullDome), m_resolution(
 }
 
 void GUI::change_wallpaper_slot() const {
-    boost::posix_time::ptime utcTime = boost::posix_time::second_clock::universal_time();
-    auto adjusted_time = adjust_target_time(utcTime);
-    const std::string url = url_generator_chollian(m_imgType, m_color, adjusted_time);
+    UTCTime utcTime;
+    utcTime.adjust_target_time();
+    const std::string url = url_generator_chollian(m_imgType, m_color, utcTime);
     const std::string img_binary = image_downloader(url);
-    const std::string filename = generate_filename(adjusted_time, m_color, m_imgType, m_resolution.first, m_resolution.second);
+    const std::string filename = generate_filename(utcTime, m_color, m_imgType, m_resolution.first, m_resolution.second);
     Image img = Image(img_binary);
     img.to_any_resolution(m_resolution.first, m_resolution.second, 100);
     img.set_as_wallpaper(filename);
