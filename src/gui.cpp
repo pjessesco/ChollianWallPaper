@@ -25,7 +25,7 @@ GUI::GUI(const std::string &path) : m_color(Color::True),
     QAction *about_action = menu->addAction("About(TBD)");
     menu->addSection("");
     QAction *update_wallpaper_action = menu->addAction("Update wallpaper now");
-    QAction *auto_update_action = menu->addAction("Update wallpaper per 10 minutes");
+    QAction *auto_update_action = menu->addAction("Update wallpaper every 10 minutes");
 
     menu->addSection("Colors");
     QAction *color_rgb_true_action = menu->addAction("RGB True");
