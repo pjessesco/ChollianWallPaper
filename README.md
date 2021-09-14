@@ -14,6 +14,8 @@ Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWall
  
 ### macOS
  
+    brew install qt6 cmake ninja
+    
     mkdir build
     cd build
     cmake -GNinja ..
