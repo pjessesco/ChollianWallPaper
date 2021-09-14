@@ -2,6 +2,8 @@
 // Created by Jino on 2021/07/14.
 //
 
+#include <filesystem>
+
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QtGui/QActionGroup>
@@ -10,7 +12,11 @@
 #include "chollian.h"
 #include "gui.h"
 
-GUI::GUI() : m_color(Color::True), m_imgType(ImageType::FullDome), m_resolution(Resolution(2880, 1800)), m_is_automatically_update(false){
+GUI::GUI(const std::string &path) : m_color(Color::True),
+                                    m_imgType(ImageType::FullDome),
+                                    m_resolution(Resolution(2880, 1800)),
+                                    m_is_automatically_update(false),
+                                    m_executable_parent_path(std::filesystem::path(path).parent_path().string()){
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
     trayIcon->setToolTip("Tray!");
 
@@ -59,7 +65,11 @@ GUI::GUI() : m_color(Color::True), m_imgType(ImageType::FullDome), m_resolution(
 
     trayIcon->setContextMenu(menu);
     trayIcon->show();
-    trayIcon->setIcon(QIcon("../icon.png"));
+
+#ifdef __APPLE__
+    std::string icon_path = m_executable_parent_path + "/../Resources/icon.png";
+#endif
+    trayIcon->setIcon(QIcon(QString::fromStdString(icon_path)));
 
     // Generate timer
     m_timer = new QTimer(this);
@@ -80,7 +90,7 @@ void GUI::change_wallpaper_slot() const {
     const std::string filename = generate_filename(utcTime, m_color, m_imgType, m_resolution.first, m_resolution.second);
     Image img = Image(img_binary);
     img.to_any_resolution(m_resolution.first, m_resolution.second, 100);
-    img.set_as_wallpaper(filename);
+    img.set_as_wallpaper(filename, m_executable_parent_path);
 }
 
 void GUI::switch_automatically_update_slot(){
