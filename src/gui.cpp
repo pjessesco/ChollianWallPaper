@@ -71,6 +71,12 @@ void GUI::change_wallpaper_slot() const {
     utcTime.adjust_target_time();
     const std::string url = url_generator_chollian(m_imgType, m_color, utcTime);
     const std::string img_binary = image_downloader(url);
+
+    // Stop if downloaded data is reasonably small
+    if(img_binary.length() < 200000){
+        // TODO : Notify if update is unable
+        return;
+    }
     const std::string filename = generate_filename(utcTime, m_color, m_imgType, m_resolution.first, m_resolution.second);
     Image img = Image(img_binary);
     img.to_any_resolution(m_resolution.first, m_resolution.second, 100);
