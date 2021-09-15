@@ -65,35 +65,3 @@ std::string image_downloader(const std::string &url) {
     return readBuffer;
 }
 
-
-std::string generate_filename(const UTCTime &time,
-                              Color color,
-                              ImageType img_type,
-                              int width,
-                              int height){
-
-    auto [year, month, day, hours, minutes] = time.extract_component();
-    std::string color_str;
-    switch(color){
-        case Color::True:
-            color_str = "true";
-            break;
-        case Color::Natural:
-            color_str = "natural";
-            break;
-    }
-
-    std::string img_type_str;
-    switch(img_type){
-        case ImageType::FullDome:
-            img_type_str = "fd";
-            break;
-        case ImageType::EastAsia:
-            img_type_str = "ea";
-            break;
-    }
-
-    return year + month + day + hours + minutes + "_" +
-           color_str + "_" + img_type_str +
-           std::to_string(width) + std::to_string(height) + ".png";
-}

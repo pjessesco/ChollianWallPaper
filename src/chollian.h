@@ -24,9 +24,3 @@ std::string url_generator_chollian(const ImageType &imageType,
                                    const UTCTime &date);
 
 std::string image_downloader(const std::string &url);
-
-std::string generate_filename(const UTCTime &time,
-                              Color color,
-                              ImageType img_type,
-                              int width,
-                              int height);
