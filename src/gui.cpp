@@ -91,6 +91,16 @@ void GUI::change_wallpaper_slot() const {
     Image img = Image(img_binary);
     img.to_any_resolution(m_resolution.first, m_resolution.second, 100);
     img.set_as_wallpaper(filename, m_executable_parent_path);
+
+    // Clean up previously stored images
+    for (const auto &entry : std::filesystem::directory_iterator(m_executable_parent_path + "/../Resources/")){
+        const std::string entry_filename = entry.path().filename().string();
+        if(entry_filename.compare(filename) && entry_filename.compare("icon.png")){
+            std::filesystem::remove(entry);
+        }
+    }
+
+
 }
 
 void GUI::switch_automatically_update_slot(){
