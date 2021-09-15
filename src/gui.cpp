@@ -87,10 +87,9 @@ void GUI::change_wallpaper_slot() const {
         // TODO : Notify if update is unable
         return;
     }
-    const std::string filename = generate_filename(utcTime, m_color, m_imgType, m_resolution.first, m_resolution.second);
     Image img = Image(img_binary);
     img.to_any_resolution(m_resolution.first, m_resolution.second, 100);
-    img.set_as_wallpaper(filename, m_executable_parent_path);
+    img.set_as_wallpaper("chollian_image.png", m_executable_parent_path);
 }
 
 void GUI::switch_automatically_update_slot(){
