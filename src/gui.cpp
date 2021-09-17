@@ -12,11 +12,11 @@
 #include "downloader.h"
 #include "gui.h"
 
-GUI::GUI(const std::string &path) : m_color(Color::True),
-                                    m_imgType(ImageType::FullDome),
-                                    m_resolution(Resolution(2880, 1800)),
-                                    m_is_automatically_update(false),
-                                    m_executable_parent_path(std::filesystem::path(path).parent_path().string()){
+GUI::GUI() : m_color(Color::True),
+             m_imgType(ImageType::FullDome),
+             m_resolution(Resolution(2880, 1800)),
+             m_is_automatically_update(false){
+
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
     trayIcon->setToolTip("Tray!");
 
@@ -67,7 +67,7 @@ GUI::GUI(const std::string &path) : m_color(Color::True),
     trayIcon->show();
 
 #ifdef __APPLE__
-    std::string icon_path = m_executable_parent_path + "/../Resources/icon.png";
+    std::string icon_path = "/../Resources/icon.png";
 #endif
     trayIcon->setIcon(QIcon(QString::fromStdString(icon_path)));
 
@@ -90,10 +90,10 @@ void GUI::change_wallpaper_slot() const {
     const std::string filename = generate_filename(utcTime, m_color, m_imgType, m_resolution.first, m_resolution.second);
     Image img = Image(img_binary);
     img.to_any_resolution(m_resolution.first, m_resolution.second, 100);
-    img.set_as_wallpaper(filename, m_executable_parent_path);
+    img.set_as_wallpaper(filename);
 
     // Clean up previously stored images
-    for (const auto &entry : std::filesystem::directory_iterator(m_executable_parent_path + "/../Resources/")){
+    for (const auto &entry : std::filesystem::directory_iterator("/../Resources/")){
         const std::string entry_filename = entry.path().filename().string();
         if(entry_filename.compare(filename) && entry_filename.compare("icon.png")){
             std::filesystem::remove(entry);

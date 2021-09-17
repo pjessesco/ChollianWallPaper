@@ -22,12 +22,12 @@ Image::Image(const std::string &binary) {
     m_data = stbi_load_from_memory((unsigned char*)(binary.c_str()), binary.length(), &m_w, &m_h, &m_channel, 4);
 }
 
-void Image::set_as_wallpaper(const std::string &filename, const std::string &executable_parent_path) const{
+void Image::set_as_wallpaper(const std::string &filename) const{
 
 #ifdef __APPLE__
     // Save image if an executable is in the bundle package.
 
-    std::string bundle_resource_path = executable_parent_path + "/../Resources/";
+    std::string bundle_resource_path = "/../Resources/";
     if(std::filesystem::exists(bundle_resource_path)){
         write_png(bundle_resource_path + filename);
     }

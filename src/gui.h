@@ -18,7 +18,7 @@
 class GUI : public QLabel{
     Q_OBJECT
 public:
-    GUI(const std::string &path);
+    GUI();
 
 public slots:
     // Change wallpaper considering m_imgType and m_color;
@@ -48,5 +48,4 @@ private:
     Resolution m_resolution;
     bool m_is_automatically_update;
     QTimer *m_timer;
-    std::string m_executable_parent_path;
 };
