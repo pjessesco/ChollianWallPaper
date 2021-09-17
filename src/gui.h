@@ -13,6 +13,7 @@
 
 #include "downloader.h"
 #include "image.h"
+#include "logger.h"
 
 
 class GUI : public QLabel{
@@ -25,6 +26,7 @@ public slots:
     void change_wallpaper_slot() const;
 
     void set_color_slot(Color color){
+        LOG("Switch color mode");
         m_color = color;
     }
 

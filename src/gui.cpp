@@ -11,11 +11,13 @@
 
 #include "downloader.h"
 #include "gui.h"
+#include "logger.h"
 
 GUI::GUI() : m_color(Color::True),
              m_imgType(ImageType::FullDome),
              m_resolution(Resolution(2880, 1800)),
              m_is_automatically_update(false){
+    LOG("Chollian Wallpaper started");
 
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
     trayIcon->setToolTip("Tray!");
@@ -80,31 +82,32 @@ void GUI::change_wallpaper_slot() const {
     UTCTime utcTime;
     utcTime.adjust_target_time();
     const std::string url = url_generator_chollian(m_imgType, m_color, utcTime);
+    LOG("Generated url : " + url);
     const std::string img_binary = image_downloader(url);
-
+    LOG("Downloaded binary size : " + std::to_string(img_binary.length()));
     // Stop if downloaded data is reasonably small
     if(img_binary.length() < 200000){
-        // TODO : Notify if update is unable
+        LOG("Skip updating wallpaper");
         return;
     }
     const std::string filename = generate_filename(utcTime, m_color, m_imgType, m_resolution.first, m_resolution.second);
     Image img = Image(img_binary);
     img.to_any_resolution(m_resolution.first, m_resolution.second, 100);
     img.set_as_wallpaper(filename);
+    LOG("Wallpaper updated");
 
     // Clean up previously stored images
     for (const auto &entry : std::filesystem::directory_iterator("/../Resources/")){
         const std::string entry_filename = entry.path().filename().string();
-        if(entry_filename.compare(filename) && entry_filename.compare("icon.png")){
+        if(entry_filename.compare(filename) && entry_filename.compare("icon.png") && entry_filename.compare("log.txt")){
             std::filesystem::remove(entry);
         }
     }
-
-
 }
 
 void GUI::switch_automatically_update_slot(){
     if(!m_is_automatically_update){
+        LOG("Automatic update enabled");
         // Turn on automatic update
         // 1. Update now
         // 2. Set `m_is_automatically_update` true
@@ -115,6 +118,7 @@ void GUI::switch_automatically_update_slot(){
         m_timer->start(600000);
     }
     else{
+        LOG("Automatic update disabled");
         // Turn off automatic update
         // 1. Set `m_is_automatically_update` false
         // 2. Stop timer
@@ -124,7 +128,6 @@ void GUI::switch_automatically_update_slot(){
 }
 
 void GUI::generate_resolution_menus(QMenu *res_menu, QActionGroup *res_action_group, const std::vector<Resolution> &res_list){
-    // Generate 4:3 resolution presets
     for(Resolution res : res_list){
         const std::string title = std::to_string(res.first)+" x "+std::to_string(res.second);
         QAction *tmp_res_action = res_menu->addAction(QString::fromStdString(title));
