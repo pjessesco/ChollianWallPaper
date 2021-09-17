@@ -3,7 +3,7 @@
 //
 
 #include <curl/curl.h>
-#include "chollian.h"
+#include "downloader.h"
 
 std::string url_generator_chollian(const ImageType &imageType, const Color &color, const UTCTime &date) {
     std::string base_url = "https://nmsc.kma.go.kr/IMG/GK2A/AMI/PRIMARY/L1B/COMPLETE/";

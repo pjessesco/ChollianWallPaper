@@ -11,7 +11,7 @@
 #include <QActionGroup>
 #include <QTimer>
 
-#include "chollian.h"
+#include "downloader.h"
 #include "image.h"
 
 

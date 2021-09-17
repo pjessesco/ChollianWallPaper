@@ -9,7 +9,7 @@
 #include <QtGui/QActionGroup>
 #include <QTimer>
 
-#include "chollian.h"
+#include "downloader.h"
 #include "gui.h"
 
 GUI::GUI(const std::string &path) : m_color(Color::True),
