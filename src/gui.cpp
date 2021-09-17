@@ -69,7 +69,7 @@ GUI::GUI() : m_color(Color::True),
     trayIcon->show();
 
 #ifdef __APPLE__
-    std::string icon_path = "/../Resources/icon.png";
+    std::string icon_path = "../Resources/icon.png";
 #endif
     trayIcon->setIcon(QIcon(QString::fromStdString(icon_path)));
 
@@ -97,7 +97,7 @@ void GUI::change_wallpaper_slot() const {
     LOG("Wallpaper updated");
 
     // Clean up previously stored images
-    for (const auto &entry : std::filesystem::directory_iterator("/../Resources/")){
+    for (const auto &entry : std::filesystem::directory_iterator("../Resources/")){
         const std::string entry_filename = entry.path().filename().string();
         if(entry_filename.compare(filename) && entry_filename.compare("icon.png") && entry_filename.compare("log.txt")){
             std::filesystem::remove(entry);

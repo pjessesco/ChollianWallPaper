@@ -27,7 +27,7 @@ void Image::set_as_wallpaper(const std::string &filename) const{
 #ifdef __APPLE__
     // Save image if an executable is in the bundle package.
 
-    std::string bundle_resource_path = "/../Resources/";
+    std::string bundle_resource_path = std::filesystem::current_path().string() + "/../Resources/";
     if(std::filesystem::exists(bundle_resource_path)){
         write_png(bundle_resource_path + filename);
     }
