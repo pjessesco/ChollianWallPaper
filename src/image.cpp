@@ -79,12 +79,10 @@ void Image::remove_alpha() {
     if(m_channel == 4){
         unsigned char *rgb_img = (unsigned char *)malloc(m_w * m_h * 3 * sizeof(unsigned char));
         int j = 0;
-        for(int i=0;i<m_w * m_h * 4;i++){
-            if(i%4 == 3){
-                continue;
-            }
-            rgb_img[j] = m_data[i];
-            j++;
+        for(int i=0;i<m_w * m_h;i++){
+            rgb_img[j++] = m_data[4*i];
+            rgb_img[j++] = m_data[4*i+1];
+            rgb_img[j++] = m_data[4*i+2];
         }
         free(m_data);
         m_data = rgb_img;
