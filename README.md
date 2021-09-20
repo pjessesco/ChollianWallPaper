@@ -7,7 +7,7 @@ Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWall
 
 ## Download
 
-Pre-built binary is available in `Actions` tab above for Intel macOS 11 currently.
+Pre-built binary is available in `Actions` tab above for Intel macOS.
 
 ## Dependency
 
