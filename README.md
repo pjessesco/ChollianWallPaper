@@ -1,6 +1,7 @@
 # ChollianWallPaper
 
-![macOS 11](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS11.yml/badge.svg)
+![macOS 11](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS11.yml/badge.svg) ![macOS 10.15](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS10.15.yml/badge.svg)
+
 
 Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWallPaper is simple GUI app that aims to set near-realtime image from [Chollian 2A](https://en.wikipedia.org/wiki/Chollian) as wallpaper.
 
