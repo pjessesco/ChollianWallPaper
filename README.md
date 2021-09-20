@@ -4,6 +4,9 @@
 
 Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWallPaper is simple GUI app that aims to set near-realtime image from [Chollian 2A](https://en.wikipedia.org/wiki/Chollian) as wallpaper.
 
+## Download
+
+Pre-built binary is available in `Actions` tab above for Intel macOS 11 currently.
 
 ## Dependency
 
