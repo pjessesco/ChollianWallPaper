@@ -72,7 +72,7 @@ GUI::GUI() : m_color(Color::True),
     res_action_group->setExclusive(true);
 
     // Connect menu items with slot
-    connect(update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot();});
+    connect(update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot(m_imgType, m_color, m_resolution);});
     connect(auto_update_action, &QAction::triggered, this, [this](){switch_automatically_update_slot();});
 
     connect(type_fulldome_action, &QAction::triggered, this, [this](){set_type_slot(ImageType::FullDome);});
@@ -93,13 +93,13 @@ GUI::GUI() : m_color(Color::True),
 
     // Generate timer
     m_timer = new QTimer(this);
-    connect(m_timer, &QTimer::timeout, this, [this](){change_wallpaper_slot();});
+    connect(m_timer, &QTimer::timeout, this, [this](){change_wallpaper_slot(m_imgType, m_color, m_resolution);});
 }
 
-void GUI::change_wallpaper_slot() const {
+void GUI::change_wallpaper_slot(ImageType imgType, Color color, Resolution resolution) {
     UTCTime utcTime;
     utcTime.adjust_target_time();
-    const std::string url = url_generator_chollian(m_imgType, m_color, utcTime);
+    const std::string url = url_generator_chollian(imgType, color, utcTime);
     LOG("Generated url : " + url);
     const std::string img_binary = image_downloader(url);
     LOG("Downloaded binary size : " + std::to_string(img_binary.length()));
@@ -108,9 +108,9 @@ void GUI::change_wallpaper_slot() const {
         LOG("Skip updating wallpaper");
         return;
     }
-    const std::string filename = generate_filename(utcTime, m_color, m_imgType, m_resolution.first, m_resolution.second);
+    const std::string filename = generate_filename(utcTime, color, imgType, resolution.first, resolution.second);
     Image img = Image(img_binary);
-    img.to_any_resolution(m_resolution.first, m_resolution.second, 100);
+    img.to_any_resolution(resolution.first, resolution.second, 100);
     img.set_as_wallpaper(filename);
     LOG("Wallpaper updated");
 
@@ -130,7 +130,7 @@ void GUI::switch_automatically_update_slot(){
         // 1. Update now
         // 2. Set `m_is_automatically_update` true
         // 3. Start timer
-        change_wallpaper_slot();
+        change_wallpaper_slot(m_imgType, m_color, m_resolution);
         m_is_automatically_update = true;
         // Update per 10 minutes
         m_timer->start(600000);

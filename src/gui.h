@@ -23,7 +23,7 @@ public:
 
 public slots:
     // Change wallpaper considering m_imgType and m_color;
-    void change_wallpaper_slot() const;
+    void change_wallpaper_slot(ImageType imgType, Color color, Resolution resolution);
 
     void set_type_slot(ImageType type){
         LOG("Switch image type");
