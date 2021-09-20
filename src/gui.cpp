@@ -29,6 +29,9 @@ GUI::GUI() : m_color(Color::True),
     QAction *update_wallpaper_action = menu->addAction("Update wallpaper now");
     QAction *auto_update_action = menu->addAction("Update wallpaper every 10 minutes");
 
+    menu->addSection("Type");
+    QAction *type_fulldome_action = menu->addAction("Full Dome");
+    QAction *type_eastasia_action = menu->addAction("East Asia (experimental)");
     menu->addSection("Colors");
     QAction *color_rgb_true_action = menu->addAction("RGB True");
     QAction *color_natural_action = menu->addAction("Natural");
@@ -46,23 +49,38 @@ GUI::GUI() : m_color(Color::True),
     QAction *quit_action = menu->addAction("Quit");
 
     // Set menu items (exclusive, range, etc)
+    QActionGroup *set_type_group = new QActionGroup(this);
     QActionGroup *set_color_group = new QActionGroup(this);
+
+    set_type_group->setExclusive(true);
+    set_type_group->addAction(type_fulldome_action);
+    set_type_group->addAction(type_eastasia_action);
+    type_fulldome_action->setCheckable(true);
+    type_fulldome_action->setChecked(true);
+    type_eastasia_action->setCheckable(true);
+
     set_color_group->setExclusive(true);
     set_color_group->addAction(color_rgb_true_action);
     set_color_group->addAction(color_natural_action);
-    auto_update_action->setCheckable(true);
-    auto_update_action->setChecked(false);
     color_rgb_true_action->setCheckable(true);
     color_rgb_true_action->setChecked(true);
     color_natural_action->setCheckable(true);
+
+    auto_update_action->setCheckable(true);
+    auto_update_action->setChecked(false);
 
     res_action_group->setExclusive(true);
 
     // Connect menu items with slot
     connect(update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot();});
     connect(auto_update_action, &QAction::triggered, this, [this](){switch_automatically_update_slot();});
+
+    connect(type_fulldome_action, &QAction::triggered, this, [this](){set_type_slot(ImageType::FullDome);});
+    connect(type_eastasia_action, &QAction::triggered, this, [this](){set_type_slot(ImageType::EastAsia);});
+
     connect(color_rgb_true_action, &QAction::triggered, this, [this](){set_color_slot(Color::True);});
     connect(color_natural_action, &QAction::triggered, this, [this](){set_color_slot(Color::Natural);});
+
     connect(quit_action, &QAction::triggered, this, [this](){quit_slot();});
 
     trayIcon->setContextMenu(menu);
