@@ -24,9 +24,14 @@ public:
         title->setFont(font);
         title->setGeometry(10, 10, 200, 30);
 
+        QLabel *repo_url = new QLabel(this);
+        repo_url->setText("Repository : https://github.com/pjessesco/ChollianWallPaper");
+        repo_url->setGeometry(10, 60, 400, 20);
+
         QLabel *githash = new QLabel(this);
-        githash->setText("Build version : " + QString::fromStdString(GIT_HASH));
-        githash->setGeometry(10, 50, 200, 10);
+        githash->setText("Commit version : " + QString::fromStdString(GIT_HASH));
+        githash->setGeometry(10, 80, 200, 20);
+
 
 
     }
