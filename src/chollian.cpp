@@ -11,13 +11,13 @@
 #include <QtConcurrent/QtConcurrent>
 
 #include "downloader.h"
-#include "gui.h"
+#include "chollian.h"
 #include "logger.h"
 
-GUI::GUI() : m_color(Color::True),
-             m_imgType(ImageType::FullDome),
-             m_resolution(Resolution(2880, 1800)),
-             m_is_automatically_update(false){
+Chollian::Chollian() : m_color(Color::True),
+                       m_imgType(ImageType::FullDome),
+                       m_resolution(Resolution(2880, 1800)),
+                       m_is_automatically_update(false){
     LOG("Chollian Wallpaper started");
 
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
@@ -97,7 +97,7 @@ GUI::GUI() : m_color(Color::True),
     connect(m_timer, &QTimer::timeout, this, [this](){change_wallpaper_slot(m_imgType, m_color, m_resolution);});
 }
 
-void GUI::change_wallpaper_slot(ImageType imgType, Color color, Resolution resolution) {
+void Chollian::change_wallpaper_slot(ImageType imgType, Color color, Resolution resolution) {
     LOG("Task started");
 
     auto _ = QtConcurrent::task([this, imgType, color, resolution]{
@@ -131,7 +131,7 @@ void GUI::change_wallpaper_slot(ImageType imgType, Color color, Resolution resol
     }).spawn();
 }
 
-void GUI::switch_automatically_update_slot(){
+void Chollian::switch_automatically_update_slot(){
     if(!m_is_automatically_update){
         LOG("Automatic update enabled");
         // Turn on automatic update
@@ -153,7 +153,7 @@ void GUI::switch_automatically_update_slot(){
     }
 }
 
-void GUI::generate_resolution_menus(QMenu *res_menu, QActionGroup *res_action_group, const std::vector<Resolution> &res_list){
+void Chollian::generate_resolution_menus(QMenu *res_menu, QActionGroup *res_action_group, const std::vector<Resolution> &res_list){
     for(Resolution res : res_list){
         const std::string title = std::to_string(res.first)+" x "+std::to_string(res.second);
         QAction *tmp_res_action = res_menu->addAction(QString::fromStdString(title));
@@ -167,7 +167,7 @@ void GUI::generate_resolution_menus(QMenu *res_menu, QActionGroup *res_action_gr
     }
 }
 
-void GUI::enable_button(bool enable){
+void Chollian::enable_button(bool enable){
     m_update_wallpaper_action->setEnabled(enable);
     m_auto_update_action->setEnabled(enable);
 }

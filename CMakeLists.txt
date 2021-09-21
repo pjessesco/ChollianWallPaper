@@ -14,8 +14,8 @@ set(CMAKE_AUTOUIC ON)
 
 add_executable(ChollianWallpaper
         src/main.cpp
-        src/gui.cpp
-        src/gui.h
+        src/chollian.cpp
+        src/chollian.h
         src/downloader.cpp
         src/downloader.h
         src/image.cpp

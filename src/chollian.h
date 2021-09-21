@@ -16,10 +16,10 @@
 #include "logger.h"
 
 
-class GUI : public QLabel{
+class Chollian : public QLabel{
     Q_OBJECT
 public:
-    GUI();
+    Chollian();
 
 public slots:
     // Change wallpaper considering m_imgType and m_color;
