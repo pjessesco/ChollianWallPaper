@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QtConcurrent/QtConcurrent>
 
+#include "about.h"
 #include "downloader.h"
 #include "chollian.h"
 #include "logger.h"
@@ -73,6 +74,11 @@ Chollian::Chollian() : m_color(Color::True),
     res_action_group->setExclusive(true);
 
     // Connect menu items with slot
+    connect(about_action, &QAction::triggered, this, [this](){
+        About *about_window = new About();
+        about_window->show();
+    });
+
     connect(m_update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot(m_imgType, m_color, m_resolution);});
     connect(m_auto_update_action, &QAction::triggered, this, [this](){switch_automatically_update_slot();});
 

@@ -12,6 +12,16 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+# Get the latest abbreviated commit hash of the working branch
+execute_process(
+        COMMAND git log -1 --format=%h
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_COMMIT_HASH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+add_definitions(-DGIT_HASH="${GIT_COMMIT_HASH}")
+
 add_executable(ChollianWallpaper
         src/main.cpp
         src/chollian.cpp
@@ -22,7 +32,9 @@ add_executable(ChollianWallpaper
         src/image.h
         src/utctime.cpp
         src/utctime.h
-        src/logger.h)
+        src/logger.h
+        src/about.cpp
+        src/about.h)
 
 target_link_libraries(ChollianWallpaper CURL::libcurl)
 target_link_libraries(ChollianWallpaper Qt6::Widgets)
