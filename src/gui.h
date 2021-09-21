@@ -45,6 +45,7 @@ public slots:
 
     void switch_automatically_update_slot();
 
+    void enable_button(bool enable);
 
 private:
 
@@ -53,6 +54,8 @@ private:
     ImageType m_imgType;
     Color m_color;
     Resolution m_resolution;
+    QAction *m_update_wallpaper_action;
+    QAction *m_auto_update_action;
     bool m_is_automatically_update;
     QTimer *m_timer;
 };

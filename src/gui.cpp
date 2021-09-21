@@ -8,6 +8,7 @@
 #include <QMenu>
 #include <QtGui/QActionGroup>
 #include <QTimer>
+#include <QtConcurrent/QtConcurrent>
 
 #include "downloader.h"
 #include "gui.h"
@@ -26,8 +27,8 @@ GUI::GUI() : m_color(Color::True),
     QMenu *menu = new QMenu(this);
     QAction *about_action = menu->addAction("About(TBD)");
     menu->addSection("");
-    QAction *update_wallpaper_action = menu->addAction("Update wallpaper now");
-    QAction *auto_update_action = menu->addAction("Update wallpaper every 10 minutes");
+    m_update_wallpaper_action = menu->addAction("Update wallpaper now");
+    m_auto_update_action = menu->addAction("Update wallpaper every 10 minutes");
 
     menu->addSection("Type");
     QAction *type_fulldome_action = menu->addAction("Full Dome");
@@ -66,14 +67,14 @@ GUI::GUI() : m_color(Color::True),
     color_rgb_true_action->setChecked(true);
     color_natural_action->setCheckable(true);
 
-    auto_update_action->setCheckable(true);
-    auto_update_action->setChecked(false);
+    m_auto_update_action->setCheckable(true);
+    m_auto_update_action->setChecked(false);
 
     res_action_group->setExclusive(true);
 
     // Connect menu items with slot
-    connect(update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot(m_imgType, m_color, m_resolution);});
-    connect(auto_update_action, &QAction::triggered, this, [this](){switch_automatically_update_slot();});
+    connect(m_update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot(m_imgType, m_color, m_resolution);});
+    connect(m_auto_update_action, &QAction::triggered, this, [this](){switch_automatically_update_slot();});
 
     connect(type_fulldome_action, &QAction::triggered, this, [this](){set_type_slot(ImageType::FullDome);});
     connect(type_eastasia_action, &QAction::triggered, this, [this](){set_type_slot(ImageType::EastAsia);});
@@ -97,30 +98,37 @@ GUI::GUI() : m_color(Color::True),
 }
 
 void GUI::change_wallpaper_slot(ImageType imgType, Color color, Resolution resolution) {
-    UTCTime utcTime;
-    utcTime.adjust_target_time();
-    const std::string url = url_generator_chollian(imgType, color, utcTime);
-    LOG("Generated url : " + url);
-    const std::string img_binary = image_downloader(url);
-    LOG("Downloaded binary size : " + std::to_string(img_binary.length()));
-    // Stop if downloaded data is reasonably small
-    if(img_binary.length() < 200000){
-        LOG("Skip updating wallpaper");
-        return;
-    }
-    const std::string filename = generate_filename(utcTime, color, imgType, resolution.first, resolution.second);
-    Image img = Image(img_binary);
-    img.to_any_resolution(resolution.first, resolution.second, 100);
-    img.set_as_wallpaper(filename);
-    LOG("Wallpaper updated");
+    LOG("Task started");
 
-    // Clean up previously stored images
-    for (const auto &entry : std::filesystem::directory_iterator("../Resources/")){
-        const std::string entry_filename = entry.path().filename().string();
-        if(entry_filename.compare(filename) && entry_filename.compare("icon.png") && entry_filename.compare("log.txt")){
-            std::filesystem::remove(entry);
+    auto _ = QtConcurrent::task([this, imgType, color, resolution]{
+        enable_button(false);
+        UTCTime utcTime;
+        utcTime.adjust_target_time();
+        const std::string url = url_generator_chollian(imgType, color, utcTime);
+        LOG("Generated url : " + url);
+        const std::string img_binary = image_downloader(url);
+        LOG("Downloaded binary size : " + std::to_string(img_binary.length()));
+        // Stop if downloaded data is reasonably small
+        if(img_binary.length() < 200000){
+            LOG("Skip updating wallpaper");
+            return;
         }
-    }
+        const std::string filename = generate_filename(utcTime, color, imgType, resolution.first, resolution.second);
+        Image img = Image(img_binary);
+        img.to_any_resolution(resolution.first, resolution.second, 100);
+        img.set_as_wallpaper(filename);
+        LOG("Wallpaper updated");
+
+        // Clean up previously stored images
+        for (const auto &entry : std::filesystem::directory_iterator("../Resources/")){
+            const std::string entry_filename = entry.path().filename().string();
+            if(entry_filename.compare(filename) && entry_filename.compare("icon.png") && entry_filename.compare("log.txt")){
+                std::filesystem::remove(entry);
+            }
+        }
+        enable_button(true);
+        LOG("Task ended");
+    }).spawn();
 }
 
 void GUI::switch_automatically_update_slot(){
@@ -158,3 +166,10 @@ void GUI::generate_resolution_menus(QMenu *res_menu, QActionGroup *res_action_gr
         res_action_group->addAction(tmp_res_action);
     }
 }
+
+void GUI::enable_button(bool enable){
+    m_update_wallpaper_action->setEnabled(enable);
+    m_auto_update_action->setEnabled(enable);
+}
+
+
