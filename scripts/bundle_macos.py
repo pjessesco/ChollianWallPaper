@@ -10,25 +10,19 @@ def info_plist():
         <key>LSUIElement</key>
         <true/>
         <key>CFBundleGetInfoString</key>
-        <string>Foo</string>
+        <string>Work in Progress</string>
         <key>CFBundleExecutable</key>
         <string>ChollianWallpaper</string>
         <key>CFBundleIdentifier</key>
-        <string>com.your-company-name.www</string>
+        <string>com.pjessesco.chollian</string>
         <key>CFBundleName</key>
         <string>Chollian Wallpaper</string>
         <key>CFBundleIconFile</key>
         <string>foo.icns</string>
-        <key>CFBundleShortVersionString</key>
-        <string>0.01</string>
         <key>CFBundleInfoDictionaryVersion</key>
         <string>6.0</string>
         <key>CFBundlePackageType</key>
         <string>APPL</string>
-        <key>IFMajorVersion</key>
-        <integer>0</integer>
-        <key>IFMinorVersion</key>
-        <integer>1</integer>
     </dict>
 </plist>
     '''

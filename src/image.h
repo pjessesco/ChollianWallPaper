@@ -64,7 +64,6 @@ public:
 
     void set_as_wallpaper(const std::string &filename) const;
 
-    // Generate 1920 x 1080 image
     void to_any_resolution(int width, int height, int top_bot_border);
 
 

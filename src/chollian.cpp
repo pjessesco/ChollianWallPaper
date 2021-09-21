@@ -113,7 +113,7 @@ void Chollian::change_wallpaper_slot(ImageType imgType, Color color, Resolution 
         const std::string url = url_generator_chollian(imgType, color, utcTime);
         LOG("Generated url : " + url);
         const std::string img_binary = image_downloader(url);
-        LOG("Downloaded binary size : " + std::to_string(img_binary.length() / (1048576)) + "MB");
+        LOG("Downloaded binary size : " + std::to_string(img_binary.length()));
         // Stop if downloaded data is reasonably small
         if(img_binary.length() < 200000){
             LOG("Skip updating wallpaper");
