@@ -4,6 +4,7 @@
 
 #include <curl/curl.h>
 #include "downloader.h"
+#include "logger.h"
 
 std::string url_generator_chollian(const ImageType &imageType, const Color &color, const UTCTime &date) {
     std::string base_url = "https://nmsc.kma.go.kr/IMG/GK2A/AMI/PRIMARY/L1B/COMPLETE/";
@@ -51,6 +52,8 @@ size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp){
 
 std::string image_downloader(const std::string &url) {
 
+    LOG("Downloading...");
+
     CURL *curl = curl_easy_init();
     CURLcode res;
     std::string readBuffer;
@@ -62,6 +65,7 @@ std::string image_downloader(const std::string &url) {
         res = curl_easy_perform(curl);
         curl_easy_cleanup(curl);
     }
+    LOG("Finish downloading");
     return readBuffer;
 }
 
