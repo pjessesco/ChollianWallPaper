@@ -6,6 +6,7 @@
 
 // TODO : <ctime> should be replaced by <chrono> after C++20 is fully implemented (std::chrono::utc_clock)
 #include <ctime>
+#include <string>
 
 // Wrapper class of time-related libraries
 class UTCTime {
