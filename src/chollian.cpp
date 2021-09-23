@@ -95,7 +95,10 @@ Chollian::Chollian() : m_color(Color::True),
 
 #ifdef __APPLE__
     std::string icon_path = "../Resources/icon.png";
+#else ifdef WIN32
+    std::string icon_path = "";
 #endif
+
     trayIcon->setIcon(QIcon(QString::fromStdString(icon_path)));
 
     // Generate timer
