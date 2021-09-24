@@ -27,10 +27,14 @@ inline std::string current_time_string() {
     return "[" + hour + ":" + min + ":" + sec + "]";
 }
 
-#define LOG(str){                                                              \
-    std::ofstream fout("../Resources/log.txt", std::ios::app | std::ios::out); \
-    fout<<current_time_string()<<" "<<str<<std::endl;                          \
-    fout.close();                                                              \
+// #if defined __APPLE__
+//     const std::string RESOURCE_PATH = std::filesystem::current_path().string() + "/../Resources/";
+// #elif defined _WIN32
+//     const std::string RESOURCE_PATH = std::filesystem::current_path().string() + "/resources/";
+// #endif
+
+#define LOG(str){              \
+    std::cout<<str<<std::endl; \
 }
 
 
