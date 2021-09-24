@@ -31,27 +31,25 @@ jobs:
         install-deps: 'true'
         modules: 'qtbase'
 
-    - name: Build CURL
+    - name: Download CURL
       working-directory: ${{github.workspace}}/ext
-      run: git clone https://github.com/curl/curl; 
-           cd curl; 
-           mkdir build; 
-           cd build; 
-           cmake ..; 
-           MSBuild.exe CURL.sln -p:Configuration=Release
+      run: cd ${{github.workspace}}/ext;
+           curl.exe --output curl.zip https://curl.se/windows/dl-7.79.1/curl-7.79.1-win64-mingw.zip;
+           tar -xvzf .\curl.zip;
+           mv ./curl-7.79.1-win64-mingw ./curl;
 
     - name: Build ChollianWallpaper
       working-directory: ${{github.workspace}}
       run: mkdir build; 
            cd build; 
-           cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/build/lib/Release/libcurl_imp.lib -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include ..; 
+           cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/lib/libcurl.dll.a -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include ..; 
            MSBuild.exe ChollianWallpaper.sln -p:Configuration=Release
     
     - name: Generate Bundle (experimental)
       working-directory: ${{github.workspace}}/build
       run: mkdir bundle; 
            cp Release/ChollianWallpaper.exe bundle/ChollianWallpaper.exe; 
-           cp ${{github.workspace}}/ext/curl/build/lib/Release/libcurl.dll bundle/libcurl.dll;
+           cp ${{github.workspace}}/ext/curl/bin/libcurl-x64.dll bundle/libcurl-x64.dll;
            windeployqt.exe bundle/ChollianWallpaper.exe
            
     - name: Upload a archived bundle
