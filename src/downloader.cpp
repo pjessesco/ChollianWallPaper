@@ -52,20 +52,29 @@ size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp){
 
 std::string image_downloader(const std::string &url) {
 
-    LOG("Downloading...");
-
     CURL *curl = curl_easy_init();
     CURLcode res;
     std::string readBuffer;
     if(curl){
+        LOG("Downloading... ");
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
 
         res = curl_easy_perform(curl);
+        if(res != CURLE_OK){
+            LOG("curl_easy_perform() failed: " + std::string(curl_easy_strerror(res)));
+        }
+            
         curl_easy_cleanup(curl);
+        
+        LOG("Downloading... Done");
     }
-    LOG("Finish downloading");
+    else{
+        LOG("Curl is not initialized");
+    }
+    
     return readBuffer;
 }
 
