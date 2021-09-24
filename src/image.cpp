@@ -2,8 +2,6 @@
 // Created by Jino on 2021/07/14.
 //
 
-#include "image.h"
-
 #include <string>
 #include <tuple>
 #include <cstdlib> // for calloc
@@ -17,6 +15,9 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+
+#include "image.h"
+#include "logger.h"
 
 Image::Image(const std::string &binary) {
     m_data = stbi_load_from_memory((unsigned char*)(binary.c_str()), binary.length(), &m_w, &m_h, &m_channel, 4);
@@ -39,6 +40,7 @@ void Image::set_as_wallpaper(const std::string &filename) const{
     std::string command = "osascript -e "+ ss.str();
     std::system(command.c_str());
 #elif defined _WIN32
+    
     LOG("Update wallpaper is not implemented yet for Windows.");
 #endif
 
