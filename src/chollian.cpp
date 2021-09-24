@@ -21,6 +21,12 @@ Chollian::Chollian() : m_color(Color::True),
                        m_is_automatically_update(false){
     LOG("Chollian Wallpaper started");
 
+    LOG("RESOURCE_PATH : " + m_RESOURCE_PATH);
+    if(!std::filesystem::exists(m_RESOURCE_PATH)){
+        LOG(m_RESOURCE_PATH + " directory does not exists; Create it");
+        std::filesystem::create_directory(m_RESOURCE_PATH);
+    }
+
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
     trayIcon->setToolTip("Tray!");
 
@@ -92,14 +98,7 @@ Chollian::Chollian() : m_color(Color::True),
 
     trayIcon->setContextMenu(menu);
     trayIcon->show();
-
-#ifdef __APPLE__
-    std::string icon_path = "../Resources/icon.png";
-#else ifdef WIN32
-    std::string icon_path = "";
-#endif
-
-    trayIcon->setIcon(QIcon(QString::fromStdString(icon_path)));
+    trayIcon->setIcon(QIcon(QString::fromStdString(m_RESOURCE_PATH + "icon.png")));
 
     // Generate timer
     m_timer = new QTimer(this);
@@ -125,11 +124,21 @@ void Chollian::change_wallpaper_slot(ImageType imgType, Color color, Resolution 
         const std::string filename = generate_filename(utcTime, color, imgType, resolution.first, resolution.second);
         Image img = Image(img_binary);
         img.to_any_resolution(resolution.first, resolution.second, 100);
-        img.set_as_wallpaper(filename);
+        
+        if(std::filesystem::exists(m_RESOURCE_PATH)){
+            img.write_png(m_RESOURCE_PATH + filename);
+            LOG("Save image as "+ m_RESOURCE_PATH + filename);
+        }
+        else{
+            LOG("RESOURCE_PATH not exists : "+ m_RESOURCE_PATH);
+            return;
+        }
+
+        img.set_as_wallpaper(m_RESOURCE_PATH + filename);
         LOG("Wallpaper updated");
 
         // Clean up previously stored images
-        for (const auto &entry : std::filesystem::directory_iterator("../Resources/")){
+        for (const auto &entry : std::filesystem::directory_iterator(m_RESOURCE_PATH)){
             const std::string entry_filename = entry.path().filename().string();
             if(entry_filename.compare(filename) && entry_filename.compare("icon.png") && entry_filename.compare("log.txt")){
                 std::filesystem::remove(entry);

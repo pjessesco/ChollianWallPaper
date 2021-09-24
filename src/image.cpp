@@ -24,26 +24,24 @@ Image::Image(const std::string &binary) {
 
 void Image::set_as_wallpaper(const std::string &filename) const{
 
-#ifdef __APPLE__
+#if defined __APPLE__
     // Save image if an executable is in the bundle package.
-
-    std::string bundle_resource_path = std::filesystem::current_path().string() + "/../Resources/";
-    if(std::filesystem::exists(bundle_resource_path)){
-        write_png(bundle_resource_path + filename);
-    }
 
     std::stringstream ss;
 
     ss <<"'tell application \"System Events\"\n"
        <<"set theDesktops to a reference to every desktop\n"
        <<"repeat with aDesktop in theDesktops\n"
-       <<"set the picture of aDesktop to \"" + bundle_resource_path + filename + "\"\n"
+       <<"set the picture of aDesktop to \"" + filename + "\"\n"
        <<"end repeat\n"
        <<"end tell'\n";
 
     std::string command = "osascript -e "+ ss.str();
     std::system(command.c_str());
+#elif defined _WIN32
+    LOG("Update wallpaper is not implemented yet for Windows.");
 #endif
+
 }
 
 void Image::to_any_resolution(int width, int height, int top_bot_border) {

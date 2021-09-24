@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include <string>
+#include <filesystem>
+
 #include <QApplication>
 #include <QLabel>
 #include <QSystemTrayIcon>
@@ -58,4 +61,10 @@ private:
     QAction *m_auto_update_action;
     bool m_is_automatically_update;
     QTimer *m_timer;
+
+#if defined __APPLE__
+    const std::string m_RESOURCE_PATH = std::filesystem::current_path().string() + "/../Resources/";
+#elif defined _WIN32
+    const std::string m_RESOURCE_PATH = std::filesystem::current_path().string() + "/resources/";
+#endif
 };

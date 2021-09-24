@@ -66,9 +66,9 @@ public:
 
     void to_any_resolution(int width, int height, int top_bot_border);
 
+    void write_png(const std::string &filename) const;
 
 private:
-    void write_png(const std::string &filename) const;
     void resize_preserve_ratio(int height);
     void resize(int width, int height);
     void remove_alpha();
