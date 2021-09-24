@@ -7,6 +7,10 @@
 #include <cstdlib> // for calloc
 #include <filesystem>
 
+#if defined _WIN32
+    #include <windows.h>
+#endif
+
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include <stb_image_resize.h>
 
@@ -26,7 +30,6 @@ Image::Image(const std::string &binary) {
 void Image::set_as_wallpaper(const std::string &filename) const{
 
 #if defined __APPLE__
-    // Save image if an executable is in the bundle package.
 
     std::stringstream ss;
 
@@ -41,6 +44,10 @@ void Image::set_as_wallpaper(const std::string &filename) const{
     std::system(command.c_str());
 #elif defined _WIN32
     
+    std::wstring w_filepath(filename.begin(), filename.end());
+
+    int return_value = SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (void*)w_filepath.c_str(), SPIF_UPDATEINIFILE);
+
     LOG("Update wallpaper is not implemented yet for Windows.");
 #endif
 
