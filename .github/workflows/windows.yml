@@ -49,6 +49,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: mkdir bundle; 
            cp Release/ChollianWallpaper.exe bundle/ChollianWallpaper.exe; 
+           cp ${{github.workspace}}/resources bundle/resources -r; 
            cp ${{github.workspace}}/ext/curl/bin/libcurl-x64.dll bundle/libcurl-x64.dll;
            windeployqt.exe bundle/ChollianWallpaper.exe
            
