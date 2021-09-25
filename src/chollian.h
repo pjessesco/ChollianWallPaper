@@ -17,6 +17,7 @@
 #include "downloader.h"
 #include "image.h"
 #include "logger.h"
+#include "about.h"
 
 
 class Chollian : public QLabel{
@@ -61,6 +62,7 @@ private:
     QAction *m_auto_update_action;
     bool m_is_automatically_update;
     QTimer *m_timer;
+    About *m_about_window;
 
 #if defined __APPLE__
     const std::string m_RESOURCE_PATH = std::filesystem::current_path().string() + "/../Resources/";

@@ -21,6 +21,9 @@ execute_process(
 )
 
 add_definitions(-DGIT_HASH="${GIT_COMMIT_HASH}")
+add_definitions(-DCOMPILER_NAME="${CMAKE_CXX_COMPILER_ID}")
+add_definitions(-DCOMPILER_VERSION="${CMAKE_CXX_COMPILER_VERSION}")
+add_definitions(-DCURL_VERSION="${CURL_VERSION_STRING}")
 
 add_executable(ChollianWallpaper
         src/main.cpp

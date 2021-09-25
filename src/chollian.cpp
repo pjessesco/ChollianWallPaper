@@ -79,10 +79,11 @@ Chollian::Chollian() : m_color(Color::True),
 
     res_action_group->setExclusive(true);
 
+    m_about_window = new About();
+
     // Connect menu items with slot
     connect(about_action, &QAction::triggered, this, [this](){
-        About *about_window = new About();
-        about_window->show();
+        this->m_about_window->show();
     });
 
     connect(m_update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot(m_imgType, m_color, m_resolution);});
