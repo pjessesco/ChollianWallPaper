@@ -4,13 +4,15 @@
 
 #pragma once
 
+#include <iostream>
+
 #include <QApplication>
 #include <QWidget>
 #include <QLabel>
 #include <QScrollArea>
+#include <QVBoxLayout>
 
-#include <iostream>
-
+#include "dependency_license.h"
 
 class About : public QWidget{
 
@@ -18,7 +20,7 @@ public:
     About() : QWidget() {
 
         this->setFixedWidth(500);
-        this->setFixedHeight(800);
+        this->setFixedHeight(750);
 
         QLabel *title = new QLabel(this);
         title->setText("Chollian Wallpaper");
@@ -35,12 +37,19 @@ public:
         add_text_line("Commit version : " + std::string(GIT_HASH));
         add_text_line("Compiler : " + std::string(COMPILER_NAME) + " " + std::string(COMPILER_VERSION));
         add_text_line("Qt version : " + std::string(QT_VERSION_STR));
-        add_text_line("CURL version : " + std::string(CURL_VERSION));
+        add_text_line("libcurl version : " + std::string(CURL_VERSION));
+
         add_title_line("Licenses");
-        add_text_line("TBD");
+        add_text_line("All downloaded photos are copyrighted by the Korea Meteorological Administration.", 40);
+        add_text_line("Qt6");
+        add_scrollable_text(QT_LICENSE);
+        add_text_line("libcurl");
+        add_scrollable_text(LIBCURL_LICENSE);
+        add_text_line("stb");
+        add_scrollable_text(STB_LICENSE);
     }
 
-    inline QLabel* add_title_line(const std::string &str, int text_height=30, int line_space=0){
+    inline QLabel* add_title_line(const std::string &str, int text_height=30, int below_space=0){
         current_height += 5;
 
         QLabel *text_label = new QLabel(this);
@@ -51,18 +60,36 @@ public:
         text_label->setGeometry(10, current_height, 460, text_height);
         text_label->setFont(font);
 
-        current_height += (text_height + line_space);
+        current_height += (text_height + below_space);
         return text_label;
     }
 
-    inline QLabel* add_text_line(const std::string &str, int text_height=20, int line_space=0){
+    inline QLabel* add_text_line(const std::string &str, int text_height=20, int below_space=0){
         current_height += 2;
         QLabel *text_label = new QLabel(this);
+        text_label->setWordWrap(true);
         text_label->setText(QString::fromStdString(str));
         text_label->setGeometry(20, current_height, 460, text_height);
-        current_height += (text_height + line_space);
+        current_height += (text_height + below_space);
         return text_label;
+    }
+
+    inline QScrollArea* add_scrollable_text(const std::string &str, int scroll_height=100, int below_space=10){
+        current_height += 5;
+        QScrollArea *scroll_area = new QScrollArea(this);
+        QLabel *text_label = new QLabel();
+
+        text_label->setText(QString::fromStdString(str));
+
+        scroll_area->setWidgetResizable(true);
+        scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        scroll_area->setGeometry(20, current_height, 460, scroll_height);
+        scroll_area->setWidget(text_label);
+
+        current_height += (scroll_height + below_space);
+        return scroll_area;
     }
 
     int current_height;
 };
+

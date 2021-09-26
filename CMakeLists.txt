@@ -37,7 +37,8 @@ add_executable(ChollianWallpaper
         src/utctime.h
         src/logger.h
         src/about.cpp
-        src/about.h)
+        src/about.h
+        src/dependency_license.h)
 
 target_link_libraries(ChollianWallpaper CURL::libcurl)
 target_link_libraries(ChollianWallpaper Qt6::Widgets)
