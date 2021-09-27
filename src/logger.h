@@ -34,7 +34,7 @@ inline std::string current_time_string() {
 // #endif
 
 #define LOG(str){              \
-    std::cout<<str<<std::endl; \
+    std::cout<<current_time_string()<<" "<<str<<std::endl; \
 }
 
 
