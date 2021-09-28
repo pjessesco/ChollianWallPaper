@@ -30,7 +30,6 @@ Image::Image(const std::string &binary) {
 void Image::set_as_wallpaper(const std::string &filename) const{
 
 #if defined __APPLE__
-
     std::stringstream ss;
 
     ss <<"'tell application \"System Events\"\n"
@@ -43,12 +42,8 @@ void Image::set_as_wallpaper(const std::string &filename) const{
     std::string command = "osascript -e "+ ss.str();
     std::system(command.c_str());
 #elif defined _WIN32
-    
     std::wstring w_filepath(filename.begin(), filename.end());
-
     int return_value = SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (void*)w_filepath.c_str(), SPIF_UPDATEINIFILE);
-
-    LOG("Update wallpaper is not implemented yet for Windows.");
 #endif
 
 }
