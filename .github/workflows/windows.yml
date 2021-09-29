@@ -38,27 +38,48 @@ jobs:
            tar -xvzf .\curl.zip;
            mv ./curl-7.79.1-win64-mingw ./curl;
 
-    - name: Build ChollianWallpaper
+    - name: Build ChollianWallpaper (Release configuration)
       working-directory: ${{github.workspace}}
-      run: mkdir build; 
-           cd build; 
+      run: mkdir build_release; 
+           cd build_release; 
            cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/lib/libcurl.dll.a -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include ..; 
            MSBuild.exe ChollianWallpaper.sln -p:Configuration=Release
     
-    - name: Generate Bundle (experimental)
-      working-directory: ${{github.workspace}}/build
-      run: mkdir bundle; 
-           cp Release/ChollianWallpaper.exe bundle/ChollianWallpaper.exe; 
-           cp ${{github.workspace}}/resources bundle/resources -r; 
-           cp ${{github.workspace}}/ext/curl/bin/libcurl-x64.dll bundle/libcurl-x64.dll;
-           windeployqt.exe bundle/ChollianWallpaper.exe
+    - name: Build ChollianWallpaper (Debug configuration)
+      working-directory: ${{github.workspace}}
+      run: mkdir build_debug; 
+           cd build_debug; 
+           cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/lib/libcurl.dll.a -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include ..; 
+           MSBuild.exe ChollianWallpaper.sln -p:Configuration=Debug
+    
+    - name: Generate Bundle (Release) (experimental)
+      working-directory: ${{github.workspace}}/build_release
+      run: mkdir bundle_release; 
+           cp Release/ChollianWallpaper.exe bundle_release/ChollianWallpaper.exe; 
+           cp ${{github.workspace}}/resources bundle_release/resources -r; 
+           cp ${{github.workspace}}/ext/curl/bin/libcurl-x64.dll bundle_release/libcurl-x64.dll;
+           windeployqt.exe bundle_release/ChollianWallpaper.exe
            
-    - name: Upload a archived bundle
+    - name: Generate Bundle (Debug) (experimental)
+      working-directory: ${{github.workspace}}/build_debug
+      run: mkdir bundle_debug; 
+           cp Debug/ChollianWallpaper.exe bundle_debug/ChollianWallpaper.exe; 
+           cp ${{github.workspace}}/resources bundle_debug/resources -r; 
+           cp ${{github.workspace}}/ext/curl/bin/libcurl-x64.dll bundle_debug/libcurl-x64.dll;
+           windeployqt.exe bundle_debug/ChollianWallpaper.exe
+           
+    - name: Upload a archived bundle (Release)
       uses: actions/upload-artifact@v2.2.4
       with:
         # Artifact name
-        name: generated_bundle
+        name: generated_bundle_release
         # A file, directory or wildcard pattern that describes what to upload
-        path: ${{github.workspace}}/build/bundle
+        path: ${{github.workspace}}/build_release/bundle_release
     
-
+    - name: Upload a archived bundle (Debug)
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        # Artifact name
+        name: generated_bundle_debug
+        # A file, directory or wildcard pattern that describes what to upload
+        path: ${{github.workspace}}/build_debug/bundle_debug
