@@ -4,6 +4,8 @@
 ![macOS 10.15](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS10.15.yml/badge.svg) 
 ![Windows](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/windows.yml/badge.svg)
 
+![thumbnail](https://user-images.githubusercontent.com/11532321/135660418-79c9fd8f-a302-4ffa-b7cc-677e965657f8.gif)
+
 
 Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWallPaper is simple GUI app that aims to set near-realtime image from [Chollian 2A](https://en.wikipedia.org/wiki/Chollian) as wallpaper.
 
