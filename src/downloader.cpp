@@ -63,11 +63,13 @@ std::string image_downloader(const std::string &url) {
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
 
         res = curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+
         if(res != CURLE_OK){
             LOG("curl_easy_perform() failed: " + std::string(curl_easy_strerror(res)));
+            readBuffer = "";
         }
-            
-        curl_easy_cleanup(curl);
+    
         
         LOG("Downloading... Done");
     }
