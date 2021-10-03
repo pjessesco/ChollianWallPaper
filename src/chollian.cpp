@@ -106,48 +106,44 @@ Chollian::Chollian() : m_color(Color::True),
     connect(m_timer, &QTimer::timeout, this, [this](){change_wallpaper_slot(m_imgType, m_color, m_resolution);});
 }
 
+void func_for_thumbnail(){
+
+}
+
 void Chollian::change_wallpaper_slot(ImageType imgType, Color color, Resolution resolution) {
     LOG("Task started");
 
-    auto _ = QtConcurrent::task([this, imgType, color, resolution]{
-        enable_button(false);
-        UTCTime utcTime;
-        utcTime.adjust_target_time();
+    UTCTime utcTime;
+    utcTime.adjust_target_time();
+    utcTime.m_utc_time->tm_mday -= 1;
+    utcTime.m_utc_time->tm_hour = -9;
+    utcTime.m_utc_time->tm_min = 20;
+    utcTime.m_utc_time->tm_sec = 0;
+    utcTime.adjust_target_time();
+
+    for(int i=0;i<200;i++){
+        std::cout<<i<<" : "<<url_generator_chollian(imgType, color, utcTime)<<std::endl;
+
         const std::string url = url_generator_chollian(imgType, color, utcTime);
-        LOG("Generated url : " + url);
         const std::string img_binary = image_downloader(url);
-        LOG("Downloaded binary size : " + std::to_string(img_binary.length()));
         // Stop if downloaded data is reasonably small
         if(img_binary.length() < 200000){
             LOG("Skip updating wallpaper");
-            return;
+            utcTime.m_utc_time->tm_min += 10;
+            utcTime.adjust_target_time();
+            continue;
         }
         const std::string filename = generate_filename(utcTime, color, imgType, resolution.first, resolution.second);
         Image img = Image(img_binary);
         img.to_any_resolution(resolution.first, resolution.second, 100);
-        
-        if(std::filesystem::exists(m_RESOURCE_PATH)){
-            img.write_png(m_RESOURCE_PATH + filename);
-            LOG("Save image as "+ m_RESOURCE_PATH + filename);
-        }
-        else{
-            LOG("RESOURCE_PATH not exists : "+ m_RESOURCE_PATH);
-            return;
-        }
 
+        img.write_png(m_RESOURCE_PATH + filename);
         img.set_as_wallpaper(m_RESOURCE_PATH + filename);
-        LOG("Wallpaper updated");
 
-        // Clean up previously stored images
-        for (const auto &entry : std::filesystem::directory_iterator(m_RESOURCE_PATH)){
-            const std::string entry_filename = entry.path().filename().string();
-            if(entry_filename.compare(filename) && entry_filename.compare("icon.png") && entry_filename.compare("log.txt")){
-                std::filesystem::remove(entry);
-            }
-        }
-        enable_button(true);
-        LOG("Task ended");
-    }).spawn();
+        utcTime.m_utc_time->tm_min += 10;
+        utcTime.adjust_target_time();
+    }
+
 }
 
 void Chollian::switch_automatically_update_slot(){

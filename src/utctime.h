@@ -24,10 +24,12 @@ public:
                                add_zero_padding(m_utc_time->tm_min));
     }
 
+    tm *m_utc_time;
+
 private:
     inline std::string add_zero_padding(int num) const {
         return num<10?"0"+std::to_string(num):std::to_string(num);
     }
 
-    tm *m_utc_time;
+
 };

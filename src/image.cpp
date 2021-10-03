@@ -36,6 +36,7 @@ void Image::set_as_wallpaper(const std::string &filename) const{
        <<"set theDesktops to a reference to every desktop\n"
        <<"repeat with aDesktop in theDesktops\n"
        <<"set the picture of aDesktop to \"" + filename + "\"\n"
+       <<"do shell script \"screencapture "+ filename +"_screenshot.png\"\n"
        <<"end repeat\n"
        <<"end tell'\n";
 
