@@ -1,4 +1,4 @@
-name: macOS 11
+name: macOS
 
 on:
   push:
@@ -12,7 +12,10 @@ env:
 
 jobs:
   build:
-    runs-on: macos-11
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, macos-11]
 
     steps:
     - uses: actions/checkout@v2
@@ -39,7 +42,7 @@ jobs:
       uses: actions/upload-artifact@v2.2.4
       with:
         # Artifact name
-        name: generated_bundle
+        name: generated_bundle_${{matrix.os}}
         # A file, directory or wildcard pattern that describes what to upload
         path: ${{github.workspace}}/build/*.tgz
         

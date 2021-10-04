@@ -1,7 +1,6 @@
 # ChollianWallPaper
 
-![macOS 11](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS11.yml/badge.svg) 
-![macOS 10.15](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS10.15.yml/badge.svg) 
+![macOS](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS.yml/badge.svg)
 ![Windows](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/windows.yml/badge.svg)
 
 ![thumbnail](https://user-images.githubusercontent.com/11532321/135660418-79c9fd8f-a302-4ffa-b7cc-677e965657f8.gif)
@@ -12,7 +11,7 @@ Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWall
 ## Download
 
 Pre-built binary is available in `Actions` tab above for
- - macOS (Intel) [<= Catalina](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS10.15.yml), [>=Big Sur](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS11.yml)
+ - [macOS (Intel)](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS.yml) (Not tested yet on Apple Silicon)
  - [Windows (experimental)](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/windows.yml)
 
 ## Dependency
