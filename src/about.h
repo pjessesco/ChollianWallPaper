@@ -20,7 +20,7 @@ public:
     About() : QWidget() {
 
         this->setFixedWidth(500);
-        this->setFixedHeight(850);
+        this->setFixedHeight(860);
 
         QLabel *title = new QLabel(this);
         title->setText("Chollian Wallpaper");
@@ -40,9 +40,12 @@ public:
         add_text_line("libcurl version : " + std::string(CURL_VERSION));
 
         add_title_line("Licenses");
+        add_text_line("<P><b>"
+                      "Every satelite images used in this project are copyrighted by the Korea Meteorological Administration. "
+                      "You can NOT use it for commercial purposes."
+                      "</b></P>", 55);
         add_text_line("Chollian Wallpaper");
         add_scrollable_text(CHOLLIAN_LICENSE);
-        add_text_line("All downloaded photos are copyrighted by the Korea Meteorological Administration.", 40);
         add_text_line("Qt6");
         add_scrollable_text(QT_LICENSE);
         add_text_line("libcurl");

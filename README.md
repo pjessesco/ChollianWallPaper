@@ -73,3 +73,12 @@ To generate bundle for macOS, run `scripts/bundle_macos.py`.
 
 6. You have to copy `libcurl-x64.dll` to the directory where executable exists.
 
+
+## License
+
+**Every satelite images used in this project are copyrighted by the Korea Meteorological Administration. You can not use it for commercial purposes.**
+
+This project is distributed under the [MIT license](https://github.com/pjessesco/ChollianWallPaper/blob/main/LICENSE).
+
+
+
