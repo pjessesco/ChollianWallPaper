@@ -8,6 +8,23 @@
 
 Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWallPaper is simple GUI app that aims to set near-realtime image from [Chollian 2A](https://en.wikipedia.org/wiki/Chollian) as wallpaper.
 
+## Features
+ - Set near-realtime satelite image as wallpaper
+ - 2 different image tone (RGB True, Natural)
+
+  ![color tone](https://user-images.githubusercontent.com/11532321/135794556-d5fbc00f-a29c-457f-91fe-0dfcb02a05b8.png)
+
+ - Various image resolution from 360p to 8K
+ - Various image ratio (4:3, 16:9, 16:10)
+
+
+### Experimental feature
+ - Use East Asia image
+
+![eastasia](https://user-images.githubusercontent.com/11532321/135794995-660331b5-fb8c-4530-befd-f6d92e0469c5.png)
+
+
+
 ## Download
 
 Pre-built binary is available in `Actions` tab above for
