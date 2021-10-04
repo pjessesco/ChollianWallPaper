@@ -65,19 +65,18 @@ std::string image_downloader(const std::string &url) {
         res = curl_easy_perform(curl);
         curl_easy_cleanup(curl);
 
-        if(res != CURLE_OK){
-            LOG("curl_easy_perform() failed: " + std::string(curl_easy_strerror(res)));
-            readBuffer = "";
+        if(res == CURLE_OK){
+            LOG("curl_easy_perform() success");
+            return readBuffer;
         }
-    
-        
-        LOG("Downloading... Done");
+        else{
+            LOG("curl_easy_perform() failed: " + std::string(curl_easy_strerror(res)));
+        }
     }
     else{
         LOG("Curl is not initialized");
     }
-    
-    return readBuffer;
+    return "-1";
 }
 
 
