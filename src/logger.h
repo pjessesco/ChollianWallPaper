@@ -16,15 +16,7 @@ inline std::string current_time_string() {
     std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     const auto current_time = std::localtime(&now);
 
-    std::string hour = std::to_string(current_time->tm_hour);
-    std::string min = std::to_string(current_time->tm_min);
-    std::string sec = std::to_string(current_time->tm_sec);
-
-    fill_zero(hour, 2);
-    fill_zero(min, 2);
-    fill_zero(sec, 2);
-
-    return "[" + hour + ":" + min + ":" + sec + "]";
+    return "[" + std::string(asctime(current_time)).substr(0, 24) + "]";
 }
 
 // #if defined __APPLE__
