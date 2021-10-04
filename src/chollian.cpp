@@ -115,15 +115,23 @@ void Chollian::change_wallpaper_slot(ImageType imgType, Color color, Resolution 
         utcTime.adjust_target_time();
         const std::string url = url_generator_chollian(imgType, color, utcTime);
         LOG("Generated url : " + url);
+
         const std::string img_binary = image_downloader(url);
         LOG("Downloaded binary size : " + std::to_string(img_binary.length()));
+
         // Stop if downloaded data is reasonably small
         if(img_binary.length() < 200000){
-            LOG("Skip updating wallpaper");
+            LOG("Downloaded binary is too small, skip updating wallpaper");
             return;
         }
         const std::string filename = generate_filename(utcTime, color, imgType, resolution.first, resolution.second);
+
         Image img = Image(img_binary);
+        if(!img.is_available()){
+            LOG("Image is not available, skip updating wallpaper");
+            return;
+        }
+
         img.to_any_resolution(resolution.first, resolution.second, 100);
         
         if(std::filesystem::exists(m_RESOURCE_PATH)){

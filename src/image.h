@@ -68,6 +68,11 @@ public:
 
     void write_png(const std::string &filename) const;
 
+    // Width and height is set to 0 if image is not loaded properly.
+    inline bool is_available() const{
+        return (m_w != 0) && (m_h != 0);
+    }
+
 private:
     void resize_preserve_ratio(int height);
     void resize(int width, int height);
