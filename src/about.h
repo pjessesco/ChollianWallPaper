@@ -14,6 +14,9 @@
 
 #include "dependency_license.h"
 
+// scripts/bundle_macos.py must be modified too.
+const std::string CHOLLIAN_VERSION_STR = "Pre-Release";
+
 class About : public QWidget{
 
 public:

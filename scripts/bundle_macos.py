@@ -1,7 +1,7 @@
 import os
 import shutil
 
-def info_plist():
+def info_plist(version):
     return '''
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -9,14 +9,18 @@ def info_plist():
     <dict>
         <key>LSUIElement</key>
         <true/>
-        <key>CFBundleGetInfoString</key>
-        <string>Work in Progress</string>
         <key>CFBundleExecutable</key>
         <string>ChollianWallpaper</string>
         <key>CFBundleIdentifier</key>
-        <string>com.pjessesco.chollian</string>
+        <string>com.pjessesco.ChollianWallpaper</string>
         <key>CFBundleName</key>
         <string>Chollian Wallpaper</string>
+        <key>CFBundleVersion</key>
+        <string>''' + version + '''</string>
+        <key>NSHumanReadableCopyright</key>
+        <string>© 2021 Jino Park</string>
+        <key>CFBundleGetInfoString</key>
+        <string>Wallpaper changer using near-realtime satellite images(Chollian 2A from South Korea)</string>
         <key>CFBundleIconFile</key>
         <string>foo.icns</string>
         <key>CFBundleInfoDictionaryVersion</key>
@@ -30,6 +34,9 @@ def info_plist():
 
 
 if __name__ == "__main__":
+
+    # CHOLLIAN_VERSION_STR in src/about.h must be modified too.
+    CHOLLIAN_VERSION_STR = "Pre-Release"
 
     BUILD_DIR = "../build"
     APP_NAME = "Chollian Wallpaper.app"
@@ -48,7 +55,7 @@ if __name__ == "__main__":
 
     # Generate Info.plist
     f = open(os.path.join(APP_NAME, "Contents", "Info.plist"), 'w')
-    f.write(info_plist())
+    f.write(info_plist(CHOLLIAN_VERSION_STR))
     f.close()
 
 
