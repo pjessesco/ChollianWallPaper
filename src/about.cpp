@@ -24,6 +24,7 @@ About::About() : QWidget() {
     add_text_line("Release version : " + CHOLLIAN_VERSION_STR);
     add_text_line("Commit version : " + std::string(GIT_HASH));
     add_text_line("Compiler : " + std::string(COMPILER_NAME) + " " + std::string(COMPILER_VERSION));
+    add_text_line("CMake configuration : " + std::string(CMAKE_CONFIG));
     add_text_line("Qt version : " + std::string(QT_VERSION_STR));
     add_text_line("libcurl version : " + std::string(CURL_VERSION));
 
