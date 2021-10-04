@@ -109,7 +109,7 @@ Chollian::Chollian() : m_color(Color::True),
 void Chollian::change_wallpaper_slot(ImageType imgType, Color color, Resolution resolution) {
     LOG("Task started");
 
-    auto _ = QtConcurrent::task([this, imgType, color, resolution]{
+    QFuture<void> _ = QtConcurrent::task([this, imgType, color, resolution]() -> void {
         enable_button(false);
         UTCTime utcTime;
         utcTime.adjust_target_time();
