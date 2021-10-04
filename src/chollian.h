@@ -20,7 +20,7 @@
 #include "about.h"
 
 
-class Chollian : public QLabel{
+class Chollian : public QWidget{
     Q_OBJECT
 public:
     Chollian();
@@ -49,7 +49,10 @@ public slots:
 
     void switch_automatically_update_slot();
 
-    void enable_button(bool enable);
+    void enable_button_slot(bool flag);
+
+signals:
+    void enable_button_signal(bool flag);
 
 private:
 

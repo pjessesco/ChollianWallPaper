@@ -97,6 +97,8 @@ Chollian::Chollian() : m_color(Color::True),
 
     connect(quit_action, &QAction::triggered, this, [this](){quit_slot();});
 
+    connect(this, SIGNAL(enable_button_signal(bool)), this, SLOT(enable_button_slot(bool)));
+
     trayIcon->setContextMenu(menu);
     trayIcon->show();
     trayIcon->setIcon(QIcon(QString::fromStdString(m_RESOURCE_PATH + "icon.png")));
@@ -110,7 +112,7 @@ void Chollian::change_wallpaper_slot(ImageType imgType, Color color, Resolution 
     LOG("Task started");
 
     QFuture<void> _ = QtConcurrent::task([this, imgType, color, resolution]() -> void {
-        enable_button(false);
+        emit enable_button_signal(false);
         UTCTime utcTime;
         utcTime.adjust_target_time();
         const std::string url = url_generator_chollian(imgType, color, utcTime);
@@ -153,7 +155,7 @@ void Chollian::change_wallpaper_slot(ImageType imgType, Color color, Resolution 
                 std::filesystem::remove(entry);
             }
         }
-        enable_button(true);
+        emit enable_button_signal(true);
         LOG("Task ended");
     }).spawn();
 }
@@ -194,9 +196,9 @@ void Chollian::generate_resolution_menus(QMenu *res_menu, QActionGroup *res_acti
     }
 }
 
-void Chollian::enable_button(bool enable){
-    m_update_wallpaper_action->setEnabled(enable);
-    m_auto_update_action->setEnabled(enable);
+void Chollian::enable_button_slot(bool flag){
+    m_update_wallpaper_action->setEnabled(flag);
+    m_auto_update_action->setEnabled(flag);
 }
 
 
