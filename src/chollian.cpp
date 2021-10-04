@@ -32,7 +32,7 @@ Chollian::Chollian() : m_color(Color::True),
 
     // Create menu items
     QMenu *menu = new QMenu(this);
-    QAction *about_action = menu->addAction("About(TBD)");
+    QAction *about_action = menu->addAction("About");
     menu->addSection("");
     m_update_wallpaper_action = menu->addAction("Update wallpaper now");
     m_auto_update_action = menu->addAction("Update wallpaper every 10 minutes");
