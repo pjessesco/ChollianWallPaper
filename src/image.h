@@ -68,9 +68,9 @@ public:
 
     void write_png(const std::string &filename) const;
 
-    // Width and height is set to 0 if image is not loaded properly.
+    // Image is available it has non-zero width/height, and 3 or 4 color channel.
     inline bool is_available() const{
-        return (m_w != 0) && (m_h != 0);
+        return (m_w != 0) && (m_h != 0) && (m_channel == 3 || m_channel == 4);
     }
 
 private:

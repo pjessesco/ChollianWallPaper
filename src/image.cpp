@@ -106,6 +106,7 @@ void Image::fix_pixel(int w, int h, int r, int g, int b, int a) {
         m_data[pixel_idx*3 + 2] = b;
     }
     else{
+        LOG("This line should not be executed.. number of image channel is not 3 or 4.")
         exit(-1);
     }
 }
