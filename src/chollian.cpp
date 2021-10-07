@@ -27,9 +27,6 @@ Chollian::Chollian() : m_color(Color::True),
         std::filesystem::create_directory(m_RESOURCE_PATH);
     }
 
-    QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
-    trayIcon->setToolTip("Tray!");
-
     // Create menu items
     QMenu *menu = new QMenu(this);
     QAction *about_action = menu->addAction("About");
@@ -99,9 +96,11 @@ Chollian::Chollian() : m_color(Color::True),
 
     connect(this, SIGNAL(enable_button_signal(bool)), this, SLOT(enable_button_slot(bool)));
 
+    QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setToolTip("Chollian Wallpaper");
     trayIcon->setContextMenu(menu);
-    trayIcon->show();
     trayIcon->setIcon(QIcon(QString::fromStdString(m_RESOURCE_PATH + "icon.png")));
+    trayIcon->show();
 
     // Generate timer
     m_timer = new QTimer(this);
