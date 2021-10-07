@@ -52,6 +52,11 @@ jobs:
            cp ${{github.workspace}}/ext/curl/bin/libcurl-x64.dll bundle_${{matrix.build_type}}/libcurl-x64.dll;
            windeployqt.exe bundle_${{matrix.build_type}}/ChollianWallpaper.exe
            
+    - name: Copy .pdb file for debug bundle
+      working-directory: ${{github.workspace}}/build_${{matrix.build_type}}
+      if: ${{ matrix.build_type == 'Debug'}}
+      run: cp ${{matrix.build_type}}/ChollianWallpaper.pdb bundle_${{matrix.build_type}}/ChollianWallpaper.pdb; 
+           
     - name: Upload a archived bundle
       uses: actions/upload-artifact@v2.2.4
       with:
