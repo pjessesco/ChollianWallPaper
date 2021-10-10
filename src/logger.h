@@ -8,10 +8,6 @@
 #include <chrono>
 #include <fstream>
 
-inline void fill_zero(std::string &str, int len) {
-    str.insert(str.begin(), len - str.size(), '0');
-}
-
 inline std::string current_time_string() {
     std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     const auto current_time = std::localtime(&now);
@@ -25,8 +21,8 @@ inline std::string current_time_string() {
 //     const std::string RESOURCE_PATH = std::filesystem::current_path().string() + "/resources/";
 // #endif
 
-#define LOG(str){              \
-    std::cout<<current_time_string()<<" "<<str<<std::endl; \
+inline static void LOG(const std::string &str){
+    std::cout<<current_time_string()<<" "<<str<<std::endl;
 }
 
 

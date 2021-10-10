@@ -5,7 +5,6 @@
 #include <string>
 #include <tuple>
 #include <cstdlib> // for calloc
-#include <filesystem>
 
 #if defined _WIN32
     #include <windows.h>
@@ -23,7 +22,7 @@
 #include "image.h"
 #include "logger.h"
 
-Image::Image(const std::string &binary) {
+Image::Image(const std::string &binary) : m_w(0), m_h(0), m_channel(0) {
     m_data = stbi_load_from_memory((unsigned char*)(binary.c_str()), binary.length(), &m_w, &m_h, &m_channel, 4);
 }
 
@@ -106,7 +105,7 @@ void Image::fix_pixel(int w, int h, int r, int g, int b, int a) {
         m_data[pixel_idx*3 + 2] = b;
     }
     else{
-        LOG("This line should not be executed.. number of image channel is not 3 or 4.")
+        LOG("This line should not be executed.. number of image channel is not 3 or 4.");
         exit(-1);
     }
 }

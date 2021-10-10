@@ -14,9 +14,6 @@
 
 #include "dependency_license.h"
 
-// scripts/bundle_macos.py must be modified too.
-const std::string CHOLLIAN_VERSION_STR = "Pre-Release";
-
 class About : public QWidget{
 
 public:
@@ -29,5 +26,7 @@ public:
     inline QScrollArea* add_scrollable_text(const std::string &str, int scroll_height=100, int below_space=10);
 
     int current_height;
+    // scripts/bundle_macos.py must be modified too.
+    const std::string CHOLLIAN_VERSION_STR = "Pre-Release";
 };
 

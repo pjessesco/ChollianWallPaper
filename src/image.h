@@ -52,7 +52,7 @@ const std::vector<Resolution> res_list_16_10{
 
 class Image{
 public:
-    Image(const std::string &binary);
+    explicit Image(const std::string &binary);
 
     // Not allow copy
     Image(const Image &) = delete;

@@ -44,7 +44,8 @@ public slots:
         m_color = color;
     }
 
-    void quit_slot() const{
+    static void quit_slot() {
+        LOG("Quit Chollian Wallpaper");
         QCoreApplication::quit();
     }
 
@@ -57,6 +58,7 @@ public slots:
     void enable_button_slot(bool flag);
 
 signals:
+    // Implementation is not needed for QT signals
     void enable_button_signal(bool flag);
 
 private:

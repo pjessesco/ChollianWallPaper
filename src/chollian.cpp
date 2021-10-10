@@ -107,7 +107,7 @@ Chollian::Chollian() : m_color(Color::True),
     connect(color_rgb_true_action, &QAction::triggered, this, [this](){set_color_slot(Color::True);});
     connect(color_natural_action, &QAction::triggered, this, [this](){set_color_slot(Color::Natural);});
 
-    connect(quit_action, &QAction::triggered, this, [this](){quit_slot();});
+    connect(quit_action, &QAction::triggered, this, [](){quit_slot();});
 
     connect(this, SIGNAL(enable_button_signal(bool)), this, SLOT(enable_button_slot(bool)));
 
@@ -165,7 +165,7 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, ImageType im
         // Clean up previously stored images
         for (const auto &entry : std::filesystem::directory_iterator(m_RESOURCE_PATH)){
             const std::string entry_filename = entry.path().filename().string();
-            if(entry_filename.compare(filename) && entry_filename.compare("icon.png") && entry_filename.compare("log.txt")){
+            if(entry_filename != filename && entry_filename != "icon.png" && entry_filename != "log.txt"){
                 std::filesystem::remove(entry);
             }
         }

@@ -40,9 +40,7 @@ std::string url_generator_chollian(DownloadOption option, ImageType imageType, C
     sub2 = year + month + "/" + day + "/" + hours + "/gk2a_ami_le1b_";
     sub7 = year + month + day + hours + minutes + (option==DownloadOption::Quality?".png":".srv.png");
 
-    const std::string url = base_url + sub1 + sub2 + sub3 + sub4 + sub5 + sub6 + sub7;
-
-    return url;
+    return base_url + sub1 + sub2 + sub3 + sub4 + sub5 + sub6 + sub7;
 }
 
 size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp){

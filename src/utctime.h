@@ -25,7 +25,7 @@ public:
     }
 
 private:
-    inline std::string add_zero_padding(int num) const {
+    inline static std::string add_zero_padding(int num) {
         return num<10?"0"+std::to_string(num):std::to_string(num);
     }
 
