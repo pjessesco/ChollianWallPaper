@@ -19,8 +19,14 @@ enum class Color{
     Natural = 2
 };
 
-std::string url_generator_chollian(const ImageType &imageType,
-                                   const Color &color,
+enum class DownloadOption{
+    Quality = 1,
+    Performance = 2
+};
+
+std::string url_generator_chollian(DownloadOption option,
+                                   ImageType imageType,
+                                   Color color,
                                    const UTCTime &date);
 
 std::string image_downloader(const std::string &url);

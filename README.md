@@ -16,6 +16,9 @@ Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWall
 
  - Various image resolution from 360p to 8K
  - Various image ratio (4:3, 16:9, 16:10)
+ - 2 download options :
+     - `Performance` for higher image quality
+     - `Quality` for lower memory/network usage
 
 
 ### Experimental feature

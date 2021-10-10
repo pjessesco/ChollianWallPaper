@@ -6,7 +6,7 @@
 #include "downloader.h"
 #include "logger.h"
 
-std::string url_generator_chollian(const ImageType &imageType, const Color &color, const UTCTime &date) {
+std::string url_generator_chollian(DownloadOption option, ImageType imageType, Color color, const UTCTime &date) {
     std::string base_url = "https://nmsc.kma.go.kr/IMG/GK2A/AMI/PRIMARY/L1B/COMPLETE/";
 
     auto [year, month, day, hours, minutes] = date.extract_component();
@@ -38,7 +38,7 @@ std::string url_generator_chollian(const ImageType &imageType, const Color &colo
     }
 
     sub2 = year + month + "/" + day + "/" + hours + "/gk2a_ami_le1b_";
-    sub7 = year + month + day + hours + minutes + ".png";
+    sub7 = year + month + day + hours + minutes + (option==DownloadOption::Quality?".png":".srv.png");
 
     const std::string url = base_url + sub1 + sub2 + sub3 + sub4 + sub5 + sub6 + sub7;
 

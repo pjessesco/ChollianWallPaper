@@ -27,7 +27,12 @@ public:
 
 public slots:
     // Change wallpaper considering m_imgType and m_color;
-    void change_wallpaper_slot(ImageType imgType, Color color, Resolution resolution);
+    void change_wallpaper_slot(DownloadOption downloadOption, ImageType imgType, Color color, Resolution resolution);
+
+    void set_download_option(DownloadOption option){
+        LOG("Switch download option");
+        m_download_option = option;
+    }
 
     void set_type_slot(ImageType type){
         LOG("Switch image type");
@@ -60,6 +65,7 @@ private:
 
     ImageType m_imgType;
     Color m_color;
+    DownloadOption m_download_option;
     Resolution m_resolution;
     QAction *m_update_wallpaper_action;
     QAction *m_auto_update_action;
