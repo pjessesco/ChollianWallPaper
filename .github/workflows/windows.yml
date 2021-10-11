@@ -41,7 +41,7 @@ jobs:
       working-directory: ${{github.workspace}}
       run: mkdir build_${{matrix.build_type}}; 
            cd build_${{matrix.build_type}}; 
-           cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/lib/libcurl.dll.a -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include ..; 
+           cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCURL_LIBRARY=${{github.workspace}}/ext/curl/lib/libcurl.dll.a -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include ..; 
            MSBuild.exe ChollianWallpaper.sln -p:Configuration=${{matrix.build_type}}
     
     - name: Generate Bundle (experimental)
