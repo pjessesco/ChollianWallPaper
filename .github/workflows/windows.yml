@@ -46,7 +46,7 @@ jobs:
     
     - name: Generate Bundle (experimental)
       working-directory: ${{github.workspace}}/build_${{matrix.build_type}}
-      run: mkdir bundle_${{matrix.build_type}}; 
+      run: mkdir bundle_${{matrix.build_type}};
            cp ${{matrix.build_type}}/ChollianWallpaper.exe bundle_${{matrix.build_type}}/ChollianWallpaper.exe; 
            cp ${{github.workspace}}/resources bundle_${{matrix.build_type}}/resources -r; 
            cp ${{github.workspace}}/ext/curl/bin/libcurl-x64.dll bundle_${{matrix.build_type}}/libcurl-x64.dll;
@@ -56,11 +56,19 @@ jobs:
       working-directory: ${{github.workspace}}/build_${{matrix.build_type}}
       if: ${{ matrix.build_type == 'Debug'}}
       run: cp ${{matrix.build_type}}/ChollianWallpaper.pdb bundle_${{matrix.build_type}}/ChollianWallpaper.pdb; 
-           
+
+    - name: Create installer using NSIS
+      uses: joncloud/makensis-action@v3.6
+      with:
+        script-file: "${{github.workspace}}/scripts/nsis_windows.nsh"
+        arguments: "/DCONFIG=${{matrix.build_type}}"
+    
     - name: Upload a archived bundle
       uses: actions/upload-artifact@v2.2.4
       with:
         # Artifact name
         name: generated_bundle_${{matrix.build_type}}
         # A file, directory or wildcard pattern that describes what to upload
-        path: ${{github.workspace}}/build_${{matrix.build_type}}/bundle_${{matrix.build_type}}
+        path: ${{github.workspace}}/scripts/ChollianInstaller.exe
+
+

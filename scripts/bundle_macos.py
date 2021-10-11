@@ -35,7 +35,7 @@ def info_plist(version):
 
 if __name__ == "__main__":
 
-    # CHOLLIAN_VERSION_STR in src/about.h must be modified too.
+    # CHOLLIAN_VERSION_STR in src/about.h and scripts/nsis_windows.nsh must be modified too.
     CHOLLIAN_VERSION_STR = "Pre-Release"
 
     BUILD_DIR = "../build"

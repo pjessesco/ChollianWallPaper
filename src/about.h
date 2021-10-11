@@ -26,7 +26,7 @@ public:
     inline QScrollArea* add_scrollable_text(const std::string &str, int scroll_height=100, int below_space=10);
 
     int current_height;
-    // scripts/bundle_macos.py must be modified too.
+    // scripts/bundle_macos.py and scripts/nsis_windows.nsh must be modified too.
     const std::string CHOLLIAN_VERSION_STR = "Pre-Release";
 };
 
