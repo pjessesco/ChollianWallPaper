@@ -76,6 +76,8 @@ To generate bundle for macOS, run `scripts/bundle_macos.py`.
 
 6. You have to copy `libcurl-x64.dll` to the directory where executable exists.
 
+To generate installer for Windows, you have to install [NSIS](https://nsis.sourceforge.io/Download). Use can use `scripts/nsis_windows.nsh` but it is hard-coded for github workflows. You should modify it to run on your environment.
+
 
 ## License
 
