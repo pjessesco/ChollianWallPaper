@@ -27,6 +27,6 @@ public:
 
     int current_height;
     // scripts/bundle_macos.py and scripts/nsis_windows.nsh must be modified too.
-    const std::string CHOLLIAN_VERSION_STR = "Pre-Release";
+    const std::string CHOLLIAN_VERSION_STR = "2021.10";
 };
 

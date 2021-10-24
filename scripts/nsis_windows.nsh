@@ -3,7 +3,7 @@
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Chollian Wallpaper"
 # scripts/bundle_macos.py and src/about.h must be modified too.
-!define PRODUCT_VERSION "Pre-Release"
+!define PRODUCT_VERSION "2021.10"
 !define PRODUCT_PUBLISHER "Jino Park"
 !define PRODUCT_WEB_SITE "https://github.com/pjessesco/ChollianWallPaper"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\ChollianWallpaper.exe"
