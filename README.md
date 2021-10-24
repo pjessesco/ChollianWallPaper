@@ -27,12 +27,16 @@ Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWall
 ![eastasia](https://user-images.githubusercontent.com/11532321/135794995-660331b5-fb8c-4530-befd-f6d92e0469c5.png)
 
 
+## Supported OS
+- Windows
+- macOS (Intel only. Apple Silicons are not tested yet, but it may works with Rosetta 2.)
+
 
 ## Download
 
-Pre-built binary is available in `Actions` tab above for
- - [macOS (Intel)](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS.yml) (Not tested yet on Apple Silicon)
- - [Windows (experimental)](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/windows.yml)
+Release binaries are able in [here](https://github.com/pjessesco/ChollianWallPaper/releases/).
+Under-development/debug versions are available in [here](https://github.com/pjessesco/ChollianWallPaper/actions).
+
 
 ## Dependency
 
