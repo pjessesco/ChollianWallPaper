@@ -17,7 +17,7 @@
 
 Chollian::Chollian() : m_color(Color::True),
                        m_imgType(ImageType::FullDome),
-                       m_download_option(DownloadOption::Quality),
+                       m_download_option(DownloadOption::Performance),
                        m_resolution(Resolution(2880, 1800)),
                        m_is_automatically_update(false){
     LOG("Chollian Wallpaper started");
@@ -66,7 +66,7 @@ Chollian::Chollian() : m_color(Color::True),
     set_download_option_group->addAction(download_option_quality);
     set_download_option_group->addAction(download_option_performance);
     download_option_quality->setCheckable(true);
-    download_option_quality->setChecked(true);
+    download_option_performance->setChecked(true);
     download_option_performance->setCheckable(true);
 
     set_type_group->setExclusive(true);
