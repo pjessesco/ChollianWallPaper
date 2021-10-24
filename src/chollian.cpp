@@ -138,6 +138,7 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, ImageType im
         // Stop if downloaded data is reasonably small
         if(img_binary.length() < 100000){
             LOG("Downloaded binary is too small, skip updating wallpaper");
+            emit enable_button_signal(true);
             return;
         }
         const std::string filename = generate_filename(utcTime, color, imgType, resolution.first, resolution.second);
@@ -145,6 +146,7 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, ImageType im
         Image img = Image(img_binary);
         if(!img.is_available()){
             LOG("Image is not available, skip updating wallpaper");
+            emit enable_button_signal(true);
             return;
         }
 
@@ -156,6 +158,7 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, ImageType im
         }
         else{
             LOG("RESOURCE_PATH not exists : "+ m_RESOURCE_PATH);
+            emit enable_button_signal(true);
             return;
         }
 
