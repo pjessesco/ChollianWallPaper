@@ -90,8 +90,7 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-  StrCpy $0 "ChollianWallpaper.exe"
-  KillProc::KillProcesses
+  LockedList::CloseProcess /kill "ChollianWallpaper.exe"
 
   RMDIR /r "$INSTDIR\"
 
