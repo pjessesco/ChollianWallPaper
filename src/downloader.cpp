@@ -7,7 +7,8 @@
 #include "logger.h"
 
 std::string url_generator_chollian(DownloadOption option, ImageType imageType, Color color, const UTCTime &date) {
-    std::string base_url = "https://nmsc.kma.go.kr/IMG/GK2A/AMI/PRIMARY/L1B/COMPLETE/";
+    // Use http to avoid necessity of building OpenSSL for macOS universal binary.
+    std::string base_url = "http://nmsc.kma.go.kr/IMG/GK2A/AMI/PRIMARY/L1B/COMPLETE/";
 
     auto [year, month, day, hours, minutes] = date.extract_component();
 
