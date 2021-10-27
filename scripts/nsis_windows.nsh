@@ -13,6 +13,9 @@
 ; MUI 1.67 compatible ------
 !include "MUI.nsh"
 
+; Add Plugin DIR
+!addplugindir "C:\Program Files (x86)\NSIS\Plugins"
+
 ; MUI Settings
 !define MUI_ABORTWARNING
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
