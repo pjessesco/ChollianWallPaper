@@ -87,10 +87,10 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-  Processes::FindProcess "ChollianWallpaper.exe"
+  Processes::FindProcess "ChollianWallpaper"
   StrCmp $R0 "1" found
   found:
-    Processes::KillProcess "ChollianWallpaper.exe"
+    Processes::KillProcess "ChollianWallpaper"
 
   RMDIR /r "$INSTDIR\"
 
