@@ -62,6 +62,7 @@ jobs:
       with:
         script-file: "${{github.workspace}}/scripts/nsis_windows.nsh"
         arguments: "/DCONFIG=${{matrix.build_type}}"
+        additional-plugin-paths: ${{ github.workspace }}/Plugins
     
     - name: Upload a archived bundle
       uses: actions/upload-artifact@v2.2.4
