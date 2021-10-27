@@ -87,6 +87,11 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
+  Processes::FindProcess "ChollianWallpaper.exe"
+  StrCmp $R0 "1" found
+  found:
+    Processes::KillProcess "ChollianWallpaper.exe"
+
   RMDIR /r "$INSTDIR\"
 
   Delete "$SMPROGRAMS\Chollian Wallpaper\Uninstall.lnk"
