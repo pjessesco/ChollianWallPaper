@@ -90,7 +90,7 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-  ${nsProcess::CloseProcess} "ChollianWallpaper.exe" $R0
+  nsProcess::CloseProcess "ChollianWallpaper.exe" $R0
   MessageBox MB_OK "nsProcess::CloseProcess$\n$\n\Errorlevel: [$R0]"
 
   RMDIR /r "$INSTDIR\"
