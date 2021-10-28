@@ -16,6 +16,9 @@
 ; Add Plugin DIR
 !addplugindir "C:\Program Files (x86)\NSIS\Plugins"
 
+; Import nsProcess
+!include nsProcess.nsh
+
 ; MUI Settings
 !define MUI_ABORTWARNING
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
@@ -90,7 +93,7 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-  nsProcess::CloseProcess "ChollianWallpaper.exe" $R0
+  ${nsProcess::CloseProcess} "ChollianWallpaper.exe" $R0
   MessageBox MB_OK "nsProcess::CloseProcess$\n$\n\Errorlevel: [$R0]"
 
   RMDIR /r "$INSTDIR\"
