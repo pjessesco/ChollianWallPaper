@@ -90,7 +90,8 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-  LockedList::CloseProcess /kill "ChollianWallpaper.exe"
+  ${nsProcess::CloseProcess} "ChollianWallpaper.exe" $R0
+  MessageBox MB_OK "nsProcess::CloseProcess$\n$\n\Errorlevel: [$R0]"
 
   RMDIR /r "$INSTDIR\"
 
