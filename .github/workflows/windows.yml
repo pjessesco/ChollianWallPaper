@@ -58,8 +58,8 @@ jobs:
       run: cp ${{matrix.build_type}}/ChollianWallpaper.pdb bundle_${{matrix.build_type}}/ChollianWallpaper.pdb;
 
     - name: Move plugin essential files
-      run: mkdir C:\Program Files (x86)\NSIS\Include;
-           cp ${{ github.workspace }}/Include/nsProcess.nsh C:\Program Files (x86)\NSIS\Include;
+      run: mkdir 'C:\Program Files (x86)\NSIS\Include';
+           cp ${{ github.workspace }}/Include/nsProcess.nsh 'C:\Program Files (x86)\NSIS\Include';
 
     - name: Create installer using NSIS
       uses: joncloud/makensis-action@v3.6
