@@ -29,7 +29,7 @@ Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWall
 
 ## Supported OS
 - Windows
-- macOS (>= Big Sur, both for Intel and Apple Silicon)
+- macOS (>= Big Sur, Universal binary is supported in development build)
 
 
 ## Download
