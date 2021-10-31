@@ -29,7 +29,7 @@ Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWall
 
 ## Supported OS
 - Windows
-- macOS (Intel only. Apple Silicons are not tested yet, but it may works with Rosetta 2.)
+- macOS (>= Big Sur, both for Intel and Apple Silicon)
 
 
 ## Download
@@ -47,18 +47,15 @@ Under-development/debug versions are available in [here](https://github.com/pjes
  
 ## Build
 
-Refer [github workflow](https://github.com/pjessesco/ChollianWallPaper/tree/main/.github/workflows) for more details.
-
 ### macOS
  
-    brew install qt6 cmake
-    
-    mkdir build
-    cd build
-    cmake ..
-    make
-    
-To generate bundle for macOS, run `scripts/bundle_macos.py`. 
+1. Build Qt>=6.2.0 and CURL.
+2. Build Chollian using cmake.
+3. Refer [github workflow](https://github.com/pjessesco/ChollianWallPaper/blob/main/.github/workflows/macOS.yml) for more details.
+
+
+Building Qt can be replaced with installing it using homebrew, and CURL is embedded in macOS natively. Reason for building them is to offer universal binary for both Intel/Apple Silicon, and `scripts/bundle_macos.py` is written for the case.  See [2021.10](https://github.com/pjessesco/ChollianWallPaper/tree/2021.10) how we've done it before with homebrew.
+
 
 ### Windows
 
