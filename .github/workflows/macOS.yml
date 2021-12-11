@@ -28,6 +28,7 @@ jobs:
       working-directory: ${{github.workspace}}/ext
       run: git clone https://github.com/curl/curl; 
            cd curl; 
+           git checkout curl-7_80_0;
            mkdir build;
            cd build;
            cmake -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_USE_OPENSSL=OFF -DCMAKE_USE_LIBSSH2=OFF -GNinja ..;
