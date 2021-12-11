@@ -38,7 +38,7 @@ jobs:
       working-directory: ${{github.workspace}}/ext
       run: git clone https://github.com/qt/qt5;
            cd qt5;
-           git checkout 6.2.0;
+           git checkout 6.2.2;
            ./init-repository --module-subset=qtbase,qttools;
            ./configure -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64";
            cmake --build . --parallel;
