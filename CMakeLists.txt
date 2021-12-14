@@ -67,6 +67,7 @@ if(MSVC)
     set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
     set(CPACK_NSIS_PACKAGE_NAME "Chollian Wallpaper ${CPACK_PACKAGE_VERSION}")
     set(CPACK_NSIS_DISPLAY_NAME "Chollian Wallpaper ${CPACK_PACKAGE_VERSION}")
+    # TODO : Not deleted...
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "RMDIR /r \"$INSTDIR\resources\"")
 
     install(TARGETS ChollianWallpaper DESTINATION .)
