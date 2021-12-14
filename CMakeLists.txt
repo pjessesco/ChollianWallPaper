@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.21)
 project(ChollianWallpaper)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -43,4 +43,34 @@ add_executable(ChollianWallpaper
 
 target_link_libraries(ChollianWallpaper CURL::libcurl)
 target_link_libraries(ChollianWallpaper Qt6::Widgets)
+
+
+set(CPACK_PACKAGE_NAME "Chollian Wallpaper")
+set(CPACK_PACKAGE_VERSION "2021.10")
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/pjessesco/ChollianWallPaper")
+set(CPACK_PACKAGE_DESCRIPTION "Wallpaper changer using near-realtime satellite images(Chollian 2A from South Korea)")
+set(CPACK_PACKAGE_FILE_NAME "ChollianWallpaper_${CPACK_PACKAGE_VERSION}_${CMAKE_SYSTEM_NAME}_${CMAKE_BUILD_TYPE}")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "Chollian Wallpaper")
+
+# Packaging
+if(MSVC)
+    install(TARGETS ChollianWallpaper DESTINATION .)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION . FILES_MATCHING PATTERN "*.*")
+    install(FILES "${CURL_INCLUDE_DIR}/../bin/libcurl-x64.dll" DESTINATION .)
+    add_custom_command(TARGET ChollianWallpaper POST_BUILD
+        COMMAND windeployqt.exe 
+                --release
+                --verbose 0
+                --no-compiler-runtime
+                --no-opengl
+                --no-opengl-sw
+                --no-quick-import
+                --no-translations
+                --dir ${CMAKE_BINARY_DIR}/qtDeploy $<TARGET_FILE:ChollianWallpaper>
+    )
+    install(DIRECTORY ${CMAKE_BINARY_DIR}/qtDeploy/ DESTINATION . FILES_MATCHING PATTERN "*.*")
+    include(CPack)
+endif()
+
 
