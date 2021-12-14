@@ -42,7 +42,7 @@ jobs:
       run: mkdir build_${{matrix.build_type}}; 
            cd build_${{matrix.build_type}}; 
            cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCURL_LIBRARY=${{github.workspace}}/ext/curl/lib/libcurl.dll.a -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include ..; 
-           MSBuild.exe ChollianWallpaper.sln -p:Configuration=${{matrix.build_type}} /t:PACKAGE
+           MSBuild.exe PACKAGE.vcxproj -p:Configuration=Release;
     
     - name: Upload a archived bundle
       uses: actions/upload-artifact@v2.2.4
