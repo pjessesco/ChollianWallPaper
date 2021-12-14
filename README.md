@@ -67,17 +67,10 @@ Building Qt can be replaced with installing it using homebrew, and CURL is embed
 
 4. Run below commands
 
--
-
     mkdir build
     cd build
     cmake -DCURL_LIBRARY=path/to/libcurl.dll.a -DCURL_INCLUDE_DIR=path/to/include ..
-
-5. Open `ChollianWallpaper.sln` and build proejct.
-
-6. You have to copy `libcurl-x64.dll` to the directory where executable exists.
-
-To generate installer for Windows, you have to install [NSIS](https://nsis.sourceforge.io/Download). Use can use `scripts/nsis_windows.nsh` but it is hard-coded for github workflows. You should modify it to run on your environment.
+    MSBuild.exe PACKAGE.vcxproj -p:Configuration=Release
 
 
 ## License
