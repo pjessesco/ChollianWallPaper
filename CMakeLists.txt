@@ -49,10 +49,9 @@ set(CPACK_PACKAGE_NAME "Chollian Wallpaper")
 set(CPACK_PACKAGE_VERSION "2021.10")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/pjessesco/ChollianWallPaper")
 set(CPACK_PACKAGE_DESCRIPTION "Wallpaper changer using near-realtime satellite images(Chollian 2A from South Korea)")
-set(CPACK_PACKAGE_FILE_NAME "ChollianWallpaper_${CPACK_PACKAGE_VERSION}_${CMAKE_SYSTEM_NAME}_${CMAKE_BUILD_TYPE}")
+set(CPACK_PACKAGE_FILE_NAME "ChollianInstaller")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "Chollian Wallpaper")
-set(CPACK_PACKAGE_CHECKSUM MD5)
 
 # Requires admin privileges for Windows
 if(MSVC)

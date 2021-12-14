@@ -50,6 +50,6 @@ jobs:
         # Artifact name
         name: generated_bundle_${{matrix.build_type}}
         # A file, directory or wildcard pattern that describes what to upload
-        path: ${{github.workspace}}/scripts/ChollianWallpaper_*.exe
+        path: ${{github.workspace}}/scripts/ChollianInstaller.exe
 
 
