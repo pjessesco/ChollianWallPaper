@@ -42,26 +42,7 @@ jobs:
       run: mkdir build_${{matrix.build_type}}; 
            cd build_${{matrix.build_type}}; 
            cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCURL_LIBRARY=${{github.workspace}}/ext/curl/lib/libcurl.dll.a -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include ..; 
-           MSBuild.exe ChollianWallpaper.sln -p:Configuration=${{matrix.build_type}}
-    
-    - name: Generate Bundle (experimental)
-      working-directory: ${{github.workspace}}/build_${{matrix.build_type}}
-      run: mkdir bundle_${{matrix.build_type}};
-           cp ${{matrix.build_type}}/ChollianWallpaper.exe bundle_${{matrix.build_type}}/ChollianWallpaper.exe; 
-           cp ${{github.workspace}}/resources bundle_${{matrix.build_type}}/resources -r; 
-           cp ${{github.workspace}}/ext/curl/bin/libcurl-x64.dll bundle_${{matrix.build_type}}/libcurl-x64.dll;
-           windeployqt.exe bundle_${{matrix.build_type}}/ChollianWallpaper.exe
-           
-    - name: Copy .pdb file for debug bundle
-      working-directory: ${{github.workspace}}/build_${{matrix.build_type}}
-      if: ${{ matrix.build_type == 'Debug'}}
-      run: cp ${{matrix.build_type}}/ChollianWallpaper.pdb bundle_${{matrix.build_type}}/ChollianWallpaper.pdb; 
-
-    - name: Create installer using NSIS
-      uses: joncloud/makensis-action@v3.6
-      with:
-        script-file: "${{github.workspace}}/scripts/nsis_windows.nsh"
-        arguments: "/DCONFIG=${{matrix.build_type}}"
+           MSBuild.exe ChollianWallpaper.sln -p:Configuration=${{matrix.build_type}} /t:PACKAGE
     
     - name: Upload a archived bundle
       uses: actions/upload-artifact@v2.2.4
@@ -69,6 +50,6 @@ jobs:
         # Artifact name
         name: generated_bundle_${{matrix.build_type}}
         # A file, directory or wildcard pattern that describes what to upload
-        path: ${{github.workspace}}/scripts/ChollianInstaller.exe
+        path: ${{github.workspace}}/scripts/ChollianWallpaper_*.exe
 
 
