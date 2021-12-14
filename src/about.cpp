@@ -30,7 +30,7 @@ About::About() : QWidget() {
 
     add_title_line("Licenses");
     add_text_line("<P><b>"
-                  "Every satelite images used in this project are copyrighted by the Korea Meteorological Administration. "
+                  "Every satellite images used in this project are copyrighted by the Korea Meteorological Administration. "
                   "You can NOT use it for commercial purposes."
                   "</b></P>", 55);
     add_text_line("Chollian Wallpaper");

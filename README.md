@@ -9,7 +9,7 @@
 Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWallPaper is simple GUI app that aims to set near-realtime image from [Chollian 2A](https://en.wikipedia.org/wiki/Chollian) as wallpaper.
 
 ## Features
- - Set near-realtime satelite image as wallpaper
+ - Set near-realtime satellite image as wallpaper
  - 2 different image tone (RGB True, Natural)
 
   ![color tone](https://user-images.githubusercontent.com/11532321/135794556-d5fbc00f-a29c-457f-91fe-0dfcb02a05b8.png)
@@ -77,7 +77,7 @@ Building Qt can be replaced with installing it using homebrew, and CURL is embed
 
 ## License
 
-**Every satelite images used in this project are copyrighted by the Korea Meteorological Administration. You can not use it for commercial purposes.**
+**Every satellite images used in this project are copyrighted by the Korea Meteorological Administration. You can not use it for commercial purposes.**
 
 This project is distributed under the [MIT license](https://github.com/pjessesco/ChollianWallPaper/blob/main/LICENSE).
 
