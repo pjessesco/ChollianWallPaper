@@ -53,8 +53,17 @@ set(CPACK_PACKAGE_FILE_NAME "ChollianWallpaper_${CPACK_PACKAGE_VERSION}_${CMAKE_
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "Chollian Wallpaper")
 
+# Requires admin privileges for Windows
+if(MSVC)
+    set_target_properties(ChollianWallpaper PROPERTIES LINK_FLAGS "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\"")
+endif()
+
 # Packaging
 if(MSVC)
+
+    set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
+    set(CPACK_NSIS_PACKAGE_NAME "Chollian Wallpaper ${CPACK_PACKAGE_VERSION}")
+
     install(TARGETS ChollianWallpaper DESTINATION .)
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION . FILES_MATCHING PATTERN "*.*")
     install(FILES "${CURL_INCLUDE_DIR}/../bin/libcurl-x64.dll" DESTINATION .)
