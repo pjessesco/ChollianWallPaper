@@ -67,6 +67,8 @@ Building Qt can be replaced with installing it using homebrew, and CURL is embed
 
 4. Run below commands
 
+-
+
     mkdir build
     cd build
     cmake -DCURL_LIBRARY=path/to/libcurl.dll.a -DCURL_INCLUDE_DIR=path/to/include ..
