@@ -49,7 +49,7 @@ target_link_libraries(ChollianWallpaper Qt6::Widgets)
 
 
 set(CPACK_PACKAGE_NAME "Chollian Wallpaper")
-set(CPACK_PACKAGE_VERSION "${CHOLLIAN_VERSION}"})
+set(CPACK_PACKAGE_VERSION "${CHOLLIAN_VERSION}")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/pjessesco/ChollianWallPaper")
 set(CPACK_PACKAGE_DESCRIPTION "Wallpaper changer using near-realtime satellite images(Chollian 2A from South Korea)")
 set(CPACK_PACKAGE_FILE_NAME "ChollianInstaller")
