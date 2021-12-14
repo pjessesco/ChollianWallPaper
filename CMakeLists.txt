@@ -20,6 +20,9 @@ execute_process(
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
+set(CHOLLIAN_VERSION "2021.10")
+
+add_definitions(-DCHOLLIAN_VERSION="${CHOLLIAN_VERSION}")
 add_definitions(-DGIT_HASH="${GIT_COMMIT_HASH}")
 add_definitions(-DCOMPILER_NAME="${CMAKE_CXX_COMPILER_ID}")
 add_definitions(-DCOMPILER_VERSION="${CMAKE_CXX_COMPILER_VERSION}")
@@ -46,7 +49,7 @@ target_link_libraries(ChollianWallpaper Qt6::Widgets)
 
 
 set(CPACK_PACKAGE_NAME "Chollian Wallpaper")
-set(CPACK_PACKAGE_VERSION "2021.10")
+set(CPACK_PACKAGE_VERSION "${CHOLLIAN_VERSION}"})
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/pjessesco/ChollianWallPaper")
 set(CPACK_PACKAGE_DESCRIPTION "Wallpaper changer using near-realtime satellite images(Chollian 2A from South Korea)")
 set(CPACK_PACKAGE_FILE_NAME "ChollianInstaller")
