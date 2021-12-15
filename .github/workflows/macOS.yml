@@ -21,8 +21,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install ninja
-      run: brew install ninja
+    - name: Install cmake & ninja
+      run: brew install cmake ninja
 
     - name: Build CURL
       working-directory: ${{github.workspace}}/ext
