@@ -40,10 +40,8 @@ jobs:
            cd qt5;
            git checkout 6.2.2;
            ./init-repository --module-subset=qtbase,qttools;
-           ./configure -make libs -no-debug-and-release -no-dbus -no-icu -no-feature-assistant -no-feature-pixeltool -no-feature-designer -no-feature-cups -no-feature-itemmodeltester -no-feature-qtattributionsscanner -no-feature-qtplugininfo -no-feature-linguist -no-feature-qmake -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
-           cmake --help;
-           cmake --version;
-           cmake --build . ;
+           ./configure -make libs -no-debug-and-release -no-dbus -no-icu -no-feature-assistant -no-feature-pixeltool -no-feature-designer -no-feature-cups -no-feature-itemmodeltester -no-feature-qtattributionsscanner -no-feature-qtplugininfo -no-feature-linguist -no-feature-qmake -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64";
+           cmake --build . --parallel;
            sudo cmake --install .;
            
     - name: Build Chollian Wallpaper
