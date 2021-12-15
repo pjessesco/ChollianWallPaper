@@ -40,14 +40,14 @@ jobs:
            cd qt5;
            git checkout 6.2.2;
            ./init-repository --module-subset=qtbase,qttools;
-           ./configure -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64";
+           ./configure -make libs -no-debug-and-release -no-dbus -no-icu -no-feature-assistant -no-feature-pixeltool -no-feature-designer -no-feature-cups -no-feature-itemmodeltester -no-feature-qtattributionsscanner -no-feature-qtplugininfo -no-feature-linguist -no-feature-qmake -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64";
            cmake --build . --parallel;
            sudo cmake --install .;
            
     - name: Build Chollian Wallpaper
       run: mkdir build;
            cd build;
-           cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/build/lib/libcurl.dylib -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_PREFIX_PATH=${{github.workspace}}/ext/qt5/qtbase/lib/cmake -GNinja ..;
+           cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/build/lib/libcurl.dylib -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_PREFIX_PATH=/usr/local/Qt-6.2.2/lib/cmake -GNinja ..;
            ninja;           
         
     - name: Generate macOS bundle
