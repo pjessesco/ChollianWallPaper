@@ -15,11 +15,22 @@
 #include "chollian.h"
 #include "logger.h"
 
+#define ADD_CHECKABLE_ACTION_TO_GROUP(menu, group, text, func, is_default)     \
+    {                                                                          \
+        QAction *action = menu->addAction(text);                               \
+        group->addAction(action);                                              \
+        connect(action, &QAction::triggered, this, [this](){func;});           \
+        action->setCheckable(true);                                            \
+        if(is_default){action->setChecked(true);}                              \
+    }                                                                          \
+
 Chollian::Chollian() : m_color(Color::True),
                        m_download_option(DownloadOption::Performance),
                        m_resolution(Resolution(2880, 1800)),
                        m_is_automatically_update(false){
     LOG("Chollian Wallpaper started");
+
+    m_about_window = new About();
 
     LOG("RESOURCE_PATH : " + m_RESOURCE_PATH);
     if(!std::filesystem::exists(m_RESOURCE_PATH)){
@@ -30,84 +41,50 @@ Chollian::Chollian() : m_color(Color::True),
     // Create menu items
     QMenu *menu = new QMenu(this);
     QAction *about_action = menu->addAction("About");
-    menu->addSection("");
-    m_update_wallpaper_action = menu->addAction("Update wallpaper now");
-    m_auto_update_action = menu->addAction("Update wallpaper every 10 minutes");
-
-    menu->addSection("Download Option");
-    QAction *download_option_quality = menu->addAction("Quality");
-    QAction *download_option_performance = menu->addAction("Performance");
-    menu->addSection("Colors");
-    QAction *color_rgb_true_action = menu->addAction("RGB True");
-    QAction *color_natural_action = menu->addAction("Natural");
-    QAction *color_water_vapor_action = menu->addAction("Water Vapor");
-    QAction *color_cloud_action = menu->addAction("Cloud");
-    QAction *color_ash_action = menu->addAction("Ash");
-    menu->addSection("Resolution");
-    QMenu *res_menu = menu->addMenu("Resolution");
-
-    QActionGroup *res_action_group = new QActionGroup(this);
-    generate_resolution_menus(res_menu, res_action_group, res_list_4_3);
-    res_menu->addSeparator();
-    generate_resolution_menus(res_menu, res_action_group, res_list_16_9);
-    res_menu->addSeparator();
-    generate_resolution_menus(res_menu, res_action_group, res_list_16_10);
-
-    menu->addSeparator();
-    QAction *quit_action = menu->addAction("Quit");
-
-    // Set menu items (exclusive, range, etc)
-    QActionGroup *set_download_option_group = new QActionGroup(this);
-    QActionGroup *set_color_group = new QActionGroup(this);
-
-    set_download_option_group->setExclusive(true);
-    set_download_option_group->addAction(download_option_quality);
-    set_download_option_group->addAction(download_option_performance);
-    download_option_quality->setCheckable(true);
-    download_option_performance->setChecked(true);
-    download_option_performance->setCheckable(true);
-
-    set_color_group->setExclusive(true);
-    set_color_group->addAction(color_rgb_true_action);
-    set_color_group->addAction(color_natural_action);
-    set_color_group->addAction(color_water_vapor_action);
-    set_color_group->addAction(color_cloud_action);
-    set_color_group->addAction(color_ash_action);
-    color_rgb_true_action->setCheckable(true);
-    color_rgb_true_action->setChecked(true);
-    color_natural_action->setCheckable(true);
-    color_water_vapor_action->setCheckable(true);
-    color_cloud_action->setCheckable(true);
-    color_ash_action->setCheckable(true);
-
-    m_auto_update_action->setCheckable(true);
-    m_auto_update_action->setChecked(false);
-
-    res_action_group->setExclusive(true);
-
-    m_about_window = new About();
-
-    // Connect menu items with slot
     connect(about_action, &QAction::triggered, this, [this](){
         this->m_about_window->show();
     });
 
+    menu->addSection("Update");
+    m_update_wallpaper_action = menu->addAction("Update wallpaper now");
+    m_auto_update_action = menu->addAction("Update wallpaper every 10 minutes");
+    m_auto_update_action->setCheckable(true);
+    m_auto_update_action->setChecked(false);
     connect(m_update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution);});
     connect(m_auto_update_action, &QAction::triggered, this, [this](){switch_automatically_update_slot();});
-
-    connect(download_option_quality, &QAction::triggered, this, [this](){set_download_option(DownloadOption::Quality);});
-    connect(download_option_performance, &QAction::triggered, this, [this](){set_download_option(DownloadOption::Performance);});
-
-    connect(color_rgb_true_action, &QAction::triggered, this, [this](){set_color_slot(Color::True);});
-    connect(color_natural_action, &QAction::triggered, this, [this](){set_color_slot(Color::Natural);});
-    connect(color_water_vapor_action, &QAction::triggered, this, [this](){set_color_slot(Color::WaterVapor);});
-    connect(color_cloud_action, &QAction::triggered, this, [this](){set_color_slot(Color::Cloud);});
-    connect(color_ash_action, &QAction::triggered, this, [this](){set_color_slot(Color::Ash);});
-
-    connect(quit_action, &QAction::triggered, this, [](){quit_slot();});
-
     connect(this, SIGNAL(enable_button_signal(bool)), this, SLOT(enable_button_slot(bool)));
 
+    menu->addSection("Download Option");
+    QActionGroup *set_download_option_group = new QActionGroup(this);
+    set_download_option_group->setExclusive(true);
+    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_download_option_group, "Quality", set_download_option(DownloadOption::Quality),false);
+    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_download_option_group, "Performance", set_download_option(DownloadOption::Performance),true);
+
+    menu->addSection("Colors");
+    QActionGroup *set_color_group = new QActionGroup(this);
+    set_color_group->setExclusive(true);
+    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_color_group, "RGB True", set_color_slot(Color::True), true);
+    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_color_group, "Natural", set_color_slot(Color::Natural), false);
+    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_color_group, "Water Vapor", set_color_slot(Color::WaterVapor), false);
+    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_color_group, "Cloud", set_color_slot(Color::Cloud), false);
+    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_color_group, "Ash", set_color_slot(Color::Ash), false);
+
+    menu->addSection("Resolution");
+    QActionGroup *set_resolution_group = new QActionGroup(this);
+    set_resolution_group->setExclusive(true);
+    QMenu *res_menu = menu->addMenu("Resolution");
+    generate_resolution_menus(res_menu, set_resolution_group, res_list_4_3);
+    res_menu->addSeparator();
+    generate_resolution_menus(res_menu, set_resolution_group, res_list_16_9);
+    res_menu->addSeparator();
+    generate_resolution_menus(res_menu, set_resolution_group, res_list_16_10);
+
+    menu->addSeparator();
+    QAction *quit_action = menu->addAction("Quit");
+    connect(quit_action, &QAction::triggered, this, [](){quit_slot();});
+
+
+    // Set icon
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
     trayIcon->setToolTip("Chollian Wallpaper");
     trayIcon->setContextMenu(menu);
