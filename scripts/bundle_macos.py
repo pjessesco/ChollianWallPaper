@@ -40,14 +40,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--qt_dir", type=str, required=True)
     parser.add_argument("--build_dir", type=str, required=True)
+    parser.add_argument("--version", type=str, required=True)
 
     args = parser.parse_args()
 
-    # CHOLLIAN_VERSION_STR in src/about.h and scripts/nsis_windows.nsh must be modified too.
-    CHOLLIAN_VERSION_STR = "2021.10"
-
     BUILD_DIR = args.build_dir
     QT_PATH = args.qt_dir
+    CHOLLIAN_VERSION_STR = args.version
+
 
     APP_NAME = "Chollian Wallpaper.app"
     APP_NAME_IN_CMD = "Chollian\ Wallpaper.app"
@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     os.chdir(BUILD_DIR)
     
-    os.mkdir(APP_NAME)
+    os.makedirs(APP_NAME)
     os.mkdir(os.path.join(APP_NAME, "Contents"))
     os.mkdir(os.path.join(APP_NAME, "Contents", "Frameworks"))
     os.mkdir(os.path.join(APP_NAME, "Contents", "MacOS"))
@@ -70,8 +70,16 @@ if __name__ == "__main__":
     # Copy executable binary
     os.rename(EXECUTABLE_NAME, os.path.join(APP_NAME, "Contents", "MacOS", EXECUTABLE_NAME))
 
-    # Copy qt dependency using macdeployqt
-    os.system(QT_PATH+"/qtbase/bin/macdeployqt " + APP_NAME_IN_CMD)
-
-    # Copy resources (icon)
+     # Copy resources (icon)
     shutil.copy(os.path.join("..", "resources", "icon.png"), os.path.join(APP_NAME, "Contents", "Resources", "icon.png"))
+
+    # Copy qt dependency using macdeployqt
+    os.system(QT_PATH+"bin/macdeployqt " + APP_NAME_IN_CMD)
+
+    # Generate DMG
+    os.mkdir("bundle")
+    shutil.move(APP_NAME, "bundle/"+APP_NAME)
+    os.system("create-dmg --no-internet-enable --app-drop-link 0 0 \"Chollian Wallpaper.dmg\" \"bundle\"")
+    
+
+    
