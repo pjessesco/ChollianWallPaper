@@ -6,26 +6,13 @@
 #include "downloader.h"
 #include "logger.h"
 
-std::string url_generator_chollian(DownloadOption option, ImageType imageType, Color color, const UTCTime &date) {
+std::string url_generator_chollian(DownloadOption option, Color color, const UTCTime &date) {
     // Use http to avoid necessity of building OpenSSL for macOS universal binary.
     std::string base_url = "http://nmsc.kma.go.kr/IMG/GK2A/AMI/PRIMARY/L1B/COMPLETE/";
 
     auto [year, month, day, hours, minutes] = date.extract_component();
 
     std::string sub1, sub2, sub3, sub4, sub5, sub6, sub7;
-
-    switch (imageType) {
-        case ImageType::FullDome:
-            sub1 = "FD/";
-            sub4 = "fd";
-            sub6 = "ge_";
-            break;
-        case ImageType::EastAsia:
-            sub1 = "EA/";
-            sub4 = "ea";
-            sub6 = "lc_";
-            break;
-    }
 
     switch(color){
         case Color::True:
@@ -41,7 +28,7 @@ std::string url_generator_chollian(DownloadOption option, ImageType imageType, C
     sub2 = year + month + "/" + day + "/" + hours + "/gk2a_ami_le1b_";
     sub7 = year + month + day + hours + minutes + (option==DownloadOption::Quality?".png":".srv.png");
 
-    return base_url + sub1 + sub2 + sub3 + sub4 + sub5 + sub6 + sub7;
+    return base_url + "FD/" + sub2 + sub3 + "fd" + sub5 + "ge_" + sub7;
 }
 
 size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp){
@@ -81,7 +68,6 @@ std::string image_downloader(const std::string &url) {
 
 std::string generate_filename(const UTCTime &time,
                               Color color,
-                              ImageType img_type,
                               int width,
                               int height){
 
@@ -96,17 +82,7 @@ std::string generate_filename(const UTCTime &time,
             break;
     }
 
-    std::string img_type_str;
-    switch(img_type){
-        case ImageType::FullDome:
-            img_type_str = "fd";
-            break;
-        case ImageType::EastAsia:
-            img_type_str = "ea";
-            break;
-    }
-
     return year + month + day + hours + minutes + "_" +
-           color_str + "_" + img_type_str +
+           color_str + "_fd" +
            std::to_string(width) + std::to_string(height) + ".png";
 }

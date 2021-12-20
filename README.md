@@ -21,12 +21,6 @@ Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWall
      - `Performance` for lower memory/network usage
 
 
-### Experimental feature
- - Use East Asia image
-
-![eastasia](https://user-images.githubusercontent.com/11532321/135794995-660331b5-fb8c-4530-befd-f6d92e0469c5.png)
-
-
 ## Supported OS
 - Windows
 - macOS (>= Big Sur, Universal binary is supported in development build)

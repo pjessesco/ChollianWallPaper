@@ -16,7 +16,6 @@
 #include "logger.h"
 
 Chollian::Chollian() : m_color(Color::True),
-                       m_imgType(ImageType::FullDome),
                        m_download_option(DownloadOption::Performance),
                        m_resolution(Resolution(2880, 1800)),
                        m_is_automatically_update(false){
@@ -38,9 +37,6 @@ Chollian::Chollian() : m_color(Color::True),
     menu->addSection("Download Option");
     QAction *download_option_quality = menu->addAction("Quality");
     QAction *download_option_performance = menu->addAction("Performance");
-    menu->addSection("Type");
-    QAction *type_fulldome_action = menu->addAction("Full Dome");
-    QAction *type_eastasia_action = menu->addAction("East Asia (experimental)");
     menu->addSection("Colors");
     QAction *color_rgb_true_action = menu->addAction("RGB True");
     QAction *color_natural_action = menu->addAction("Natural");
@@ -59,7 +55,6 @@ Chollian::Chollian() : m_color(Color::True),
 
     // Set menu items (exclusive, range, etc)
     QActionGroup *set_download_option_group = new QActionGroup(this);
-    QActionGroup *set_type_group = new QActionGroup(this);
     QActionGroup *set_color_group = new QActionGroup(this);
 
     set_download_option_group->setExclusive(true);
@@ -68,13 +63,6 @@ Chollian::Chollian() : m_color(Color::True),
     download_option_quality->setCheckable(true);
     download_option_performance->setChecked(true);
     download_option_performance->setCheckable(true);
-
-    set_type_group->setExclusive(true);
-    set_type_group->addAction(type_fulldome_action);
-    set_type_group->addAction(type_eastasia_action);
-    type_fulldome_action->setCheckable(true);
-    type_fulldome_action->setChecked(true);
-    type_eastasia_action->setCheckable(true);
 
     set_color_group->setExclusive(true);
     set_color_group->addAction(color_rgb_true_action);
@@ -95,14 +83,11 @@ Chollian::Chollian() : m_color(Color::True),
         this->m_about_window->show();
     });
 
-    connect(m_update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot(m_download_option, m_imgType, m_color, m_resolution);});
+    connect(m_update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution);});
     connect(m_auto_update_action, &QAction::triggered, this, [this](){switch_automatically_update_slot();});
 
     connect(download_option_quality, &QAction::triggered, this, [this](){set_download_option(DownloadOption::Quality);});
     connect(download_option_performance, &QAction::triggered, this, [this](){set_download_option(DownloadOption::Performance);});
-
-    connect(type_fulldome_action, &QAction::triggered, this, [this](){set_type_slot(ImageType::FullDome);});
-    connect(type_eastasia_action, &QAction::triggered, this, [this](){set_type_slot(ImageType::EastAsia);});
 
     connect(color_rgb_true_action, &QAction::triggered, this, [this](){set_color_slot(Color::True);});
     connect(color_natural_action, &QAction::triggered, this, [this](){set_color_slot(Color::Natural);});
@@ -119,17 +104,18 @@ Chollian::Chollian() : m_color(Color::True),
 
     // Generate timer
     m_timer = new QTimer(this);
-    connect(m_timer, &QTimer::timeout, this, [this](){change_wallpaper_slot(m_download_option, m_imgType, m_color, m_resolution);});
+    connect(m_timer, &QTimer::timeout, this, [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution);});
 }
 
-void Chollian::change_wallpaper_slot(DownloadOption downloadOption, ImageType imgType, Color color, Resolution resolution) {
+
+void Chollian::change_wallpaper_slot(DownloadOption downloadOption, Color color, Resolution resolution) {
     LOG("Task started");
 
-    QFuture<void> _ = QtConcurrent::task([this, downloadOption, imgType, color, resolution]() -> void {
+    QFuture<void> _ = QtConcurrent::task([this, downloadOption, color, resolution]() -> void {
         emit enable_button_signal(false);
         UTCTime utcTime;
         utcTime.adjust_target_time();
-        const std::string url = url_generator_chollian(downloadOption, imgType, color, utcTime);
+        const std::string url = url_generator_chollian(downloadOption, color, utcTime);
         LOG("Generated url : " + url);
 
         const std::string img_binary = image_downloader(url);
@@ -141,7 +127,7 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, ImageType im
             emit enable_button_signal(true);
             return;
         }
-        const std::string filename = generate_filename(utcTime, color, imgType, resolution.first, resolution.second);
+        const std::string filename = generate_filename(utcTime, color, resolution.first, resolution.second);
 
         Image img = Image(img_binary);
         if(!img.is_available()){
@@ -184,7 +170,7 @@ void Chollian::switch_automatically_update_slot(){
         // 1. Update now
         // 2. Set `m_is_automatically_update` true
         // 3. Start timer
-        change_wallpaper_slot(m_download_option, m_imgType, m_color, m_resolution);
+        change_wallpaper_slot(m_download_option, m_color, m_resolution);
         m_is_automatically_update = true;
         // Update per 10 minutes
         m_timer->start(600000);
