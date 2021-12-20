@@ -8,13 +8,32 @@
 
 Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWallPaper is simple GUI app that aims to set near-realtime image from [Chollian 2A](https://en.wikipedia.org/wiki/Chollian) as wallpaper.
 
+
+## Usage
+After install and execute, Chollian Wallpaper is visible in your system tray. Right click to use or set.
+
+
+
 ## Features
  - Set near-realtime satellite image as wallpaper
- - 2 different image tone (RGB True, Natural)
+ - 5 different color tones
+<details>
+  <summary>Preview</summary>
+ 
+RGB True, Natural
+![color tone](https://user-images.githubusercontent.com/11532321/135794556-d5fbc00f-a29c-457f-91fe-0dfcb02a05b8.png)
+ 
+Water Vapor
+![wv](https://user-images.githubusercontent.com/11532321/146769555-ffe4242d-a4a2-4fc0-8ceb-7bd85da0e48d.png)
 
-  ![color tone](https://user-images.githubusercontent.com/11532321/135794556-d5fbc00f-a29c-457f-91fe-0dfcb02a05b8.png)
+Cloud
+![cloud](https://user-images.githubusercontent.com/11532321/146769563-1a3134f2-12e9-4500-9f52-841b7355d8d3.png)
 
- - Various image resolution from 360p to 8K
+Ash
+![ash](https://user-images.githubusercontent.com/11532321/146769571-eafa21ba-aee0-4651-b0ca-dd510e68d4a3.png)
+</details>
+
+ - Various image resolution from 1K to 8K
  - Various image ratio (4:3, 16:9, 16:10)
  - 2 download options :
      - `Quality` for higher image quality
@@ -23,7 +42,7 @@ Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWall
 
 ## Supported OS
 - Windows
-- macOS (>= Big Sur, Universal binary is supported in development build)
+- macOS (>= Big Sur, both Intel and Apple Silicon)
 
 
 ## Download
@@ -48,7 +67,7 @@ Under-development/debug versions are available in [here](https://github.com/pjes
 3. Refer [github workflow](https://github.com/pjessesco/ChollianWallPaper/blob/main/.github/workflows/macOS.yml) for more details.
 
 
-Building Qt can be replaced with installing it using homebrew, and CURL is embedded in macOS natively. Reason for building them is to offer universal binary for both Intel/Apple Silicon, and `scripts/bundle_macos.py` is written for the case.  See [2021.10](https://github.com/pjessesco/ChollianWallPaper/tree/2021.10) how we've done it before with homebrew.
+Building Qt can be replaced with installing it using homebrew, and CURL is embedded in macOS natively. Reason for building them is to offer universal binary for both Intel/Apple Silicon. See [2021.10](https://github.com/pjessesco/ChollianWallPaper/tree/2021.10) how we've done it before with homebrew.
 
 
 ### Windows
