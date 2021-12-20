@@ -49,19 +49,11 @@ jobs:
            cd build;
            cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/build/lib/libcurl.dylib -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_PREFIX_PATH=/usr/local/Qt-6.2.2/lib/cmake -GNinja ..;
            ninja;           
-        
-    - name: Generate macOS bundle
-      working-directory: ${{github.workspace}}/scripts
-      run: python3 bundle_macos.py --qt_dir=${{github.workspace}}/ext/qt5 --build_dir=${{github.workspace}}/build
 
-    - name: Archive .app into tgz file
-      working-directory: ${{github.workspace}}/build
-      run: tar -czf Chollian\ Wallpaper.app.tgz Chollian\ Wallpaper.app
-  
     - name: Upload a archived bundle
       uses: actions/upload-artifact@v2.2.4
       with:
         # Artifact name
         name: generated_bundle_${{matrix.build_type}}_${{matrix.os}}
         # A file, directory or wildcard pattern that describes what to upload
-        path: ${{github.workspace}}/build/*.tgz
+        path: ${{github.workspace}}/build/*.dmg

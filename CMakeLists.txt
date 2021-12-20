@@ -47,6 +47,14 @@ add_executable(ChollianWallpaper
 target_link_libraries(ChollianWallpaper CURL::libcurl)
 target_link_libraries(ChollianWallpaper Qt6::Widgets)
 
+# Requires admin privileges for Windows
+if(MSVC)
+    set_target_properties(ChollianWallpaper PROPERTIES LINK_FLAGS "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\"")
+endif()
+
+#################
+#    Packaging  #
+#################
 
 set(CPACK_PACKAGE_NAME "Chollian Wallpaper")
 set(CPACK_PACKAGE_VERSION "${CHOLLIAN_VERSION}")
@@ -56,18 +64,10 @@ set(CPACK_PACKAGE_FILE_NAME "ChollianInstaller")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "Chollian Wallpaper")
 
-# Requires admin privileges for Windows
 if(MSVC)
-    set_target_properties(ChollianWallpaper PROPERTIES LINK_FLAGS "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\"")
-endif()
-
-# Packaging
-if(MSVC)
-
     set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
     set(CPACK_NSIS_PACKAGE_NAME "Chollian Wallpaper ${CPACK_PACKAGE_VERSION}")
     set(CPACK_NSIS_DISPLAY_NAME "Chollian Wallpaper ${CPACK_PACKAGE_VERSION}")
-    # TODO : Not deleted...
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "RMDIR /r \"$INSTDIR\resources\"")
 
     install(TARGETS ChollianWallpaper DESTINATION .)
@@ -86,6 +86,14 @@ if(MSVC)
     )
     install(DIRECTORY ${CMAKE_BINARY_DIR}/qtDeploy/ DESTINATION . FILES_MATCHING PATTERN "*.*")
     include(CPack)
+elseif(APPLE)
+    install(FILES "${CURL_INCLUDE_DIR}/../bin/libcurl-x64.dll" DESTINATION .)
+    add_custom_command(TARGET ChollianWallpaper POST_BUILD
+        COMMAND python3 ${CMAKE_SOURCE_DIR}/scripts/bundle_macos.py
+                --qt_dir=/usr/local/Qt-6.2.2/
+                --build_dir=${CMAKE_BINARY_DIR}
+                --version=${CHOLLIAN_VERSION}
+    )
 endif()
 
 
