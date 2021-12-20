@@ -23,6 +23,17 @@ std::string url_generator_chollian(DownloadOption option, Color color, const UTC
             sub3 = "rgb-natural_";
             sub5 = "020";
             break;
+        case Color::WaterVapor:
+            sub3 = "rgb-wv1_";
+            sub5 = "020";
+            break;
+        case Color::Cloud:
+            sub3 = "rgb-cloud_";
+            sub5 = "020";
+            break;
+        case Color::Ash:
+            sub3 = "rgb-ash_";
+            sub5 = "020";
     }
 
     sub2 = year + month + "/" + day + "/" + hours + "/gk2a_ami_le1b_";
@@ -79,6 +90,15 @@ std::string generate_filename(const UTCTime &time,
             break;
         case Color::Natural:
             color_str = "natural";
+            break;
+        case Color::WaterVapor:
+            color_str = "watervapor";
+            break;
+        case Color::Cloud:
+            color_str = "cloud";
+            break;
+        case Color::Ash:
+            color_str = "ash";
             break;
     }
 

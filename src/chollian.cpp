@@ -40,6 +40,9 @@ Chollian::Chollian() : m_color(Color::True),
     menu->addSection("Colors");
     QAction *color_rgb_true_action = menu->addAction("RGB True");
     QAction *color_natural_action = menu->addAction("Natural");
+    QAction *color_water_vapor_action = menu->addAction("Water Vapor");
+    QAction *color_cloud_action = menu->addAction("Cloud");
+    QAction *color_ash_action = menu->addAction("Ash");
     menu->addSection("Resolution");
     QMenu *res_menu = menu->addMenu("Resolution");
 
@@ -67,9 +70,15 @@ Chollian::Chollian() : m_color(Color::True),
     set_color_group->setExclusive(true);
     set_color_group->addAction(color_rgb_true_action);
     set_color_group->addAction(color_natural_action);
+    set_color_group->addAction(color_water_vapor_action);
+    set_color_group->addAction(color_cloud_action);
+    set_color_group->addAction(color_ash_action);
     color_rgb_true_action->setCheckable(true);
     color_rgb_true_action->setChecked(true);
     color_natural_action->setCheckable(true);
+    color_water_vapor_action->setCheckable(true);
+    color_cloud_action->setCheckable(true);
+    color_ash_action->setCheckable(true);
 
     m_auto_update_action->setCheckable(true);
     m_auto_update_action->setChecked(false);
@@ -91,6 +100,9 @@ Chollian::Chollian() : m_color(Color::True),
 
     connect(color_rgb_true_action, &QAction::triggered, this, [this](){set_color_slot(Color::True);});
     connect(color_natural_action, &QAction::triggered, this, [this](){set_color_slot(Color::Natural);});
+    connect(color_water_vapor_action, &QAction::triggered, this, [this](){set_color_slot(Color::WaterVapor);});
+    connect(color_cloud_action, &QAction::triggered, this, [this](){set_color_slot(Color::Cloud);});
+    connect(color_ash_action, &QAction::triggered, this, [this](){set_color_slot(Color::Ash);});
 
     connect(quit_action, &QAction::triggered, this, [](){quit_slot();});
 

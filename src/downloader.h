@@ -10,13 +10,16 @@
 #include "utctime.h"
 
 enum class Color{
-    True = 1,
-    Natural = 2
+    True,
+    Natural,
+    WaterVapor,
+    Cloud,
+    Ash
 };
 
 enum class DownloadOption{
-    Quality = 1,
-    Performance = 2
+    Quality,
+    Performance
 };
 
 std::string url_generator_chollian(DownloadOption option,
