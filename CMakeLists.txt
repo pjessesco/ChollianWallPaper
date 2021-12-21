@@ -53,7 +53,7 @@ if(MSVC)
 endif()
 
 #################
-#    Packaging  #
+#   Packaging   #
 #################
 
 set(CPACK_PACKAGE_NAME "Chollian Wallpaper")

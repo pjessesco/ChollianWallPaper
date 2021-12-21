@@ -57,6 +57,8 @@ signals:
     void enable_button_signal(bool flag);
 
 private:
+    inline void add_checkable_action_to_group(QMenu* menu, QActionGroup* group, const QString& text, std::function<void()> func, bool is_default);
+    inline QAction* add_action_to_menu(QMenu* menu, const QString& text, std::function<void()> func, bool is_checkable);
 
     void generate_resolution_menus(QMenu *res_menu, QActionGroup *res_action_group, const std::vector<Resolution> &res_list);
 

@@ -3,6 +3,7 @@
 //
 
 #include <filesystem>
+#include <string>
 
 #include <QSystemTrayIcon>
 #include <QMenu>
@@ -15,14 +16,6 @@
 #include "chollian.h"
 #include "logger.h"
 
-#define ADD_CHECKABLE_ACTION_TO_GROUP(menu, group, text, func, is_default)     \
-    {                                                                          \
-        QAction *action = menu->addAction(text);                               \
-        group->addAction(action);                                              \
-        connect(action, &QAction::triggered, this, [this](){func;});           \
-        action->setCheckable(true);                                            \
-        if(is_default){action->setChecked(true);}                              \
-    }                                                                          \
 
 Chollian::Chollian() : m_color(Color::True),
                        m_download_option(DownloadOption::Performance),
@@ -40,34 +33,27 @@ Chollian::Chollian() : m_color(Color::True),
 
     // Create menu items
     QMenu *menu = new QMenu(this);
-    QAction *about_action = menu->addAction("About");
-    connect(about_action, &QAction::triggered, this, [this](){
-        this->m_about_window->show();
-    });
+    add_action_to_menu(menu, "About", [this](){this->m_about_window->show();}, false);
 
     menu->addSection("Update");
-    m_update_wallpaper_action = menu->addAction("Update wallpaper now");
-    m_auto_update_action = menu->addAction("Update wallpaper every 10 minutes");
-    m_auto_update_action->setCheckable(true);
-    m_auto_update_action->setChecked(false);
-    connect(m_update_wallpaper_action, &QAction::triggered, this, [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution);});
-    connect(m_auto_update_action, &QAction::triggered, this, [this](){switch_automatically_update_slot();});
+    m_update_wallpaper_action = add_action_to_menu(menu, "Update wallpaper now", [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution);}, false);
+    m_auto_update_action = add_action_to_menu(menu, "Update wallpaper every 10 minutes", [this](){switch_automatically_update_slot();}, true);
     connect(this, SIGNAL(enable_button_signal(bool)), this, SLOT(enable_button_slot(bool)));
 
     menu->addSection("Download Option");
     QActionGroup *set_download_option_group = new QActionGroup(this);
     set_download_option_group->setExclusive(true);
-    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_download_option_group, "Quality", set_download_option(DownloadOption::Quality),false);
-    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_download_option_group, "Performance", set_download_option(DownloadOption::Performance),true);
+    add_checkable_action_to_group(menu, set_download_option_group, "Performance", [this](){set_download_option(DownloadOption::Performance);}, true);
+    add_checkable_action_to_group(menu, set_download_option_group, "Quality", [this](){set_download_option(DownloadOption::Quality);}, false);
 
     menu->addSection("Colors");
     QActionGroup *set_color_group = new QActionGroup(this);
     set_color_group->setExclusive(true);
-    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_color_group, "RGB True", set_color_slot(Color::True), true);
-    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_color_group, "Natural", set_color_slot(Color::Natural), false);
-    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_color_group, "Water Vapor", set_color_slot(Color::WaterVapor), false);
-    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_color_group, "Cloud", set_color_slot(Color::Cloud), false);
-    ADD_CHECKABLE_ACTION_TO_GROUP(menu, set_color_group, "Ash", set_color_slot(Color::Ash), false);
+    add_checkable_action_to_group(menu, set_color_group, "RGB True", [this](){set_color_slot(Color::True);}, true);
+    add_checkable_action_to_group(menu, set_color_group, "Natural", [this](){set_color_slot(Color::Natural);}, false);
+    add_checkable_action_to_group(menu, set_color_group, "Water Vapor", [this](){set_color_slot(Color::WaterVapor);}, false);
+    add_checkable_action_to_group(menu, set_color_group, "Cloud", [this](){set_color_slot(Color::Cloud);}, false);
+    add_checkable_action_to_group(menu, set_color_group, "Ash", [this](){set_color_slot(Color::Ash);}, false);
 
     menu->addSection("Resolution");
     QActionGroup *set_resolution_group = new QActionGroup(this);
@@ -80,10 +66,8 @@ Chollian::Chollian() : m_color(Color::True),
     generate_resolution_menus(res_menu, set_resolution_group, res_list_16_10);
 
     menu->addSeparator();
-    QAction *quit_action = menu->addAction("Quit");
-    connect(quit_action, &QAction::triggered, this, [](){quit_slot();});
-
-
+    add_action_to_menu(menu, "Quit", [](){quit_slot();}, false);
+   
     // Set icon
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
     trayIcon->setToolTip("Chollian Wallpaper");
@@ -174,13 +158,28 @@ void Chollian::switch_automatically_update_slot(){
     }
 }
 
+inline void Chollian::add_checkable_action_to_group(QMenu* menu, QActionGroup* group, const QString& text, std::function<void()> func, bool is_default) {
+    QAction* action = menu->addAction(text);
+    group->addAction(action);
+    connect(action, &QAction::triggered, this, func);
+    action->setCheckable(true);
+    action->setChecked(is_default);
+}
+
+inline QAction* Chollian::add_action_to_menu(QMenu* menu, const QString& text, std::function<void()> func, bool is_checkable) {
+    QAction* action = menu->addAction(text);
+    connect(action, &QAction::triggered, this, func);
+    if (is_checkable) {
+        action->setCheckable(true);
+        action->setChecked(false);
+    }
+    return action;
+}
+
 void Chollian::generate_resolution_menus(QMenu *res_menu, QActionGroup *res_action_group, const std::vector<Resolution> &res_list){
     for(Resolution res : res_list){
         const std::string title = std::to_string(res.first)+" x "+std::to_string(res.second);
-        QAction *tmp_res_action = res_menu->addAction(QString::fromStdString(title));
-        connect(tmp_res_action, &QAction::triggered, this, [this, res](){ set_resolution_slot(res);});
-        tmp_res_action->setCheckable(true);
-        tmp_res_action->setChecked(false);
+        QAction *tmp_res_action = add_action_to_menu(res_menu, QString::fromStdString(title), [this, res](){set_resolution_slot(res);}, true);
         if(res == m_resolution){
             tmp_res_action->setChecked(true);
         }
