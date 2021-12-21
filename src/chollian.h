@@ -72,8 +72,9 @@ private:
     About *m_about_window;
 
 #if defined __APPLE__
-    const std::string m_RESOURCE_PATH = std::filesystem::current_path().string() + "/../Resources/";
+    // TODO : Simplify...
+    const std::filesystem::path m_RESOURCE_PATH = std::filesystem::path(std::filesystem::current_path().string() + "/../Resources/");
 #elif defined _WIN32
-    const std::string m_RESOURCE_PATH = std::filesystem::current_path().string() + "/resources/";
+    const std::filesystem::path m_RESOURCE_PATH = std::filesystem::current_path() / "resources/";
 #endif
 };
