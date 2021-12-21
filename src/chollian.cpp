@@ -15,7 +15,7 @@
 #include "downloader.h"
 #include "chollian.h"
 #include "logger.h"
-
+#include "setting.h"
 
 Chollian::Chollian() : m_color(Color::True),
                        m_download_option(DownloadOption::Performance),
@@ -25,11 +25,15 @@ Chollian::Chollian() : m_color(Color::True),
 
     m_about_window = new About();
 
-    LOG("RESOURCE_PATH : " + m_RESOURCE_PATH);
+    LOG("RESOURCE_PATH : " + m_RESOURCE_PATH.string());
     if(!std::filesystem::exists(m_RESOURCE_PATH)){
-        LOG(m_RESOURCE_PATH + " directory does not exists; Create it");
+        LOG(m_RESOURCE_PATH.string() + " directory does not exists; Create it");
         std::filesystem::create_directory(m_RESOURCE_PATH);
     }
+
+    config_to_file(m_RESOURCE_PATH / "config.txt", m_color, m_download_option, m_resolution, m_is_automatically_update);
+    file_to_config(m_RESOURCE_PATH / "config.txt");
+
 
     // Create menu items
     QMenu *menu = new QMenu(this);
@@ -69,7 +73,7 @@ Chollian::Chollian() : m_color(Color::True),
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
     trayIcon->setToolTip("Chollian Wallpaper");
     trayIcon->setContextMenu(menu);
-    trayIcon->setIcon(QIcon(QString::fromStdString(m_RESOURCE_PATH + "icon.png")));
+    trayIcon->setIcon(QIcon(QString::fromStdString((m_RESOURCE_PATH / "icon.png").string())));
     trayIcon->show();
 
     // Generate timer
@@ -109,16 +113,16 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, Color color,
         img.to_any_resolution(resolution.first, resolution.second, 100);
         
         if(std::filesystem::exists(m_RESOURCE_PATH)){
-            img.write_png(m_RESOURCE_PATH + filename);
-            LOG("Save image as "+ m_RESOURCE_PATH + filename);
+            img.write_png((m_RESOURCE_PATH / filename).string());
+            LOG("Save image as "+ (m_RESOURCE_PATH / filename).string());
         }
         else{
-            LOG("RESOURCE_PATH not exists : "+ m_RESOURCE_PATH);
+            LOG("RESOURCE_PATH not exists : "+ m_RESOURCE_PATH.string());
             emit enable_button_signal(true);
             return;
         }
 
-        img.set_as_wallpaper(m_RESOURCE_PATH + filename);
+        img.set_as_wallpaper((m_RESOURCE_PATH / filename).string());
         LOG("Wallpaper updated");
 
         // Clean up previously stored images
