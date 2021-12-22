@@ -70,10 +70,10 @@ if(MSVC)
     set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
     set(CPACK_NSIS_PACKAGE_NAME "Chollian Wallpaper ${CPACK_PACKAGE_VERSION}")
     set(CPACK_NSIS_DISPLAY_NAME "Chollian Wallpaper ${CPACK_PACKAGE_VERSION}")
-    set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "RMDIR /r \"$INSTDIR\resources\"")
+    set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "Delete \\\"$INSTDIR\\\\resources\\\\*.*\\\"")
 
     install(TARGETS ChollianWallpaper DESTINATION .)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/resources DESTINATION . FILES_MATCHING PATTERN "*.*")
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/resources" DESTINATION "." FILES_MATCHING PATTERN "*.*")
     install(FILES "${CURL_INCLUDE_DIR}/../bin/libcurl-x64.dll" DESTINATION .)
     add_custom_command(TARGET ChollianWallpaper POST_BUILD
         COMMAND windeployqt.exe 
