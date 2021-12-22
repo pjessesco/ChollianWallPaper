@@ -43,27 +43,24 @@ Chollian::Chollian() : m_color(Color::True),
     menu->addSection("Download Option");
     QActionGroup *set_download_option_group = new QActionGroup(this);
     set_download_option_group->setExclusive(true);
-    add_checkable_action_to_group(menu, set_download_option_group, "Performance", [this](){set_download_option(DownloadOption::Performance);}, true);
-    add_checkable_action_to_group(menu, set_download_option_group, "Quality", [this](){set_download_option(DownloadOption::Quality);}, false);
+    for (auto&& [val, str] : download_option_map) {
+        add_checkable_action_to_group(menu, set_download_option_group, QString::fromStdString(str), [this, val=val]() {set_download_option(val); }, val==m_download_option);
+    }
 
     menu->addSection("Colors");
     QActionGroup *set_color_group = new QActionGroup(this);
     set_color_group->setExclusive(true);
-    add_checkable_action_to_group(menu, set_color_group, "RGB True", [this](){set_color_slot(Color::True);}, true);
-    add_checkable_action_to_group(menu, set_color_group, "Natural", [this](){set_color_slot(Color::Natural);}, false);
-    add_checkable_action_to_group(menu, set_color_group, "Water Vapor", [this](){set_color_slot(Color::WaterVapor);}, false);
-    add_checkable_action_to_group(menu, set_color_group, "Cloud", [this](){set_color_slot(Color::Cloud);}, false);
-    add_checkable_action_to_group(menu, set_color_group, "Ash", [this](){set_color_slot(Color::Ash);}, false);
+    for (auto&& [val, str] : color_map) {
+        add_checkable_action_to_group(menu, set_color_group, QString::fromStdString(str), [this, val=val]() {set_color_slot(val); }, val == m_color);
+    }
 
     menu->addSection("Resolution");
     QActionGroup *set_resolution_group = new QActionGroup(this);
     set_resolution_group->setExclusive(true);
     QMenu *res_menu = menu->addMenu("Resolution");
-    generate_resolution_menus(res_menu, set_resolution_group, res_list_4_3);
-    res_menu->addSeparator();
-    generate_resolution_menus(res_menu, set_resolution_group, res_list_16_9);
-    res_menu->addSeparator();
-    generate_resolution_menus(res_menu, set_resolution_group, res_list_16_10);
+    for (auto&& [val, str] : res_map) {
+        add_checkable_action_to_group(res_menu, set_resolution_group, QString::fromStdString(str), [this, val=val]() {set_resolution_slot(val); }, val == m_resolution);
+    }
 
     menu->addSeparator();
     add_action_to_menu(menu, "Quit", [](){quit_slot();}, false);
@@ -176,16 +173,6 @@ inline QAction* Chollian::add_action_to_menu(QMenu* menu, const QString& text, s
     return action;
 }
 
-void Chollian::generate_resolution_menus(QMenu *res_menu, QActionGroup *res_action_group, const std::vector<Resolution> &res_list){
-    for(Resolution res : res_list){
-        const std::string title = std::to_string(res.first)+" x "+std::to_string(res.second);
-        QAction *tmp_res_action = add_action_to_menu(res_menu, QString::fromStdString(title), [this, res](){set_resolution_slot(res);}, true);
-        if(res == m_resolution){
-            tmp_res_action->setChecked(true);
-        }
-        res_action_group->addAction(tmp_res_action);
-    }
-}
 
 void Chollian::enable_button_slot(bool flag){
     m_update_wallpaper_action->setEnabled(flag);

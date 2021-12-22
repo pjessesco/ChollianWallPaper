@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <tuple>
+#include <map>
 #include "utctime.h"
 
 enum class Color{
@@ -17,9 +18,22 @@ enum class Color{
     Ash
 };
 
+const std::map<Color, std::string> color_map{
+    {Color::True, "True"},
+    {Color::Natural, "Natural"},
+    {Color::WaterVapor, "WaterVapor"},
+    {Color::Cloud, "Cloud"},
+    {Color::Ash, "Ash"}
+};
+
 enum class DownloadOption{
     Quality,
     Performance
+};
+
+const std::map<DownloadOption, std::string> download_option_map{
+    {DownloadOption::Quality, "Quality"},
+    {DownloadOption::Performance, "Performance"}
 };
 
 std::string url_generator_chollian(DownloadOption option,
