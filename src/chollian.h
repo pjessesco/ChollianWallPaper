@@ -18,7 +18,7 @@
 #include "image.h"
 #include "logger.h"
 #include "about.h"
-
+#include "setting.h"
 
 class Chollian : public QWidget{
     Q_OBJECT
@@ -32,11 +32,13 @@ public slots:
     void set_download_option(DownloadOption option){
         LOG("Switch download option");
         m_download_option = option;
+        export_current_setting();
     }
 
     void set_color_slot(Color color){
         LOG("Switch color mode");
         m_color = color;
+        export_current_setting();
     }
 
     static void quit_slot() {
@@ -46,6 +48,7 @@ public slots:
 
     void set_resolution_slot(const Resolution &resolution){
         m_resolution = resolution;
+        export_current_setting();
     }
 
     void switch_automatically_update_slot();
@@ -58,8 +61,10 @@ signals:
 
 private:
     inline void add_checkable_action_to_group(QMenu* menu, QActionGroup* group, const QString& text, std::function<void()> func, bool is_default);
-    inline QAction* add_action_to_menu(QMenu* menu, const QString& text, std::function<void()> func, bool is_checkable);
-
+    inline QAction* add_action_to_menu(QMenu* menu, const QString& text, std::function<void()> func, bool is_checkable, bool is_checked=false);
+    inline void export_current_setting() const{
+        config_to_file(m_RESOURCE_PATH / "config.txt", m_color, m_download_option, m_resolution, m_is_automatically_update);
+    }
     
 
     Color m_color;
