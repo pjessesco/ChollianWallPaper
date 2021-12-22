@@ -42,7 +42,9 @@ add_executable(ChollianWallpaper
         src/logger.h
         src/about.cpp
         src/about.h
-        src/dependency_license.h)
+        src/dependency_license.h
+        src/setting.cpp
+        src/setting.h)
 
 target_link_libraries(ChollianWallpaper CURL::libcurl)
 target_link_libraries(ChollianWallpaper Qt6::Widgets)
