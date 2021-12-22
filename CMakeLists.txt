@@ -71,6 +71,13 @@ if(MSVC)
     set(CPACK_NSIS_PACKAGE_NAME "Chollian Wallpaper ${CPACK_PACKAGE_VERSION}")
     set(CPACK_NSIS_DISPLAY_NAME "Chollian Wallpaper ${CPACK_PACKAGE_VERSION}")
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "Delete \\\"$INSTDIR\\\\resources\\\\*.*\\\"")
+    set(CPACK_NSIS_CREATE_ICONS_EXTRA
+            "CreateShortCut '$DESKTOP\\\\Chollian Wallpaper.lnk' \\\\
+                            '$INSTDIR\\\\ChollianWallpaper.exe' \\\\
+                            '' \\\\
+                            '${ICON}'")
+    set(CPACK_NSIS_DELETE_ICONS_EXTRA
+            "Delete '$DESKTOP\\\\Chollian Wallpaper.lnk'")
 
     install(TARGETS ChollianWallpaper DESTINATION .)
     install(DIRECTORY "${CMAKE_SOURCE_DIR}/resources" DESTINATION "." FILES_MATCHING PATTERN "*.*")
