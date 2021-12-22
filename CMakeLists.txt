@@ -20,7 +20,7 @@ execute_process(
         OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-set(CHOLLIAN_VERSION "2021.10")
+set(CHOLLIAN_VERSION "2021.12")
 
 add_definitions(-DCHOLLIAN_VERSION="${CHOLLIAN_VERSION}")
 add_definitions(-DGIT_HASH="${GIT_COMMIT_HASH}")
