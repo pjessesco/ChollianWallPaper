@@ -17,10 +17,7 @@
 #include "logger.h"
 #include "setting.h"
 
-Chollian::Chollian() : m_color(Color::True),
-                       m_download_option(DownloadOption::Performance),
-                       m_resolution(Resolution(2880, 1800)),
-                       m_is_automatically_update(false){
+Chollian::Chollian() {
     LOG("Chollian Wallpaper started");
 
     m_about_window = new About();
@@ -31,9 +28,12 @@ Chollian::Chollian() : m_color(Color::True),
         std::filesystem::create_directory(m_RESOURCE_PATH);
     }
 
-    config_to_file(m_RESOURCE_PATH / "config.txt", m_color, m_download_option, m_resolution, m_is_automatically_update);
-    file_to_config(m_RESOURCE_PATH / "config.txt");
+    if(!std::filesystem::exists(m_RESOURCE_PATH / "config.txt")){
+        LOG("Configuration not found, generate default config.txt");
+        config_to_file(m_RESOURCE_PATH / "config.txt", Color::True, DownloadOption::Performance, Resolution(2880, 1800), false);
+    }
 
+    std::tie(m_color, m_download_option, m_resolution, m_is_automatically_update) = file_to_config(m_RESOURCE_PATH / "config.txt");
 
     // Create menu items
     QMenu *menu = new QMenu(this);
@@ -41,7 +41,7 @@ Chollian::Chollian() : m_color(Color::True),
 
     menu->addSection("Update");
     m_update_wallpaper_action = add_action_to_menu(menu, "Update wallpaper now", [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution);}, false);
-    m_auto_update_action = add_action_to_menu(menu, "Update wallpaper every 10 minutes", [this](){switch_automatically_update_slot();}, true);
+    m_auto_update_action = add_action_to_menu(menu, "Update wallpaper every 10 minutes", [this](){switch_automatically_update_slot();}, true, m_is_automatically_update);
     connect(this, SIGNAL(enable_button_signal(bool)), this, SLOT(enable_button_slot(bool)));
 
     menu->addSection("Download Option");
@@ -128,7 +128,10 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, Color color,
         // Clean up previously stored images
         for (const auto &entry : std::filesystem::directory_iterator(m_RESOURCE_PATH)){
             const std::string entry_filename = entry.path().filename().string();
-            if(entry_filename != filename && entry_filename != "icon.png" && entry_filename != "log.txt"){
+            if(entry_filename != filename &&
+               entry_filename != "icon.png" &&
+               entry_filename != "log.txt" &&
+               entry_filename != "config.txt"){
                 std::filesystem::remove(entry);
             }
         }
@@ -157,6 +160,7 @@ void Chollian::switch_automatically_update_slot(){
         m_is_automatically_update = false;
         m_timer->stop();
     }
+    export_current_setting();
 }
 
 inline void Chollian::add_checkable_action_to_group(QMenu* menu, QActionGroup* group, const QString& text, std::function<void()> func, bool is_default) {
@@ -167,12 +171,12 @@ inline void Chollian::add_checkable_action_to_group(QMenu* menu, QActionGroup* g
     action->setChecked(is_default);
 }
 
-inline QAction* Chollian::add_action_to_menu(QMenu* menu, const QString& text, std::function<void()> func, bool is_checkable) {
+inline QAction* Chollian::add_action_to_menu(QMenu* menu, const QString& text, std::function<void()> func, bool is_checkable, bool is_checked) {
     QAction* action = menu->addAction(text);
     connect(action, &QAction::triggered, this, func);
     if (is_checkable) {
         action->setCheckable(true);
-        action->setChecked(false);
+        action->setChecked(is_checked);
     }
     return action;
 }
