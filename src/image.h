@@ -96,7 +96,6 @@ public:
     Image& operator=(const Image &) = delete;
 
     ~Image(){
-        free(m_data);
     }
 
     void set_as_wallpaper(const std::string &filename) const;
@@ -116,10 +115,8 @@ private:
     void remove_alpha();
     void fix_pixel(int w, int h, int r, int g, int b, int a=1);
 
-    // FIXME : It works only with FD
     void remove_description();
 
-    // FIXME : It works only with FD
     void remove_watermark();
 
     // Add border at top/bottom of the image
@@ -133,5 +130,5 @@ private:
     int m_w;
     int m_h;
     int m_channel;
-    unsigned char *m_data;
+    std::vector<unsigned char> m_data;
 };
