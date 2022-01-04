@@ -14,12 +14,12 @@
 #include "downloader.h"
 
 
-void config_to_file(const std::filesystem::path &path, Color color, DownloadOption download_option, const Resolution& res, bool auto_update);
+void config_to_file(const std::filesystem::path &path, Color color, DownloadOption download_option, const Resolution& res, bool auto_update, float height_ratio);
 
-inline std::string config_to_str(Color color, DownloadOption download_option, const Resolution& res, bool auto_update);
+inline std::string config_to_str(Color color, DownloadOption download_option, const Resolution& res, bool auto_update, float height_ratio);
 
-std::tuple<Color, DownloadOption, Resolution, bool> file_to_config(const std::filesystem::path &path);
+std::tuple<Color, DownloadOption, Resolution, bool, float> file_to_config(const std::filesystem::path &path);
 
-std::tuple<Color, DownloadOption, Resolution, bool> str_to_config(const std::string &str);
+std::tuple<Color, DownloadOption, Resolution, bool, float> str_to_config(const std::string &str);
 
 

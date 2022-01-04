@@ -27,7 +27,7 @@ public:
 
 public slots:
     // Change wallpaper considering m_imgType and m_color;
-    void change_wallpaper_slot(DownloadOption downloadOption, Color color, Resolution resolution);
+    void change_wallpaper_slot(DownloadOption downloadOption, Color color, Resolution resolution, float height_ratio);
 
     void set_download_option(DownloadOption option){
         LOG("Switch download option");
@@ -38,6 +38,12 @@ public slots:
     void set_color_slot(Color color){
         LOG("Switch color mode");
         m_color = color;
+        export_current_setting();
+    }
+
+    void set_height_ratio_slot(float ratio){
+        LOG("Change height ratio");
+        m_height_ratio = ratio;
         export_current_setting();
     }
 
@@ -63,13 +69,14 @@ private:
     inline void add_checkable_action_to_group(QMenu* menu, QActionGroup* group, const QString& text, std::function<void()> func, bool is_default);
     inline QAction* add_action_to_menu(QMenu* menu, const QString& text, std::function<void()> func, bool is_checkable, bool is_checked=false);
     inline void export_current_setting() const{
-        config_to_file(m_RESOURCE_PATH / "config.txt", m_color, m_download_option, m_resolution, m_is_automatically_update);
+        config_to_file(m_RESOURCE_PATH / "config.txt", m_color, m_download_option, m_resolution, m_is_automatically_update, m_height_ratio);
     }
     
 
     Color m_color;
     DownloadOption m_download_option;
     Resolution m_resolution;
+    float m_height_ratio;
     QAction *m_update_wallpaper_action;
     QAction *m_auto_update_action;
     bool m_is_automatically_update;

@@ -47,10 +47,12 @@ void Image::set_as_wallpaper(const std::string &filename) const{
 
 }
 
-void Image::to_any_resolution(int width, int height, int top_bot_border) {
+void Image::to_any_resolution(int width, int height, float earth_height_ratio) {
     remove_alpha();
     remove_description();
     remove_watermark();
+
+    int top_bot_border = static_cast<int>(height * (1.0f - earth_height_ratio) * 0.5f);
 
     resize_preserve_ratio(height - 2 * top_bot_border);
     add_top_bot_border(top_bot_border);
