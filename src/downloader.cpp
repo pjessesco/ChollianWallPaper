@@ -80,7 +80,8 @@ std::string image_downloader(const std::string &url) {
 std::string generate_filename(const UTCTime &time,
                               Color color,
                               int width,
-                              int height){
+                              int height,
+                              float height_ratio){
 
     auto [year, month, day, hours, minutes] = time.extract_component();
     std::string color_str;
@@ -104,5 +105,5 @@ std::string generate_filename(const UTCTime &time,
 
     return year + month + day + hours + minutes + "_" +
            color_str + "_fd" +
-           std::to_string(width) + std::to_string(height) + ".png";
+           std::to_string(width) + std::to_string(height) + std::to_string(height_ratio) + ".png";
 }

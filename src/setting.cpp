@@ -14,8 +14,8 @@
 #include "image.h"
 #include "downloader.h"
 
-void config_to_file(const std::filesystem::path& filepath, Color color, DownloadOption download_option, const Resolution& res, bool auto_update) {
-    std::string config_str = config_to_str(color, download_option, res, auto_update);
+void config_to_file(const std::filesystem::path& filepath, Color color, DownloadOption download_option, const Resolution& res, bool auto_update, float height_ratio) {
+    std::string config_str = config_to_str(color, download_option, res, auto_update, height_ratio);
     std::ofstream file(filepath);
     if (file.is_open()) {
         file << config_str;
@@ -24,17 +24,18 @@ void config_to_file(const std::filesystem::path& filepath, Color color, Download
 }
 
 
-inline std::string config_to_str(Color color, DownloadOption download_option, const Resolution& res, bool auto_update) {
+inline std::string config_to_str(Color color, DownloadOption download_option, const Resolution& res, bool auto_update, float height_ratio) {
     const std::string& color_str = color_map.at(color);
     const std::string& download_option_str = download_option_map.at(download_option);
     const std::string& res_str = res_map.at(res);
-    std::string auto_update_str = std::to_string(auto_update);
+    const std::string auto_update_str = std::to_string(auto_update);
+    const std::string ratio_str = height_ratio_map.at(height_ratio);
 
-    return color_str + "\n" + download_option_str + "\n" + res_str + "\n" + auto_update_str;
+    return color_str + "\n" + download_option_str + "\n" + res_str + "\n" + auto_update_str + "\n" + ratio_str;
 }
 
 
-std::tuple<Color, DownloadOption, Resolution, bool> file_to_config(const std::filesystem::path& filepath) {
+std::tuple<Color, DownloadOption, Resolution, bool, float> file_to_config(const std::filesystem::path& filepath) {
     std::ifstream file(filepath);
     std::stringstream config_ss;
 
@@ -48,7 +49,7 @@ std::tuple<Color, DownloadOption, Resolution, bool> file_to_config(const std::fi
     return str_to_config(config_ss.str());
 }
 
-std::tuple<Color, DownloadOption, Resolution, bool> str_to_config(const std::string& str) {
+std::tuple<Color, DownloadOption, Resolution, bool, float> str_to_config(const std::string& str) {
 
     std::vector<std::string> results;
     std::string token;
@@ -62,6 +63,7 @@ std::tuple<Color, DownloadOption, Resolution, bool> str_to_config(const std::str
     DownloadOption download_option;
     Resolution res;
     bool auto_update;
+    float height_ratio;
 
     for (auto [c, str] : color_map) {
         if (str.compare(results[0]) == 0) {
@@ -86,6 +88,13 @@ std::tuple<Color, DownloadOption, Resolution, bool> str_to_config(const std::str
 
     auto_update = std::stoi(results[3]);
 
-    return {color, download_option, res, auto_update};
+    for (auto [h, str] : height_ratio_map) {
+        if (str.compare(results[4]) == 0) {
+            height_ratio = h;
+            break;
+        }
+    }
+
+    return {color, download_option, res, auto_update, height_ratio};
 }
 

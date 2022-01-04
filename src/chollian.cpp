@@ -30,17 +30,17 @@ Chollian::Chollian() {
 
     if(!std::filesystem::exists(m_RESOURCE_PATH / "config.txt")){
         LOG("Configuration not found, generate default config.txt");
-        config_to_file(m_RESOURCE_PATH / "config.txt", Color::True, DownloadOption::Performance, Resolution(2880, 1800), false);
+        config_to_file(m_RESOURCE_PATH / "config.txt", Color::True, DownloadOption::Performance, Resolution(2880, 1800), false, 0.8f);
     }
 
-    std::tie(m_color, m_download_option, m_resolution, m_is_automatically_update) = file_to_config(m_RESOURCE_PATH / "config.txt");
+    std::tie(m_color, m_download_option, m_resolution, m_is_automatically_update, m_height_ratio) = file_to_config(m_RESOURCE_PATH / "config.txt");
 
     // Create menu items
     QMenu *menu = new QMenu(this);
     add_action_to_menu(menu, "About", [this](){this->m_about_window->show();}, false);
 
     menu->addSection("Update");
-    m_update_wallpaper_action = add_action_to_menu(menu, "Update wallpaper now", [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution);}, false);
+    m_update_wallpaper_action = add_action_to_menu(menu, "Update wallpaper now", [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution, m_height_ratio);}, false);
     m_auto_update_action = add_action_to_menu(menu, "Update wallpaper every 10 minutes", [this](){switch_automatically_update_slot();}, true, m_is_automatically_update);
     connect(this, SIGNAL(enable_button_signal(bool)), this, SLOT(enable_button_slot(bool)));
 
@@ -56,6 +56,14 @@ Chollian::Chollian() {
     set_color_group->setExclusive(true);
     for (auto&& [val, str] : color_map) {
         add_checkable_action_to_group(menu, set_color_group, QString::fromStdString(str), [this, val=val]() {set_color_slot(val); }, val == m_color);
+    }
+
+    menu->addSection("Size");
+    QActionGroup *set_height_ratio_group = new QActionGroup(this);
+    set_height_ratio_group->setExclusive(true);
+    QMenu *height_ratio_menu = menu->addMenu("Size");
+    for (auto&& [val, str] : height_ratio_map) {
+        add_checkable_action_to_group(height_ratio_menu, set_height_ratio_group, QString::fromStdString(str), [this, val=val]() {set_height_ratio_slot(val); }, val == m_height_ratio);
     }
 
     menu->addSection("Resolution");
@@ -78,14 +86,14 @@ Chollian::Chollian() {
 
     // Generate timer
     m_timer = new QTimer(this);
-    connect(m_timer, &QTimer::timeout, this, [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution);});
+    connect(m_timer, &QTimer::timeout, this, [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution, m_height_ratio);});
 }
 
 
-void Chollian::change_wallpaper_slot(DownloadOption downloadOption, Color color, Resolution resolution) {
+void Chollian::change_wallpaper_slot(DownloadOption downloadOption, Color color, Resolution resolution, float height_ratio) {
     LOG("Task started");
 
-    QFuture<void> _ = QtConcurrent::task([this, downloadOption, color, resolution]() -> void {
+    QFuture<void> _ = QtConcurrent::task([this, downloadOption, color, resolution, height_ratio]() -> void {
         emit enable_button_signal(false);
         UTCTime utcTime;
         utcTime.adjust_target_time();
@@ -101,7 +109,7 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, Color color,
             emit enable_button_signal(true);
             return;
         }
-        const std::string filename = generate_filename(utcTime, color, resolution.first, resolution.second);
+        const std::string filename = generate_filename(utcTime, color, resolution.first, resolution.second, height_ratio);
 
         Image img = Image(img_binary);
         if(!img.is_available()){
@@ -110,7 +118,7 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, Color color,
             return;
         }
 
-        img.to_any_resolution(resolution.first, resolution.second, 100);
+        img.to_any_resolution(resolution.first, resolution.second, m_height_ratio);
         
         if(std::filesystem::exists(m_RESOURCE_PATH)){
             img.write_png((m_RESOURCE_PATH / filename).string());
@@ -147,7 +155,7 @@ void Chollian::switch_automatically_update_slot(){
         // 1. Update now
         // 2. Set `m_is_automatically_update` true
         // 3. Start timer
-        change_wallpaper_slot(m_download_option, m_color, m_resolution);
+        change_wallpaper_slot(m_download_option, m_color, m_resolution, m_height_ratio);
         m_is_automatically_update = true;
         // Update per 10 minutes
         m_timer->start(600000);

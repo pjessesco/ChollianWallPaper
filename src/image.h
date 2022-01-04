@@ -86,6 +86,19 @@ const std::map<Resolution, std::string> res_map{
     {{7680, 4800}, "7680x4800"}
 };
 
+const std::map<float, std::string> height_ratio_map{
+    {0.1f, "10%"},
+    {0.2f, "20%"},
+    {0.3f, "30%"},
+    {0.4f, "40%"},
+    {0.5f, "50%"},
+    {0.6f, "60%"},
+    {0.7f, "70%"},
+    {0.8f, "80%"},
+    {0.9f, "90%"},
+    {1.0f, "100%"},
+};
+
 
 class Image{
 public:
@@ -101,7 +114,7 @@ public:
 
     void set_as_wallpaper(const std::string &filename) const;
 
-    void to_any_resolution(int width, int height, int top_bot_border);
+    void to_any_resolution(int width, int height, float earth_height_ratio);
 
     void write_png(const std::string &filename) const;
 

@@ -45,4 +45,5 @@ std::string image_downloader(const std::string &url);
 std::string generate_filename(const UTCTime &time,
                               Color color,
                               int width,
-                              int height);
+                              int height,
+                              float height_ratio);
