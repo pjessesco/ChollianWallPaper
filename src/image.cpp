@@ -3,8 +3,7 @@
 //
 
 #include <string>
-#include <tuple>
-#include <cstdlib> // for calloc
+#include <vector>
 
 #if defined _WIN32
     #include <windows.h>
@@ -23,7 +22,9 @@
 #include "logger.h"
 
 Image::Image(const std::string &binary) : m_w(0), m_h(0), m_channel(0) {
-    m_data = stbi_load_from_memory((unsigned char*)(binary.c_str()), binary.length(), &m_w, &m_h, &m_channel, 4);
+    unsigned char *data = stbi_load_from_memory((unsigned char*)(binary.c_str()), binary.length(), &m_w, &m_h, &m_channel, 4);
+    m_data = std::vector<unsigned char>(data, data + (m_w * m_h * m_channel));
+    free(data);
 }
 
 void Image::set_as_wallpaper(const std::string &filename) const{
@@ -61,34 +62,33 @@ void Image::to_any_resolution(int width, int height, float earth_height_ratio) {
 }
 
 void Image::write_png(const std::string &filename) const {
-    stbi_write_png(filename.c_str(), m_w, m_h, m_channel, m_data, m_w * m_channel);
+    stbi_write_png(filename.c_str(), m_w, m_h, m_channel, &m_data[0], m_w * m_channel);
 }
 
 void Image::resize_preserve_ratio(int height) {
-    float ratio = (float)height / m_h;
-    resize((int)(m_w * ratio), height);
+    float ratio = static_cast<float>(height) / static_cast<float>(m_h);
+    resize(static_cast<int>(m_w * ratio), height);
 }
 
 void Image::resize(int width, int height) {
-    unsigned char *resized_img = (unsigned char *)malloc(width * height * m_channel * sizeof(unsigned char));
-    stbir_resize_uint8(m_data, m_w, m_h, 0, resized_img, width, height, 0, m_channel);
-    free(m_data);
-    m_data = resized_img;
+    std::vector<unsigned char> resized_img(width * height * m_channel);
+    stbir_resize_uint8(&m_data[0], m_w, m_h, 0, &resized_img[0], width, height, 0, m_channel);
+    m_data = std::move(resized_img);
     m_w = width;
     m_h = height;
 }
 
 void Image::remove_alpha() {
     if(m_channel == 4){
-        unsigned char *rgb_img = (unsigned char *)malloc(m_w * m_h * 3 * sizeof(unsigned char));
+        std::vector<unsigned char> rgb_img(m_w * m_h * 3);
         int j = 0;
         for(int i=0;i<m_w * m_h;i++){
             rgb_img[j++] = m_data[4*i];
             rgb_img[j++] = m_data[4*i+1];
             rgb_img[j++] = m_data[4*i+2];
         }
-        free(m_data);
-        m_data = rgb_img;
+
+        m_data = std::move(rgb_img);
         m_channel = 3;
     }
 }
@@ -130,25 +130,23 @@ void Image::remove_watermark() {
 
 void Image::add_top_bot_border(int size) {
     int new_height = m_h + 2 * size;
-    unsigned char *new_img = (unsigned char *)calloc(m_w * new_height * m_channel, sizeof(unsigned char));
-    memcpy(new_img + (size * m_w * m_channel), m_data, m_w * m_h * m_channel);
+    std::vector<unsigned char> new_img(m_w * new_height * m_channel);
+    std::copy(m_data.begin(), m_data.begin()+(m_w * m_h * m_channel), new_img.begin()+(size * m_w * m_channel));
 
-    free(m_data);
-    m_data = new_img;
+    m_data = std::move(new_img);
     m_h = new_height;
 }
 
 void Image::add_left_right_border(int size) {
     int new_width = m_w + 2 * size;
-    unsigned char *new_img = (unsigned char *)calloc(new_width * m_h * m_channel, sizeof(unsigned char));
+    std::vector<unsigned char> new_img(new_width * m_h * m_channel);
 
     for(int i=0;i<m_h;i++){
         int src_pixel_idx = i * m_w;
         int dst_pixel_idx = i * new_width + size;
-        memcpy(new_img + (dst_pixel_idx * m_channel), m_data + (src_pixel_idx * m_channel), m_w * m_channel);
+        std::copy(m_data.begin()+(src_pixel_idx * m_channel), m_data.begin()+(src_pixel_idx * m_channel) + m_w * m_channel, new_img.begin()+(dst_pixel_idx * m_channel));
     }
 
-    free(m_data);
-    m_data = new_img;
+    m_data = std::move(new_img);
     m_w = new_width;
 }
