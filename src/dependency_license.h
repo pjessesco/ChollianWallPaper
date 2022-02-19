@@ -6,7 +6,7 @@
 
 const std::string CHOLLIAN_LICENSE = R"(MIT License
 
-Copyright (c) 2021 Jino Park
+Copyright (c) 2021-2022 Jino Park
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
