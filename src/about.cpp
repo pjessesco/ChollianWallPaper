@@ -9,7 +9,7 @@ About::About() : QWidget() {
     this->setFixedWidth(500);
     this->setFixedHeight(900);
 
-    QLabel *title = new QLabel(this);
+    auto *title = new QLabel(this);
     title->setText("Chollian Wallpaper");
     QFont font = title->font();
     font.setPixelSize(30);
@@ -46,7 +46,7 @@ About::About() : QWidget() {
 QLabel *About::add_title_line(const std::string &str, int text_height, int below_space) {
     current_height += 5;
 
-    QLabel *text_label = new QLabel(this);
+    auto *text_label = new QLabel(this);
     QFont font = text_label->font();
     font.setPixelSize(20);
 
@@ -60,7 +60,7 @@ QLabel *About::add_title_line(const std::string &str, int text_height, int below
 
 QLabel *About::add_text_line(const std::string &str, int text_height, int below_space) {
     current_height += 2;
-    QLabel *text_label = new QLabel(this);
+    auto *text_label = new QLabel(this);
     text_label->setWordWrap(true);
     text_label->setText(QString::fromStdString(str));
     text_label->setGeometry(20, current_height, 460, text_height);
@@ -70,8 +70,8 @@ QLabel *About::add_text_line(const std::string &str, int text_height, int below_
 
 QScrollArea *About::add_scrollable_text(const std::string &str, int scroll_height, int below_space) {
     current_height += 5;
-    QScrollArea *scroll_area = new QScrollArea(this);
-    QLabel *text_label = new QLabel();
+    auto *scroll_area = new QScrollArea(this);
+    auto *text_label = new QLabel();
 
     text_label->setText(QString::fromStdString(str));
 

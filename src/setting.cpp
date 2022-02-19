@@ -29,7 +29,7 @@ inline std::string config_to_str(Color color, DownloadOption download_option, co
     const std::string& download_option_str = download_option_map.at(download_option);
     const std::string& res_str = res_map.at(res);
     const std::string auto_update_str = std::to_string(auto_update);
-    const std::string ratio_str = height_ratio_map.at(height_ratio);
+    const std::string& ratio_str = height_ratio_map.at(height_ratio);
 
     return color_str + "\n" + download_option_str + "\n" + res_str + "\n" + auto_update_str + "\n" + ratio_str;
 }
@@ -66,21 +66,21 @@ std::tuple<Color, DownloadOption, Resolution, bool, float> str_to_config(const s
     float height_ratio;
 
     for (auto [c, str] : color_map) {
-        if (str.compare(results[0]) == 0) {
+        if (str == results[0]) {
             color = c;
             break;
         }
     }
 
     for (auto [d, str] : download_option_map) {
-        if (str.compare(results[1]) == 0) {
+        if (str == results[1]) {
             download_option = d;
             break;
         }
     }
 
     for (auto [r, str] : res_map) {
-        if (str.compare(results[2]) == 0) {
+        if (str == results[2]) {
             res = r;
             break;
         }
@@ -89,7 +89,7 @@ std::tuple<Color, DownloadOption, Resolution, bool, float> str_to_config(const s
     auto_update = std::stoi(results[3]);
 
     for (auto [h, str] : height_ratio_map) {
-        if (str.compare(results[4]) == 0) {
+        if (str == results[4]) {
             height_ratio = h;
             break;
         }

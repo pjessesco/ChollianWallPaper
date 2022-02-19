@@ -8,38 +8,38 @@
 
 std::string url_generator_chollian(DownloadOption option, Color color, const UTCTime &date) {
     // Use http to avoid necessity of building OpenSSL for macOS universal binary.
-    std::string base_url = "http://nmsc.kma.go.kr/IMG/GK2A/AMI/PRIMARY/L1B/COMPLETE/";
+    const std::string base_url = "http://nmsc.kma.go.kr/IMG/GK2A/AMI/PRIMARY/L1B/COMPLETE/";
 
     auto [year, month, day, hours, minutes] = date.extract_component();
 
-    std::string sub1, sub2, sub3, sub4, sub5, sub6, sub7;
+    std::string sub1, sub2, sub3, sub4;
 
     switch(color){
         case Color::True:
-            sub3 = "rgb-true_";
-            sub5 = "010";
+            sub2 = "rgb-true_";
+            sub3 = "010";
             break;
         case Color::Natural:
-            sub3 = "rgb-natural_";
-            sub5 = "020";
+            sub2 = "rgb-natural_";
+            sub3 = "020";
             break;
         case Color::WaterVapor:
-            sub3 = "rgb-wv1_";
-            sub5 = "020";
+            sub2 = "rgb-wv1_";
+            sub3 = "020";
             break;
         case Color::Cloud:
-            sub3 = "rgb-cloud_";
-            sub5 = "020";
+            sub2 = "rgb-cloud_";
+            sub3 = "020";
             break;
         case Color::Ash:
-            sub3 = "rgb-ash_";
-            sub5 = "020";
+            sub2 = "rgb-ash_";
+            sub3 = "020";
     }
 
-    sub2 = year + month + "/" + day + "/" + hours + "/gk2a_ami_le1b_";
-    sub7 = year + month + day + hours + minutes + (option==DownloadOption::Quality?".png":".srv.png");
+    sub1 = year + month + "/" + day + "/" + hours + "/gk2a_ami_le1b_";
+    sub4 = year + month + day + hours + minutes + (option == DownloadOption::Quality ? ".png" : ".srv.png");
 
-    return base_url + "FD/" + sub2 + sub3 + "fd" + sub5 + "ge_" + sub7;
+    return base_url + "FD/" + sub1 + sub2 + "fd" + sub3 + "ge_" + sub4;
 }
 
 size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp){

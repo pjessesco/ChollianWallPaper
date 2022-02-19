@@ -4,6 +4,7 @@
 
 #include <filesystem>
 #include <string>
+#include <tuple>
 
 #include <QSystemTrayIcon>
 #include <QMenu>
@@ -36,7 +37,7 @@ Chollian::Chollian() {
     std::tie(m_color, m_download_option, m_resolution, m_is_automatically_update, m_height_ratio) = file_to_config(m_RESOURCE_PATH / "config.txt");
 
     // Create menu items
-    QMenu *menu = new QMenu(this);
+    auto *menu = new QMenu(this);
     add_action_to_menu(menu, "About", [this](){this->m_about_window->show();}, false);
 
     menu->addSection("Update");
@@ -45,21 +46,21 @@ Chollian::Chollian() {
     connect(this, SIGNAL(enable_button_signal(bool)), this, SLOT(enable_button_slot(bool)));
 
     menu->addSection("Download Option");
-    QActionGroup *set_download_option_group = new QActionGroup(this);
+    auto *set_download_option_group = new QActionGroup(this);
     set_download_option_group->setExclusive(true);
     for (auto&& [val, str] : download_option_map) {
         add_checkable_action_to_group(menu, set_download_option_group, QString::fromStdString(str), [this, val=val]() {set_download_option(val); }, val==m_download_option);
     }
 
     menu->addSection("Colors");
-    QActionGroup *set_color_group = new QActionGroup(this);
+    auto *set_color_group = new QActionGroup(this);
     set_color_group->setExclusive(true);
     for (auto&& [val, str] : color_map) {
         add_checkable_action_to_group(menu, set_color_group, QString::fromStdString(str), [this, val=val]() {set_color_slot(val); }, val == m_color);
     }
 
     menu->addSection("Size");
-    QActionGroup *set_height_ratio_group = new QActionGroup(this);
+    auto *set_height_ratio_group = new QActionGroup(this);
     set_height_ratio_group->setExclusive(true);
     QMenu *height_ratio_menu = menu->addMenu("Size");
     for (auto&& [val, str] : height_ratio_map) {
@@ -67,7 +68,7 @@ Chollian::Chollian() {
     }
 
     menu->addSection("Resolution");
-    QActionGroup *set_resolution_group = new QActionGroup(this);
+    auto *set_resolution_group = new QActionGroup(this);
     set_resolution_group->setExclusive(true);
     QMenu *res_menu = menu->addMenu("Resolution");
     for (auto&& [val, str] : res_map) {
@@ -78,7 +79,7 @@ Chollian::Chollian() {
     add_action_to_menu(menu, "Quit", [](){quit_slot();}, false);
    
     // Set icon
-    QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
+    auto *trayIcon = new QSystemTrayIcon(this);
     trayIcon->setToolTip("Chollian Wallpaper");
     trayIcon->setContextMenu(menu);
     trayIcon->setIcon(QIcon(QString::fromStdString((m_RESOURCE_PATH / "icon.png").string())));
@@ -174,14 +175,14 @@ void Chollian::switch_automatically_update_slot(){
 inline void Chollian::add_checkable_action_to_group(QMenu* menu, QActionGroup* group, const QString& text, std::function<void()> func, bool is_default) {
     QAction* action = menu->addAction(text);
     group->addAction(action);
-    connect(action, &QAction::triggered, this, func);
+    connect(action, &QAction::triggered, this, std::move(func));
     action->setCheckable(true);
     action->setChecked(is_default);
 }
 
 inline QAction* Chollian::add_action_to_menu(QMenu* menu, const QString& text, std::function<void()> func, bool is_checkable, bool is_checked) {
     QAction* action = menu->addAction(text);
-    connect(action, &QAction::triggered, this, func);
+    connect(action, &QAction::triggered, this, std::move(func));
     if (is_checkable) {
         action->setCheckable(true);
         action->setChecked(is_checked);

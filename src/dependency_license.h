@@ -4,8 +4,7 @@
 
 #include <string>
 
-const std::string CHOLLIAN_LICENSE = R"(
-MIT License
+const std::string CHOLLIAN_LICENSE = R"(MIT License
 
 Copyright (c) 2021 Jino Park
 
@@ -29,11 +28,9 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-)";
+DEALINGS IN THE SOFTWARE.)";
 
-const std::string QT_LICENSE = R"(
-            GNU LESSER GENERAL PUBLIC LICENSE
+const std::string QT_LICENSE = R"(            GNU LESSER GENERAL PUBLIC LICENSE
 
  The Qt Toolkit is Copyright (C) 2016 The Qt Company Ltd.
  Contact: http://www.qt.io/licensing/
@@ -206,14 +203,12 @@ ever published by the Free Software Foundation.
 If the Library as you received it specifies that a proxy can decide
 whether future versions of the GNU Lesser General Public License shall
 apply, that proxy's public statement of acceptance of any version is
-permanent authorization for you to choose that version for the Library.
-)";
+permanent authorization for you to choose that version for the Library.)";
 
 
 
 
-const std::string LIBCURL_LICENSE = R"(
-COPYRIGHT AND PERMISSION NOTICE
+const std::string LIBCURL_LICENSE = R"(COPYRIGHT AND PERMISSION NOTICE
 
 Copyright (c) 1996 - 2021, Daniel Stenberg, daniel@haxx.se, and many
 contributors, see the THANKS file.
@@ -237,12 +232,10 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Except as contained in this notice, the name of a copyright holder shall
 not be used in advertising or otherwise to promote the sale, use or other
 dealings in this Software without prior written authorization of the
-copyright holder.
-)";
+copyright holder.)";
 
 
-const std::string STB_LICENSE = R"(
-Copyright (c) 2017 Sean Barrett
+const std::string STB_LICENSE = R"(Copyright (c) 2017 Sean Barrett
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files
 (the "Software"), to deal in the Software without restriction, including
@@ -260,8 +253,7 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-IN THE SOFTWARE.
-)";
+IN THE SOFTWARE.)";
 
 
 

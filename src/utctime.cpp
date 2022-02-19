@@ -2,10 +2,8 @@
 // Created by Jino on 2021/07/22.
 //
 
-#include <tuple>
 #include <ctime>
 
-#include <iostream>
 #include "utctime.h"
 
 UTCTime::UTCTime() {
