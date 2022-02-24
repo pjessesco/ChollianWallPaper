@@ -11,8 +11,6 @@
 #include <map>
 #include <utility>
 
-// Wrapper class of stb headers
-
 using Resolution = std::pair<int, int>;
 
 const std::map<Resolution, std::string> res_map{
@@ -63,7 +61,7 @@ const std::map<float, std::string> height_ratio_map{
     {1.0f, "100%"},
 };
 
-
+// Wrapper class of stb headers
 class Image{
 public:
     explicit Image(const std::string &binary);
