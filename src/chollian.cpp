@@ -98,10 +98,8 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, Color color,
         emit enable_button_signal(false);
         UTCTime utcTime;
         utcTime.adjust_target_time();
-        const std::string url = url_generator_chollian(downloadOption, color, utcTime);
-        LOG("Generated url : " + url);
 
-        const std::string img_binary = image_downloader(url);
+        const std::string img_binary = image_downloader(downloadOption, color, utcTime);
         LOG("Downloaded binary size : " + std::to_string(img_binary.length()));
 
         // Stop if downloaded data is reasonably small

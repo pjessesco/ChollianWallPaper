@@ -40,7 +40,7 @@ std::string url_generator_chollian(DownloadOption option,
                                    Color color,
                                    const UTCTime &date);
 
-std::string image_downloader(const std::string &url);
+std::string image_downloader(DownloadOption option, Color color, const UTCTime &date);
 
 std::string generate_filename(const UTCTime &time,
                               Color color,

@@ -4,6 +4,7 @@
 
 #include "about.h"
 #include "downloader.h"
+#include "logger.h"
 
 About::About() : QWidget() {
 
@@ -91,15 +92,19 @@ QScrollArea *About::add_scrollable_text(const std::string &str, int scroll_heigh
 
 void About::check_update(){
     std::string recent_version = get_latest_version();
+    LOG("recent version : " + recent_version);
     if(get_latest_version() == CHOLLIAN_VERSION_STR){
+        LOG("Latest");
         this->detect_update_label->setText("(Chollian Wallpaper is the latest version.)");
         this->detect_update_label->setOpenExternalLinks(false);
     }
     else if(get_latest_version() == "Fail"){
+        LOG("Fail");
         this->detect_update_label->setText("(Error occurred while checking for updates.)");
         this->detect_update_label->setOpenExternalLinks(false);
     }
     else{
+        LOG("Update detected");
         std::string update_txt = "<a href=\"https://github.com/pjessesco/ChollianWallPaper/releases/latest\">"
                                  "(Update to the " + recent_version + ")</a>";
         std::cout<<update_txt<<"\n";
