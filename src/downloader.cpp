@@ -2,7 +2,11 @@
 // Created by Jino on 2021/07/14.
 //
 
+#include <tuple>
+#include <regex>
+
 #include <curl/curl.h>
+
 #include "downloader.h"
 #include "logger.h"
 
@@ -73,6 +77,8 @@ std::string image_downloader(const std::string &url) {
     else{
         LOG("Curl is not initialized");
     }
+
+    curl_easy_cleanup(curl);
     return "-1";
 }
 
@@ -106,4 +112,38 @@ std::string generate_filename(const UTCTime &time,
     return year + month + day + hours + minutes + "_" +
            color_str + "_fd" +
            std::to_string(width) + std::to_string(height) + std::to_string(height_ratio) + ".png";
+}
+
+
+// Refer https://docs.github.com/en/rest/reference/releases#get-the-latest-release
+std::string get_latest_version(){
+    std::string version = "Fail";
+
+    CURL *curl = curl_easy_init();
+    CURLcode res;
+    std::string readBuffer;
+
+    struct curl_slist *slist1 = NULL;
+    slist1 = curl_slist_append(slist1, "Accept: application/vnd.github.v3+json");
+    slist1 = curl_slist_append(slist1, ("user-agent: curl/" + std::string(CURL_VERSION)).c_str());
+
+    if(curl){
+        curl_easy_setopt(curl, CURLOPT_URL, "https://api.github.com/repos/pjessesco/ChollianWallPaper/releases/latest");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, slist1);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+        res = curl_easy_perform(curl);
+        if(res == CURLE_OK){
+            std::regex re(R"(\"tag_name\": \"\d{4}.\d{2}\")");
+            std::smatch match;
+            if(std::regex_search(readBuffer, match, re)){
+                version = match.str().substr(13,7);
+            }
+        }
+    }
+
+    curl_easy_cleanup(curl);
+    return version;
 }

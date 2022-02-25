@@ -3,6 +3,7 @@
 //
 
 #include "about.h"
+#include "downloader.h"
 
 About::About() : QWidget() {
 
@@ -18,10 +19,14 @@ About::About() : QWidget() {
 
     current_height = 50;
     add_text_line("By Jino Park and contributors");
-    add_text_line("<a href=\"https://github.com/pjessesco/ChollianWallPaper\">Repository</a>")->setOpenExternalLinks(true);
+    current_height = 50;
+    add_text_line("<a href=\"https://github.com/pjessesco/ChollianWallPaper\">Github</a>", 20, 0, 190)->setOpenExternalLinks(true);
 
     add_title_line("Build Information");
+    int tmp_curr_height = current_height;
     add_text_line("Release version : " + CHOLLIAN_VERSION_STR);
+    current_height = tmp_curr_height;
+    detect_update_label = add_text_line("(Checking for update...)", 20, 0, 170);
     add_text_line("Commit version : " + std::string(GIT_HASH));
     add_text_line("Compiler : " + std::string(COMPILER_NAME) + " " + std::string(COMPILER_VERSION));
     add_text_line("CMake configuration : " + std::string(CMAKE_CONFIG));
@@ -58,12 +63,12 @@ QLabel *About::add_title_line(const std::string &str, int text_height, int below
     return text_label;
 }
 
-QLabel *About::add_text_line(const std::string &str, int text_height, int below_space) {
+QLabel *About::add_text_line(const std::string &str, int text_height, int below_space, int ax) {
     current_height += 2;
     auto *text_label = new QLabel(this);
     text_label->setWordWrap(true);
     text_label->setText(QString::fromStdString(str));
-    text_label->setGeometry(20, current_height, 460, text_height);
+    text_label->setGeometry(ax, current_height, 460, text_height);
     current_height += (text_height + below_space);
     return text_label;
 }
@@ -82,4 +87,23 @@ QScrollArea *About::add_scrollable_text(const std::string &str, int scroll_heigh
 
     current_height += (scroll_height + below_space);
     return scroll_area;
+}
+
+void About::check_update(){
+    std::string recent_version = get_latest_version();
+    if(get_latest_version() == CHOLLIAN_VERSION_STR){
+        this->detect_update_label->setText("(Chollian Wallpaper is the latest version.)");
+        this->detect_update_label->setOpenExternalLinks(false);
+    }
+    else if(get_latest_version() == "Fail"){
+        this->detect_update_label->setText("(Error occurred while checking for updates.)");
+        this->detect_update_label->setOpenExternalLinks(false);
+    }
+    else{
+        std::string update_txt = "<a href=\"https://github.com/pjessesco/ChollianWallPaper/releases/latest\">"
+                                 "(Update to the " + recent_version + ")</a>";
+        std::cout<<update_txt<<"\n";
+        this->detect_update_label->setText(QString::fromStdString(update_txt));
+        this->detect_update_label->setOpenExternalLinks(true);
+    }
 }

@@ -47,3 +47,5 @@ std::string generate_filename(const UTCTime &time,
                               int width,
                               int height,
                               float height_ratio);
+
+std::string get_latest_version();

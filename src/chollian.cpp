@@ -38,7 +38,7 @@ Chollian::Chollian() {
 
     // Create menu items
     auto *menu = new QMenu(this);
-    add_action_to_menu(menu, "About", [this](){this->m_about_window->show();}, false);
+    add_action_to_menu(menu, "About", [this](){this->m_about_window->check_update(); this->m_about_window->show();}, false);
 
     menu->addSection("Update");
     m_update_wallpaper_action = add_action_to_menu(menu, "Update wallpaper now", [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution, m_height_ratio);}, false);
