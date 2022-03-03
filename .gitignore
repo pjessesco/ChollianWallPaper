@@ -1,6 +1,8 @@
 .idea/
 build/
 **/.DS_Store
+ext/openssl_universal
+ext/curl
 
 # Created by https://www.toptal.com/developers/gitignore/api/cmake,c++,visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=cmake,c++,visualstudio
