@@ -210,7 +210,7 @@ permanent authorization for you to choose that version for the Library.)";
 
 const std::string LIBCURL_LICENSE = R"(COPYRIGHT AND PERMISSION NOTICE
 
-Copyright (c) 1996 - 2021, Daniel Stenberg, daniel@haxx.se, and many
+Copyright (c) 1996 - 2022, Daniel Stenberg, daniel@haxx.se, and many
 contributors, see the THANKS file.
 
 All rights reserved.

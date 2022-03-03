@@ -91,7 +91,7 @@ Building Qt can be replaced with installing it using homebrew, and CURL is embed
 
 ## License
 
-**Every satellite images used in this project are copyrighted by the Korea Meteorological Administration. You can not use it for commercial purposes.**
+**Every satellite images used in this project are copyrighted by the Korea Meteorological Administration, and they can NOT be used for commercial purposes.**
 
 This project is distributed under the [MIT license](https://github.com/pjessesco/ChollianWallPaper/blob/main/LICENSE).
 
