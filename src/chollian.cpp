@@ -38,7 +38,7 @@ Chollian::Chollian() {
 
     // Create menu items
     auto *menu = new QMenu(this);
-    add_action_to_menu(menu, "About", [this](){this->m_about_window->show();}, false);
+    add_action_to_menu(menu, "About", [this](){this->m_about_window->check_update(); this->m_about_window->show();}, false);
 
     menu->addSection("Update");
     m_update_wallpaper_action = add_action_to_menu(menu, "Update wallpaper now", [this](){change_wallpaper_slot(m_download_option, m_color, m_resolution, m_height_ratio);}, false);
@@ -98,10 +98,8 @@ void Chollian::change_wallpaper_slot(DownloadOption downloadOption, Color color,
         emit enable_button_signal(false);
         UTCTime utcTime;
         utcTime.adjust_target_time();
-        const std::string url = url_generator_chollian(downloadOption, color, utcTime);
-        LOG("Generated url : " + url);
 
-        const std::string img_binary = image_downloader(url);
+        const std::string img_binary = image_downloader(downloadOption, color, utcTime);
         LOG("Downloaded binary size : " + std::to_string(img_binary.length()));
 
         // Stop if downloaded data is reasonably small
