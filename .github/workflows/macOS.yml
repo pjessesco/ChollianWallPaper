@@ -24,15 +24,9 @@ jobs:
     - name: Install ninja & create-dmg
       run: brew install ninja create-dmg
 
-    - name: Build CURL
-      working-directory: ${{github.workspace}}/ext
-      run: git clone https://github.com/curl/curl; 
-           cd curl; 
-           git checkout curl-7_80_0;
-           mkdir build;
-           cd build;
-           cmake -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_USE_OPENSSL=OFF -DCMAKE_USE_LIBSSH2=OFF -GNinja ..;
-           ninja;
+    - name: Build OpenSSL & CURL
+      working-directory: ${{github.workspace}}/scripts
+      run: ./build_openssl_curl.sh
 
     - name: Build Qt6
       working-directory: ${{github.workspace}}/ext
@@ -54,6 +48,6 @@ jobs:
       uses: actions/upload-artifact@v2.2.4
       with:
         # Artifact name
-        name: generated_bundle_${{matrix.build_type}}_${{matrix.os}}
+        name: macos_dmg_${{matrix.build_type}}
         # A file, directory or wildcard pattern that describes what to upload
         path: ${{github.workspace}}/build/*.dmg
