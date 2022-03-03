@@ -62,9 +62,10 @@ Under-development/debug versions are available in [here](https://github.com/pjes
 
 ### macOS
  
-1. Build Qt>=6.2.0 and CURL.
-2. Build Chollian using cmake.
-3. Refer [github workflow](https://github.com/pjessesco/ChollianWallPaper/blob/main/.github/workflows/macOS.yml) for more details.
+1. Build Qt>=6.2.0 
+2. Build OpenSSL and CURL using `scripts/build_openssl_curl.sh` 
+3. Build Chollian Wallpaper using CMake.
+4. Refer [github workflow](https://github.com/pjessesco/ChollianWallPaper/blob/main/.github/workflows/macOS.yml) for more details (CMake parameters, etc).
 
 
 Building Qt can be replaced with installing it using homebrew, and CURL is embedded in macOS natively. Reason for building them is to offer universal binary for both Intel/Apple Silicon. See [2021.10](https://github.com/pjessesco/ChollianWallPaper/tree/2021.10) how we've done it before with homebrew.
