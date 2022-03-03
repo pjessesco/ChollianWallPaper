@@ -21,13 +21,13 @@ About::About() : QWidget() {
     current_height = 50;
     add_text_line("By Jino Park and contributors");
     current_height = 50;
-    add_text_line("<a href=\"https://github.com/pjessesco/ChollianWallPaper\">Github</a>", 20, 0, 190)->setOpenExternalLinks(true);
+    add_text_line("<a href=\"https://github.com/pjessesco/ChollianWallPaper\">Github</a>", 20, 0, 200)->setOpenExternalLinks(true);
 
     add_title_line("Build Information");
     int tmp_curr_height = current_height;
     add_text_line("Release version : " + CHOLLIAN_VERSION_STR);
     current_height = tmp_curr_height;
-    detect_update_label = add_text_line("(Checking for update...)", 20, 0, 170);
+    detect_update_label = add_text_line("(Checking for update...)", 20, 0, 180);
     add_text_line("Commit version : " + std::string(GIT_HASH));
     add_text_line("Compiler : " + std::string(COMPILER_NAME) + " " + std::string(COMPILER_VERSION));
     add_text_line("CMake configuration : " + std::string(CMAKE_CONFIG));
@@ -94,20 +94,16 @@ void About::check_update(){
     std::string recent_version = get_latest_version();
     LOG("recent version : " + recent_version);
     if(get_latest_version() == CHOLLIAN_VERSION_STR){
-        LOG("Latest");
         this->detect_update_label->setText("(Chollian Wallpaper is the latest version.)");
         this->detect_update_label->setOpenExternalLinks(false);
     }
     else if(get_latest_version() == "Fail"){
-        LOG("Fail");
         this->detect_update_label->setText("(Error occurred while checking for updates.)");
         this->detect_update_label->setOpenExternalLinks(false);
     }
     else{
-        LOG("Update detected");
         std::string update_txt = "<a href=\"https://github.com/pjessesco/ChollianWallPaper/releases/latest\">"
                                  "(Update to the " + recent_version + ")</a>";
-        std::cout<<update_txt<<"\n";
         this->detect_update_label->setText(QString::fromStdString(update_txt));
         this->detect_update_label->setOpenExternalLinks(true);
     }

@@ -69,7 +69,6 @@ std::string download_curl(const std::string &url, struct curl_slist *header){
 
         if(res == CURLE_OK){
             LOG("curl_easy_perform() success");
-            LOG("readbuffer : " + readBuffer);
             return readBuffer;
         }
         else{
@@ -101,7 +100,6 @@ std::string get_latest_version(){
     std::string json = download_curl(url, slist1);
     std::string version = "Fail";
 
-    std::cout<<json<<std::endl;
     std::regex re(R"(\"tag_name\": \"\d{4}.\d{2}\")");
     std::smatch match;
     if(std::regex_search(json, match, re)){
