@@ -1,4 +1,4 @@
-# ChollianWallPaper
+# Chollian WallPaper
 
 ![macOS](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/macOS.yml/badge.svg)
 ![Windows](https://github.com/pjessesco/ChollianWallPaper/actions/workflows/windows.yml/badge.svg)
@@ -6,16 +6,16 @@
 ![thumbnail](https://user-images.githubusercontent.com/11532321/135660418-79c9fd8f-a302-4ffa-b7cc-677e965657f8.gif)
 
 
-Inspired by [himawaripy](https://github.com/boramalper/himawaripy), ChollianWallPaper is simple GUI app that aims to set near-realtime image from [Chollian 2A](https://en.wikipedia.org/wiki/Chollian) as wallpaper.
+Chollian WallPaper is a simple app that aims to set real time satellite images from 
+[Chollian 2A](https://en.wikipedia.org/wiki/Chollian) as your desktop wallpaper.
 
 
 ## Usage
 After install and execute, Chollian Wallpaper is visible in your system tray. Right click to use or set.
 
 
-
 ## Features
- - Set near-realtime satellite image as wallpaper
+ - Set real time satellite image as wallpaper
  - 5 different color tones
 <details>
   <summary>Preview</summary>
@@ -33,22 +33,22 @@ Ash
 ![ash](https://user-images.githubusercontent.com/11532321/146769571-eafa21ba-aee0-4651-b0ca-dd510e68d4a3.png)
 </details>
 
- - Various image resolution from 1K to 8K
- - Various image ratio (4:3, 16:9, 16:10)
+ - Various image resolutions from 1K to 8K
+ - Various image ratios (4:3, 16:9, 16:10)
  - 2 download options :
-     - `Quality` for higher image quality
      - `Performance` for lower memory/network usage
-
+     - `Quality` for higher image quality (recommended only for high resolutions)
+ - Various Earth size
 
 ## Supported OS
 - Windows
-- macOS (>= Big Sur, both Intel and Apple Silicon)
+- macOS (>= Big Sur, offering universal binary for Intel and Apple Silicon)
 
 
 ## Download
 
-Release binaries are able in [here](https://github.com/pjessesco/ChollianWallPaper/releases/).
-Under-development/debug versions are available in [here](https://github.com/pjessesco/ChollianWallPaper/actions).
+Released binaries are able in [here](https://github.com/pjessesco/ChollianWallPaper/releases/).
+Under-development/debug versions are available in [github actions](https://github.com/pjessesco/ChollianWallPaper/actions).
 
 
 ## Dependency
