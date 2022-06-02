@@ -33,8 +33,10 @@ lipo -create ${root_dir}/openssl_x86_64/libssl.1.1.dylib ${root_dir}/openssl_arm
 
 install_name_tool -id @rpath/libcrypto.dylib ${root_dir}/openssl_universal/lib/libcrypto.dylib
 install_name_tool -id @rpath/libssl.dylib ${root_dir}/openssl_universal/lib/libssl.dylib
+
 echo ${root_dir}/openssl_x86_64/build/lib/libcrypto.1.1.dylib
 install_name_tool -change ${root_dir}/openssl_x86_64/build/lib/libcrypto.1.1.dylib @rpath/libcrypto.dylib ${root_dir}/openssl_universal/lib/libssl.dylib
+install_name_tool -change ${root_dir}/openssl_arm64/build/lib/libcrypto.1.1.dylib @rpath/libcrypto.dylib ${root_dir}/openssl_universal/lib/libssl.dylib
 
 # Copy headers
 cp -r ${root_dir}/openssl_arm64/include openssl_universal/include
