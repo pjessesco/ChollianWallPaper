@@ -48,7 +48,7 @@ Image::Image(const std::string &binary) : m_w(0), m_h(0), m_channel(0) {
     free(data);
 }
 
-void Image::set_as_wallpaper(const std::string &filename) const{
+void Image::set_as_wallpaper(const std::string &filename) {
 
 #if defined __APPLE__
     std::stringstream ss;

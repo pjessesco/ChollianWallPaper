@@ -99,10 +99,9 @@ public:
     Image(const Image &) = delete;
     Image& operator=(const Image &) = delete;
 
-    ~Image(){
-    }
+    ~Image() = default;
 
-    void set_as_wallpaper(const std::string &filename) const;
+    static void set_as_wallpaper(const std::string &filename) ;
 
     void to_any_resolution(int width, int height, float earth_height_ratio);
 
