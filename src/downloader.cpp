@@ -100,7 +100,6 @@ std::string download_curl(const std::string &url, struct curl_slist *header){
         LOG("Curl is not initialized");
     }
 
-    curl_easy_cleanup(curl);
     return "-1";
 }
 
