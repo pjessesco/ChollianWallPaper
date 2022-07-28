@@ -80,10 +80,10 @@ const std::map<Resolution, std::string> res_map{
     RES(5120, 2160),
 
     // Apple
-    RES(3024, 1964), // MacBook Pro 2021 14-inch
-    RES(3456, 2234), // Macbook Pro 2021 16-inch
-    RES(2560, 1664)  // MacBook Air 2022
-    RES(6016, 3384)  // Pro Display XDR
+    {{3024, 1964}, "MacBook Pro 2021 14-inch"},
+    {{3456, 2234}, "Macbook Pro 2021 16-inch"},
+    {{2560, 1664}, "MacBook Air 2022"},
+    {{6016, 3384}, "Pro Display XDR"}
 };
 
 const std::map<float, std::string> height_ratio_map{
