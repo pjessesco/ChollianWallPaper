@@ -53,12 +53,8 @@ void Image::set_as_wallpaper(const std::string &filename) {
 #if defined __APPLE__
     std::stringstream ss;
 
-    ss <<"'tell application \"System Events\"\n"
-       <<"set theDesktops to a reference to every desktop\n"
-       <<"repeat with aDesktop in theDesktops\n"
-       <<"set the picture of aDesktop to \"" + filename + "\"\n"
-       <<"end repeat\n"
-       <<"end tell'\n";
+    ss <<R"('tell application "System Events" to tell every desktop to set picture to ")" + filename + "\"'";
+    // tell application "System Events" to tell every desktop to set picture to "path/to/picture.png"
 
     std::string command = "osascript -e "+ ss.str();
     std::system(command.c_str());
