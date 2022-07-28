@@ -32,7 +32,7 @@
 #include <utility>
 #include <vector>
 
-#define RES(w, h) {{(w), (h)}, "#w x #h"}
+#define RES(w, h) {{(w), (h)}, #w"x"#h}
 
 using Resolution = std::pair<int, int>;
 
