@@ -81,7 +81,7 @@ const std::map<Resolution, std::string> res_map{
 
     // Apple
     {{3024, 1964}, "MacBook Pro 2021 14-inch"},
-    {{3456, 2234}, "Macbook Pro 2021 16-inch"},
+    {{3456, 2234}, "MacBook Pro 2021 16-inch"},
     {{2560, 1664}, "MacBook Air 2022"},
     {{6016, 3384}, "Pro Display XDR"}
 };
