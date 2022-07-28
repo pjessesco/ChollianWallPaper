@@ -54,7 +54,6 @@ void Image::set_as_wallpaper(const std::string &filename) {
     std::stringstream ss;
 
     ss <<R"('tell application "System Events" to tell every desktop to set picture to ")" + filename + "\"'";
-    // tell application "System Events" to tell every desktop to set picture to "path/to/picture.png"
 
     std::string command = "osascript -e "+ ss.str();
     std::system(command.c_str());
