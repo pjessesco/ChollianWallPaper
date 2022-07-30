@@ -67,7 +67,24 @@ void Image::set_as_wallpaper(const std::string &filename) {
     std::wstring w_filepath(filename.begin(), filename.end());
     int return_value = SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (void*)w_filepath.c_str(), SPIF_UPDATEINIFILE);
 #endif
+}
 
+// Will be used later
+void Image::set_as_wallpaper_with_idx(const std::string &filename, unsigned int screen_idx) {
+#if defined __APPLE__
+    std::stringstream ss;
+
+    ss <<
+       R"('tell application "System Events"
+            get desktop )" + std::to_string(screen_idx) + R"(
+            set the picture of desktop )" + std::to_string(screen_idx) + " to \"" + filename + R"("
+        end tell')";
+
+    std::string command = "osascript -e "+ ss.str();
+    std::system(command.c_str());
+#elif defined _WIN32
+    
+#endif
 }
 
 void Image::to_any_resolution(int width, int height, float earth_height_ratio) {

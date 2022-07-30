@@ -109,7 +109,8 @@ public:
 
     ~Image() = default;
 
-    static void set_as_wallpaper(const std::string &filename) ;
+    void set_as_wallpaper(const std::string &filename);
+    void set_as_wallpaper_with_idx(const std::string &filename, unsigned int screen_idx);
 
     void to_any_resolution(int width, int height, float earth_height_ratio);
 
