@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-11]
+        os: [macos-latest]
         build_type: [Release]
 
     steps:
@@ -32,20 +32,20 @@ jobs:
       working-directory: ${{github.workspace}}/ext
       run: git clone https://github.com/qt/qt5;
            cd qt5;
-           git checkout 6.2.2;
-           ./init-repository --module-subset=qtbase,qttools;
-           ./configure -make libs -no-debug-and-release -no-dbus -no-icu -no-feature-assistant -no-feature-pixeltool -no-feature-designer -no-feature-cups -no-feature-itemmodeltester -no-feature-qtattributionsscanner -no-feature-qtplugininfo -no-feature-linguist -no-feature-qmake -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64";
+           git checkout 6.8.3;
+           ./init-repository --module-subset=qtbase;
+           ./configure -make libs -no-debug-and-release -skip-tests qtbase -skip-examples qtbase -no-dbus -no-icu -no-feature-cups -no-feature-itemmodeltester -no-feature-qmake -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64";
            cmake --build . --parallel;
            sudo cmake --install .;
            
     - name: Build Chollian Wallpaper
       run: mkdir build;
            cd build;
-           cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/build/lib/libcurl.dylib -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_PREFIX_PATH=/usr/local/Qt-6.2.2/lib/cmake -GNinja ..;
+           cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/build/lib/libcurl.dylib -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_PREFIX_PATH=/usr/local/Qt-6.8.3/lib/cmake -GNinja ..;
            ninja;           
 
     - name: Upload a archived bundle
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v4
       with:
         # Artifact name
         name: macos_dmg_${{matrix.build_type}}

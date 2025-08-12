@@ -73,8 +73,8 @@ if __name__ == "__main__":
     CHOLLIAN_VERSION_STR = args.version
 
 
-    APP_NAME = "Chollian Wallpaper.app"
-    APP_NAME_IN_CMD = "Chollian\ Wallpaper.app"
+    APP_NAME = '''Chollian Wallpaper.app'''
+    APP_NAME_IN_CMD = '''Chollian Wallpaper.app'''
     EXECUTABLE_NAME = "ChollianWallpaper"
 
     os.chdir(BUILD_DIR)

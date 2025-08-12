@@ -69,7 +69,7 @@ cp -r ${root_dir}/openssl_arm64/include openssl_universal/include
 # Clone curl (TODO : Use curl to reduce time)
 git clone https://github.com/curl/curl;
 cd curl;
-git checkout curl-7_81_0;
+git checkout curl-8_15_0;
 
 # Build curl
 mkdir build;
@@ -79,6 +79,8 @@ cmake -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" \
 -DOPENSSL_SSL_LIBRARY=${root_dir}/openssl_universal/lib/libssl.dylib \
 -DOPENSSL_INCLUDE_DIR=${root_dir}/openssl_universal/include  \
 -DCURL_USE_LIBSSH2=OFF \
+-DUSE_LIBIDN2=OFF \
+-DCURL_USE_LIBPSL=OFF \
 -GNinja ..;
 ninja
 
