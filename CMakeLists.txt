@@ -124,7 +124,7 @@ elseif(APPLE)
     install(FILES "${CURL_INCLUDE_DIR}/../bin/libcurl-x64.dll" DESTINATION .)
     add_custom_command(TARGET ChollianWallpaper POST_BUILD
         COMMAND python3 ${CMAKE_SOURCE_DIR}/scripts/bundle_macos.py
-                --qt_dir=/usr/local/Qt-6.9.2/
+                --qt_dir=/usr/local/Qt-6.8.3/
                 --build_dir=${CMAKE_BINARY_DIR}
                 --version=${CHOLLIAN_VERSION}
     )

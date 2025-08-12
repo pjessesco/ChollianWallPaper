@@ -32,7 +32,7 @@ jobs:
       working-directory: ${{github.workspace}}/ext
       run: git clone https://github.com/qt/qt5;
            cd qt5;
-           git checkout 6.9.2;
+           git checkout 6.8.3;
            ./init-repository --module-subset=qtbase;
         ./configure -make libs -no-debug-and-release -skip-tests qtbase -skip-examples qtbase -no-dbus -no-icu -no-feature-cups -no-feature-itemmodeltester -no-feature-qmake -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64";
            cmake --build . --parallel;
@@ -41,7 +41,7 @@ jobs:
     - name: Build Chollian Wallpaper
       run: mkdir build;
            cd build;
-           cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/build/lib/libcurl.dylib -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_PREFIX_PATH=/usr/local/Qt-6.9.2/lib/cmake -GNinja ..;
+           cmake -DCURL_LIBRARY=${{github.workspace}}/ext/curl/build/lib/libcurl.dylib -DCURL_INCLUDE_DIR=${{github.workspace}}/ext/curl/include -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_PREFIX_PATH=/usr/local/Qt-6.8.3/lib/cmake -GNinja ..;
            ninja;           
 
     - name: Upload a archived bundle
