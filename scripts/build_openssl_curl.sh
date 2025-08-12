@@ -69,7 +69,7 @@ cp -r ${root_dir}/openssl_arm64/include openssl_universal/include
 # Clone curl (TODO : Use curl to reduce time)
 git clone https://github.com/curl/curl;
 cd curl;
-git checkout curl-7_81_0;
+git checkout curl-8_15_0;
 
 # Build curl
 mkdir build;
