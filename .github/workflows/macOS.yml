@@ -34,7 +34,7 @@ jobs:
            cd qt5;
            git checkout 6.8.3;
            ./init-repository --module-subset=qtbase;
-        ./configure -make libs -no-debug-and-release -skip-tests qtbase -skip-examples qtbase -no-dbus -no-icu -no-feature-cups -no-feature-itemmodeltester -no-feature-qmake -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64";
+           ./configure -make libs -no-debug-and-release -skip-tests qtbase -skip-examples qtbase -no-dbus -no-icu -no-feature-cups -no-feature-itemmodeltester -no-feature-qmake -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64";
            cmake --build . --parallel;
            sudo cmake --install .;
            
