@@ -79,6 +79,8 @@ cmake -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" \
 -DOPENSSL_SSL_LIBRARY=${root_dir}/openssl_universal/lib/libssl.dylib \
 -DOPENSSL_INCLUDE_DIR=${root_dir}/openssl_universal/include  \
 -DCURL_USE_LIBSSH2=OFF \
+-DUSE_LIBIDN2=OFF \
+-DCURL_USE_LIBPSL=OFF \
 -GNinja ..;
 ninja
 
