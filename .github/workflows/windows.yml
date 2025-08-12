@@ -28,7 +28,7 @@ jobs:
         arch: 'win64_msvc2022_64'
         dir: '${{ github.workspace }}/ext/'
         install-deps: 'true'
-        modules: 'qtbase'
+        archives: 'qtbase'
 
     - name: Download CURL
       working-directory: ${{github.workspace}}/ext
